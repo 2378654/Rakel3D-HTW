@@ -1,0 +1,54 @@
+{
+    "name": "TrackedCanvas",
+    "maps": [
+        {
+            "name": "Canvas",
+            "id": "b033e791-bdbb-4f4c-8196-4bf8c5a55bdf",
+            "actions": [
+                {
+                    "name": "Canvas Pos",
+                    "type": "Value",
+                    "id": "11a9841d-3ab4-478e-97ac-c1f312bf407c",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Canvas Rot",
+                    "type": "Value",
+                    "id": "8ac5a5bf-c4af-414f-a00f-2d249ecb0580",
+                    "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ad197f37-097e-495e-8e4d-2655f189666c",
+                    "path": "<XRViveTracker>{Keyboard}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Canvas Pos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc181552-3a0f-4350-914a-7a34388936f0",
+                    "path": "<XRViveTracker>{Keyboard}/deviceRotation",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Canvas Rot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

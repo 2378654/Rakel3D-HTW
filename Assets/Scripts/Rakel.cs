@@ -83,7 +83,7 @@ public class Rakel
         // make sure Rakel is not bigger than its reservoir
         Info.Length = Reservoir.Size.y * Reservoir.PixelSize;
         Info.Width = Reservoir.Size.x * Reservoir.PixelSize;
-
+        // Anchor für Vive Tracker umrechnen
         // NOTE this has to be set after Width and Length were corrected
         // Anchor is on middle of rakel edge, changing this is not fully supported
         // and will break the code!

@@ -21,6 +21,7 @@ public enum InputSourceType
     Mouse,
     Keyboard,
     Pen,
+    Tracker,
     Auto
 }
 
@@ -39,7 +40,7 @@ public class InputManager
     private FloatValueSource RakelPressureSource;
     private FloatValueSource RakelRotationSource;
     private FloatValueSource RakelTiltSource;
-
+    
     private StrokeStateSource StrokeStateSource;
 
     private InputConfiguration InputConfig;
@@ -59,6 +60,9 @@ public class InputManager
             case InputSourceType.Pen:
                 RakelPositionXSource = new PenRakelPositionX();
                 break;
+            case InputSourceType.Tracker:
+                RakelPositionXSource = new TrackerRakelPositionX();
+                break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionXSource", inputConfig.RakelPositionX.Source.ToString())); 
                 break;
@@ -69,16 +73,19 @@ public class InputManager
                 RakelPositionYSource = new TextRakelPositionY();
                 break;
             case InputSourceType.Mouse:
-                RakelPositionYSource = new MouseRakelPositionY();
+                RakelPositionYSource = new MouseRakelPositionY(); 
                 break;
             case InputSourceType.Pen:
                 RakelPositionYSource = new PenRakelPositionY();
+                break;
+            case InputSourceType.Tracker:
+                RakelPositionYSource = new TrackerRakelPositionY();
                 break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionYSource", inputConfig.RakelPositionY.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelPositionZ.Source)
+        switch (inputConfig.RakelPositionZ.Source) // Noch unsicher ob Tracker hier benötigt wird
         {
             case InputSourceType.Text:
                 RakelPositionZSource = new TextRakelPositionZ();
@@ -86,11 +93,14 @@ public class InputManager
             case InputSourceType.Auto:
                 RakelPositionZSource = new AutoRakelPositionZ();
                 break;
+            case InputSourceType.Tracker:
+                RakelPositionZSource = new TrackerRakelPositionZ();
+                break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionZSource", inputConfig.RakelPositionZ.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelPressure.Source)
+        switch (inputConfig.RakelPressure.Source)  // Tracker braucht kein Pressure right?
         {
             case InputSourceType.Text:
                 RakelPressureSource = new TextRakelPressure();
@@ -116,11 +126,14 @@ public class InputManager
             case InputSourceType.Pen:
                 RakelRotationSource = new PenRakelRotation();
                 break;
+            case InputSourceType.Tracker:
+                RakelRotationSource = new TrackerRakelRotation();
+                break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelRotationSource", inputConfig.RakelRotation.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelTilt.Source)
+        switch (inputConfig.RakelTilt.Source) //Tracker können tilten --> wahrscheinlich wichtig
         {
             case InputSourceType.Text:
                 RakelTiltSource = new TextRakelTilt();
@@ -151,13 +164,16 @@ public class InputManager
             case InputSourceType.Pen:
                 StrokeStateSource = new PenStrokeState();
                 break;
+            case InputSourceType.Tracker:
+                StrokeStateSource = new TrackerStrokeState();
+                break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for StrokeStateSource", inputConfig.StrokeStateSource.ToString()));
                 break;
         }
     }
 
-    public void Update()
+    public void Update() // --> noch Unsicher bezüglich Vive Tracker
     {
         RakelPositionXSource.Update();
         InputConfig.RakelPositionX.Value = RakelPositionXSource.Value;

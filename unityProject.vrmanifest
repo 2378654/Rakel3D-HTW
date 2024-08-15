@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.layers.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Dario Neumann\\Desktop\\Schule\\Master Studium\\Semester 2\\Forschungsprojekt\\Rakel-Projekt\\Layers\\LayersOld\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "Layers [Testing]"
+        }
+      }
+    }
+  ]
+}

@@ -43,11 +43,14 @@ public class InputConfiguration
     public InputValue RakelTilt;
 
     public InputSourceType StrokeStateSource;
-
+    
     public InputConfiguration()
     {
-        RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
-        RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        //RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        //RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        RakelPositionX = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
+        RakelPositionY = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
         //RakelPositionZ = new InputValue() { Source = InputSourceType.Text, Value = -4 * Paint.VOLUME_THICKNESS };
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
@@ -55,14 +58,15 @@ public class InputConfiguration
         RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
         RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
 
-        StrokeStateSource = InputSourceType.Mouse;
+        //StrokeStateSource = InputSourceType.Mouse;
+        StrokeStateSource = InputSourceType.Tracker;
     }
 }
 
 public class CanvasConfiguration
 {
     private const float MAX_WIDTH = 15;
-    private const float MAX_HEIGHT = 10;
+    private const float MAX_HEIGHT = 30;
 
     public int FormatA;
     public int FormatB;
@@ -154,7 +158,7 @@ public class RakelConfiguration
 
     public RakelConfiguration()
     {
-        Length = 2f;
+        Length = 10f; //Default 2f
         Width = 0.8f;
         CellVolume = 2;
 
