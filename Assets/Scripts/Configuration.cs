@@ -158,7 +158,7 @@ public class RakelConfiguration
 
     public RakelConfiguration()
     {
-        Length = 10f; //Default 2f
+        Length = 9.5f; //Default 2f
         Width = 0.8f;
         CellVolume = 2;
 
