@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-
-public class TrackerRakelPosition
+//unused
+/*
+ * public class TrackerRakelPosition
+ 
 {
     //  private Vector3 trackerPosition;
     
@@ -15,3 +17,4 @@ public class TrackerRakelPosition
         return ScreenToWorld.Convert(GameObject.Find("RenderedRakel").transform.position);
     }
 }
+*/

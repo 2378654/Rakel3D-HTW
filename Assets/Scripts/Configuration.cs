@@ -55,7 +55,9 @@ public class InputConfiguration
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
 
-        RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
+        //RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
+        RakelRotation = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };//temp dunno Rotation für Vive Tracker 
+        
         RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
 
         //StrokeStateSource = InputSourceType.Mouse;
