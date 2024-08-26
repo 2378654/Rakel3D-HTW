@@ -14,7 +14,7 @@ public class TrackerRakelRotation : FloatValueSource
         //AutoRotation.Update(GameObject.Find("RenderedRakel").transform.position);
         //Value = AutoRotation.Value;
         
-        if (GameObject.Find("RenderedRakel").transform.rotation.x * (-90) > 180)
+       /* if (GameObject.Find("RenderedRakel").transform.rotation.x * (-90) > 180)
         {
             Value = (GameObject.Find("RenderedRakel").transform.rotation.x * (-90)) - 180;
         }
@@ -22,5 +22,7 @@ public class TrackerRakelRotation : FloatValueSource
         {
             Value = (GameObject.Find("RenderedRakel").transform.rotation.x) * (-90f); 
         }
+        */
+       Value = (GameObject.Find("RenderedRakel").transform.rotation.x) * (-90f); 
     }
 }

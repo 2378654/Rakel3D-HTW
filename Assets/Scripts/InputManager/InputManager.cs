@@ -133,13 +133,16 @@ public class InputManager
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelRotationSource", inputConfig.RakelRotation.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelTilt.Source) //Tracker können tilten --> wahrscheinlich wichtig
+        switch (inputConfig.RakelTilt.Source)
         {
             case InputSourceType.Text:
                 RakelTiltSource = new TextRakelTilt();
                 break;
             case InputSourceType.Keyboard:
                 RakelTiltSource = new KeyboardRakelTilt();
+                break;
+            case InputSourceType.Tracker:
+                RakelTiltSource = new TrackerRakelTilt(); //Vive Tracker
                 break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelTiltSource", inputConfig.RakelTilt.Source.ToString()));
