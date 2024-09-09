@@ -5,7 +5,7 @@ public class TrackerRakelTilt : FloatValueSource
     public override void Update()
     {
 
-        Value = (GameObject.Find("RenderedRakel").transform.rotation.y) * (-90f); 
+        Value = GameObject.Find("RenderedRakel").transform.rotation.y * (128); 
     }
     
     /*private FrameStopwatch FrameStopwatch;

@@ -100,7 +100,7 @@ public class InputManager
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionZSource", inputConfig.RakelPositionZ.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelPressure.Source)  // Tracker braucht kein Pressure right?
+        switch (inputConfig.RakelPressure.Source) 
         {
             case InputSourceType.Text:
                 RakelPressureSource = new TextRakelPressure();

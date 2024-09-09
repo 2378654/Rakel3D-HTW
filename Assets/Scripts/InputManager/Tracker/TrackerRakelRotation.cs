@@ -23,6 +23,6 @@ public class TrackerRakelRotation : FloatValueSource
             Value = (GameObject.Find("RenderedRakel").transform.rotation.x) * (-90f); 
         }
         */
-       Value = (GameObject.Find("RenderedRakel").transform.rotation.x) * (-90f); 
+       Value = (GameObject.Find("RenderedRakel").transform.rotation.x) * (-128); 
     }
 }

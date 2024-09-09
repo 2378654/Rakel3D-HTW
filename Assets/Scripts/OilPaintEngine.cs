@@ -183,21 +183,25 @@ public class OilPaintEngine : MonoBehaviour
 
     void Update()
     {
-        if (Pen.current.IsActuated() && !PenConfigLoaded)
+        if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker)
         {
-            Config.InputConfig.RakelPressure.Source = InputSourceType.Pen;
-            Config.InputConfig.RakelPositionX.Source = InputSourceType.Pen;
-            Config.InputConfig.RakelPositionY.Source = InputSourceType.Pen;
-            if (Config.InputConfig.RakelRotation.Source == InputSourceType.Mouse)
+            if (Pen.current.IsActuated() && !PenConfigLoaded)
             {
-                Config.InputConfig.RakelRotation.Source = InputSourceType.Pen;
+                Config.InputConfig.RakelPressure.Source = InputSourceType.Pen;
+                Config.InputConfig.RakelPositionX.Source = InputSourceType.Pen;
+                Config.InputConfig.RakelPositionY.Source = InputSourceType.Pen;
+                if (Config.InputConfig.RakelRotation.Source == InputSourceType.Mouse)
+                {
+                    Config.InputConfig.RakelRotation.Source = InputSourceType.Pen;
+                }
+
+                Config.InputConfig.StrokeStateSource = InputSourceType.Pen;
+
+                CreateInputManager();
+
+                UsePen = true;
+                PenConfigLoaded = true;
             }
-            Config.InputConfig.StrokeStateSource = InputSourceType.Pen;
-
-            CreateInputManager();
-
-            UsePen = true;
-            PenConfigLoaded = true;
         }
 
         if (BENCHMARK_STEPS > 0){

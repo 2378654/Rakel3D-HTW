@@ -46,22 +46,25 @@ public class InputConfiguration
     
     public InputConfiguration()
     {
-        //RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
-        //RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        RakelPositionZ = new InputValue() { Source = InputSourceType.Text, Value = -4 * Paint.VOLUME_THICKNESS };
+        
         RakelPositionX = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
         RakelPositionY = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
-        //RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
-        //RakelPositionZ = new InputValue() { Source = InputSourceType.Text, Value = -4 * Paint.VOLUME_THICKNESS };
-        RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
+        RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
+        
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
 
-        //RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
+        RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
         RakelRotation = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };//temp dunno Rotation für Vive Tracker 
         
         RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
-
-        //StrokeStateSource = InputSourceType.Mouse;
-        StrokeStateSource = InputSourceType.Tracker;
+        RakelTilt = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
+        
+        StrokeStateSource = InputSourceType.Mouse;
+        //StrokeStateSource = InputSourceType.Tracker;
     }
 }
 
@@ -160,7 +163,7 @@ public class RakelConfiguration
 
     public RakelConfiguration()
     {
-        Length = 9.5f; //Default 2f
+        Length = 9.5f; //Default 2f;  4 Basestation SetUp = 3.65f;   2 Basestation SetUp = 9.5f
         Width = 0.8f;
         CellVolume = 2;
 
