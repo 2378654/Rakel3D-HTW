@@ -32,4 +32,5 @@
             - 2 Basestations = 5 * 5m 
             - 4 Basestations = 10 * 10m
             - Tracking SetUp nicht auf Tracking an der Wand ausgerichtet sondern eher im Raum, dadurch Tracking Verlust ab und zu möglich
+            - Vive Tracker muss fixiert an der Rakel angebracht sein
             
