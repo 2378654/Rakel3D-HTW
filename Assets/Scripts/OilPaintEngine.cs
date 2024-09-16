@@ -19,6 +19,8 @@ public class OilPaintEngine : MonoBehaviour
 
     private bool InputLocked = false;
 
+    private  LineRenderer _line;
+    
     public Configuration Config { get; private set; }
     public PaintMode PaintMode
     {
@@ -243,7 +245,10 @@ public class OilPaintEngine : MonoBehaviour
                 float pressure = InputManager.RakelPressure;
                 float rotation = InputManager.RakelRotation;
                 float tilt = InputManager.RakelTilt;
-
+                
+    
+                
+                
                 InputInterpolator.AddNode(
                     position,
                     autoZEnabled,
@@ -912,7 +917,7 @@ public class OilPaintEngine : MonoBehaviour
         Config.RakelConfig.TiltNoiseEnabled = false;
         Config.TransferConfig.LayerThickness_MAX_Volume = LAYERS;
         Start();
-
+        
         if (PICKUP_BENCHMARK)
         {
             Canvas.Reservoir.Fill(new ReservoirFiller(new FlatColorFiller(Color_.CadmiumLightGreen, Config.ColorSpace), new FlatVolumeFiller(1, 4)));

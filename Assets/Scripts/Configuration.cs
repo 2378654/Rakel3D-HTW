@@ -46,25 +46,25 @@ public class InputConfiguration
     
     public InputConfiguration()
     {
-        RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
-        RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
-        RakelPositionZ = new InputValue() { Source = InputSourceType.Text, Value = -4 * Paint.VOLUME_THICKNESS };
+        //RakelPositionX = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        //RakelPositionY = new InputValue() { Source = InputSourceType.Mouse, Value = 0 };
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Text, Value = -4 * Paint.VOLUME_THICKNESS };
         
         RakelPositionX = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
         RakelPositionY = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
         RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; // Vive Tracker
         
         //RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
-        RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
+        //RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
 
-        RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
+        //RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
         RakelRotation = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };//temp dunno Rotation für Vive Tracker 
         
-        RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
+        //RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
         RakelTilt = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
         
-        StrokeStateSource = InputSourceType.Mouse;
-        //StrokeStateSource = InputSourceType.Tracker;
+        //StrokeStateSource = InputSourceType.Mouse;
+        StrokeStateSource = InputSourceType.Tracker;
     }
 }
 
