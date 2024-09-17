@@ -15780,6 +15780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 770273873}
   - component: {fileID: 770273872}
+  - component: {fileID: 770273874}
   m_Layer: 0
   m_Name: LineRenderer
   m_TagString: Untagged
@@ -15808,7 +15809,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 2b73a5b8a8f6bd749a07081c70b7907c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15900,12 +15901,26 @@ Transform:
   m_GameObject: {fileID: 770273871}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.68834317, y: 0.2472166, z: 5.558748}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &770273874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770273871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529be5af8638f8b4985ee0dcb1c320d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paint: {fileID: 2100000, guid: 2b73a5b8a8f6bd749a07081c70b7907c, type: 2}
+  noPaint: {fileID: 2100000, guid: 820be732db921284e909ec9ebde53d1b, type: 2}
 --- !u!1 &770480372
 GameObject:
   m_ObjectHideFlags: 0
