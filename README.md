@@ -1,9 +1,6 @@
 # Rakel3D
 
 
-
-# Rakel3D
-
 * TO-DOs 10.09.2024
 
     + checken wegen wand Tracker AUsrichtung (Andere Ausrichtung Probieren)
@@ -33,4 +30,9 @@
             - 4 Basestations = 10 * 10m
             - Tracking SetUp nicht auf Tracking an der Wand ausgerichtet sondern eher im Raum, dadurch Tracking Verlust ab und zu möglich
             - Vive Tracker muss fixiert an der Rakel angebracht sein
+
+* TO-DOs 18.09.2024
+    + Bilder und Video für Demonstration
+    + Z-Offset festlegen
+    + Rotation und Positionierung anpassen
             
