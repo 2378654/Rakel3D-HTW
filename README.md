@@ -33,6 +33,8 @@
 
 * TO-DOs 18.09.2024
     + Bilder und Video für Demonstration
+        - 2 Videos von Bildschirm und von Wand
     + Z-Offset festlegen
+        - Done
     + Rotation und Positionierung anpassen
             
