@@ -37,4 +37,10 @@
     + Z-Offset festlegen
         - Done
     + Rotation und Positionierung anpassen
+
+* 02.10.2024:
+    + Rotation Reichweite prüfen (-180 bis 180)
+    + Vielleicht nochmal vollständiges Bild malen?
+    + Überprüfen ob nicht nur canvasposition - 0.07 sondern auch rakelposition + 0.07 möglich?
+    + Code fertigstellen --> sicherheitshalber Fotos vom Code machen? oder über die Cloud speichern
             
