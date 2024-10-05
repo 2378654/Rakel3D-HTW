@@ -85,7 +85,7 @@ public class InputManager
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionYSource", inputConfig.RakelPositionY.Source.ToString()));
                 break;
         }
-        switch (inputConfig.RakelPositionZ.Source) // Noch unsicher ob Tracker hier benötigt wird
+        switch (inputConfig.RakelPositionZ.Source)
         {
             case InputSourceType.Text:
                 RakelPositionZSource = new TextRakelPositionZ();

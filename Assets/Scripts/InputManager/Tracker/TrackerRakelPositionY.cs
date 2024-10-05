@@ -3,9 +3,8 @@ public class TrackerRakelPositionY : FloatValueSource
 {
     public override void Update()
     {
-        //Value = (GameObject.Find("RenderedRakel").transform.position.y);
-        //Value = (GameObject.Find("RenderedRakel").transform.position.y - 1.62f) * 17f; //Offset und Mult wenn Tracker an oberer Ecke
-        Value = (GameObject.Find("RenderedRakel").transform.position.y - 1.58f) * 16f; //Offset und Mult wenn Tracker in der Mitter des Rakel
-        //Value = (GameObject.Find("RenderedRakel").transform.position.y - 1.76f) * 17f; //Neue Berechnung
+
+        //Value = (GameObject.Find("RenderedRakel").transform.position.y - 1.58f) * 16f; //Testaufbau
+        Value = (GameObject.Find("RenderedRakel").transform.position.y - 1.57f) * 6f; //Vor Ort
     }
 }

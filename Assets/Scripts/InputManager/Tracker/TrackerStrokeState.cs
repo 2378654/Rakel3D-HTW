@@ -24,9 +24,9 @@ public class TrackerStrokeState : StrokeStateSource
     {
         rakelpositionZ = GameObject.Find("RenderedRakel").transform.localPosition.z;
         canvaspositionZ = GameObject.Find("Wall").transform.localPosition.z;
-        //canvaspositionZ = GameObject.Find("Wall").GetComponent<Rigidbody>().transform.localPosition.z;
         
-        if (rakelpositionZ >= canvaspositionZ &&
+        //Check if Rakel on Wall
+        if (rakelpositionZ + 0.085f >= canvaspositionZ &&
             !GraphicsRaycaster.UIBlocking(GameObject.Find("RenderedRakel").transform.position))
         {
             StrokeBegin = true;
