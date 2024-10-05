@@ -176,7 +176,7 @@ public class InputManager
         }
     }
 
-    public void Update() // --> noch Unsicher bezüglich Vive Tracker
+    public void Update() 
     {
         RakelPositionXSource.Update();
         InputConfig.RakelPositionX.Value = RakelPositionXSource.Value;

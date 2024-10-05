@@ -185,6 +185,7 @@ public class OilPaintEngine : MonoBehaviour
 
     void Update()
     {
+        //Fix for Error : ArgumentNullException: Value cannot be null. Parameter name: control
         if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker)
         {
             if (Pen.current.IsActuated() && !PenConfigLoaded)
