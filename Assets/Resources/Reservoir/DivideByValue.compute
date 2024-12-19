@@ -1,0 +1,23 @@
+#include "../ShaderBase/shader_base.hlsl"
+
+RWStructuredBuffer<float> Workspace;
+uint2 WorkspaceSize;
+uint2 DividendPosition;
+
+RWStructuredBuffer<int> Divisor;
+
+#pragma kernel main
+
+[numthreads(32,1,1)]
+void main (uint3 id_ : SV_DispatchThreadID)
+{
+    id__ = id_;
+    if (is_relevant_thread(id(), CalculationSize))
+    {
+        // NOTE:
+        // Doing unzero in this context is kind of hacky, the dividend is the
+        // add reduced volume. If divisor is zero, there are no active pixels,
+        // which means that the result of this should not be used anyways.
+        Workspace[XY(DividendPosition.x, DividendPosition.y, WorkspaceSize.xy)] /= unzero((float)Divisor[0]);
+    }
+}
