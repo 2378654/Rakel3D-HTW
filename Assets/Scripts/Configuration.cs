@@ -53,7 +53,7 @@ public class InputConfiguration
         // Vive Tracker Position
         RakelPositionX = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; 
         RakelPositionY = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; 
-        RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
+        RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 1 };
 
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         

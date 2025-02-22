@@ -31,9 +31,9 @@ public class RenderedRakel : MonoBehaviour
         float rotation = inStroke ? OilPaintEngine.Rakel.Info.Rotation : OilPaintEngine.InputManager.RakelRotation;
         float tilt = inStroke ? OilPaintEngine.Rakel.Info.Tilt : OilPaintEngine.InputManager.RakelTilt;
         
-        Debug.Log("OilPaintEngine X Position: " + positionX);
-        Debug.Log("OilPaintEngine Y Position: " + positionY);
-        Debug.Log("OilPaintEngine Z Position: " + positionZ);
+        //Debug.Log("OilPaintEngine X Position: " + positionX);
+        //Debug.Log("OilPaintEngine Y Position: " + positionY);
+        //Debug.Log("OilPaintEngine Z Position: " + positionZ);
         
         Vector3 position = new Vector3(positionX, positionY, positionZ);
         transform.position = position - Quaternion.AngleAxis(rotation, Vector3.back) * OilPaintEngine.Rakel.Info.Anchor;
