@@ -171,8 +171,8 @@ public class RakelConfiguration
     {
         Length = 3.65f; //Default 2f; At School = 3.65f;   Testing = 9.5f
         Width = 0.8f;
-        CellVolume = 2;
-
+        CellVolume = 10; //Def: 2
+ 
         TiltNoiseEnabled = true;
         TiltNoiseFrequency = 45;
         TiltNoiseAmplitude = 1;
@@ -192,7 +192,7 @@ public class FillConfiguration
         Color = Color_.CadmiumLightGreen;
         ColorMode = ColorMode.Flat;
         WidthPart = 0.6f;
-        Volume = 60;
+        Volume = 600; //Def: 60
         VolumeMode = VolumeMode.Perlin;
     }
 
