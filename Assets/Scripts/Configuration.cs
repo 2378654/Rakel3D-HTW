@@ -67,7 +67,7 @@ public class InputConfiguration
         RakelTilt = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
         
         // Vive Tracker Tilt
-        RakelTilt = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
+        //RakelTilt = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
         
         //StrokeStateSource = InputSourceType.Mouse;
         StrokeStateSource = InputSourceType.Tracker;
@@ -127,7 +127,7 @@ public class CanvasConfiguration
         FormatB = 2;
 
         NormalScale = 0.015f;
-        CellVolume = 1;
+        CellVolume = 3; //Def: 1
     }
 }
 
