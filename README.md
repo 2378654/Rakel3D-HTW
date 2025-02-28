@@ -48,4 +48,9 @@
         - done
     + Bild von Rakel mit korrekter Ausrichtung des Trackers
         - Done
+
+
+* 04.03 / 05.03:
+    + Rotation prüfen --> sollte jetzt passen
+    + InputManager Z Position der Rakel auf und in Configuration auskommentieren und Auto Z Position ausprobieren 
             
