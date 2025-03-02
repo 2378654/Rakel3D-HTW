@@ -54,4 +54,6 @@
     + Rotation prüfen --> sollte jetzt passen
     + InputManager Z Position der Rakel auf und in Configuration auskommentieren und Auto Z Position ausprobieren 
     + transform.rotation.z vs transform.eulerangles.z
+    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
+    + Videos vom Speichern und der Farbwauswahl
             
