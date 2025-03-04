@@ -50,11 +50,13 @@
         - Done
 
 
-* 04.03 / 05.03:
-    + Rotation prüfen --> sollte jetzt passen
+* 04.03.2025:
+    + Rotation prüfen --> sollte jetzt passen --> Rotation done
     + InputManager Z Position der Rakel auf und in Configuration auskommentieren und Auto Z Position ausprobieren 
-        - Pressure Parameter nutzen
-    + transform.rotation.z vs transform.eulerangles.z
+        - Pressure Parameter nutzen --> Done --> Pressure Controller eingebaut
+    + transform.rotation.z vs transform.eulerangles.z --> done --> eulerangles.z
+
+* 05.03.2025:
     + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
     + Videos vom Speichern und der Farbwauswahl
             
