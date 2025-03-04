@@ -64,3 +64,4 @@
     + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
     + Videos vom Speichern und der Farbwauswahl
     + Überprüfen der neu erstellten Wall
+    + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
