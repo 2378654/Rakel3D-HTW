@@ -67,3 +67,4 @@
     + Videos vom Speichern und der Farbwauswahl
     + Überprüfen der neu erstellten Wall
     + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
+    + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch
