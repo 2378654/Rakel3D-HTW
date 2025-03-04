@@ -57,6 +57,9 @@
     + transform.rotation.z vs transform.eulerangles.z --> done --> eulerangles.z
 
 * 05.03.2025:
+    + Finetune Boxcollider für Buttons
+    + Pressure Controller begrenzen --> nicht unter 0 --> Done
+    + Position der Rakel und des Indikators genauer machen
+    + Anzeige von Entfernung zur Wand anpassen
     + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
     + Videos vom Speichern und der Farbwauswahl
-            
