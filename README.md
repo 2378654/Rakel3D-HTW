@@ -63,3 +63,4 @@
     + Anzeige von Entfernung zur Wand anpassen
     + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
     + Videos vom Speichern und der Farbwauswahl
+    + Überprüfen der neu erstellten Wall
