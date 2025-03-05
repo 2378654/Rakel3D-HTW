@@ -66,10 +66,11 @@
     + Pressure Controller begrenzen 
      -  nicht unter 0 --> Done
      - nicht über 1 --> Done
-    + Position der Rakel und des Indikators genauer machen
-    + Anzeige von Entfernung zur Wand anpassen
-    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
-    + Videos vom Speichern und der Farbwauswahl
-    + Überprüfen der neu erstellten Wall
+    + Position der Rakel und des Indikators genauer machen --> Done
+    + Anzeige von Entfernung zur Wand anpassen --> Done + Rakel Indikator aus wenn weiter als eine LE weg
+    + Überprüfen der neu erstellten Wall --> Done
+    + Überblick über gespeicherte Bilder --> Done
     + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
-    + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch
+    + Videos vom Speichern und der Farbwauswahl
+    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
+    + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch --> Done nur nicg drei Farben auf einmal
