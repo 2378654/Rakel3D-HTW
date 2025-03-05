@@ -57,10 +57,15 @@
     + transform.rotation.z vs transform.eulerangles.z --> done --> eulerangles.z
 
 * 05.03.2025:
-    + Finetune Boxcollider für Buttons
+    + Finetune Boxcollider für Buttons -->Done
+        - Colors --> 0.05
+        - Save & Load --> 0.07
+        - Pressure --> 0.001
+        - ColorsSelection --> 0.25
+        - Scroll --> 0.15
     + Pressure Controller begrenzen 
      -  nicht unter 0 --> Done
-     - nicht über 1
+     - nicht über 1 --> Done
     + Position der Rakel und des Indikators genauer machen
     + Anzeige von Entfernung zur Wand anpassen
     + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
