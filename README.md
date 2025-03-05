@@ -70,7 +70,10 @@
     + Anzeige von Entfernung zur Wand anpassen --> Done + Rakel Indikator aus wenn weiter als eine LE weg
     + Überprüfen der neu erstellten Wall --> Done
     + Überblick über gespeicherte Bilder --> Done
-    + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
-    + Videos vom Speichern und der Farbwauswahl
-    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
+    + Videos vom Speichern und der Farbwauswahl --> Done
     + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch --> Done nur nicg drei Farben auf einmal
+
+* 06.03.2025
+    + Probanden für AttrakDiff finden
+    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
+    + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
