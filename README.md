@@ -71,9 +71,14 @@
     + Überprüfen der neu erstellten Wall --> Done
     + Überblick über gespeicherte Bilder --> Done
     + Videos vom Speichern und der Farbwauswahl --> Done
-    + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch --> Done nur nicg drei Farben auf einmal
+    + Farbauswahl nach unten schieben oder weniger Farben auf einmal anzeigen. Scroll UP Button zu hoch --> Done nur noch vier Farben auf einmal
 
 * 06.03.2025
-    + Probanden für AttrakDiff finden
-    + Vergleichsbilder für Rotation Foto und Bildschirmaufnahme
+    + Probanden für AttrakDiff finden -> Done
     + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
+
+* 18.03.2025
+    + Bild von Pressure Buttons und gegenüberstellung verschiedener Pressure Werte (3 Bilder vielleicht)
+    + check tilt Value = GameObject.Find("RenderedRakel").transform.eulerAngles.y;
+    + check collider für canvas und indikator
+    + Anchor Problem angucken, bilder machen
