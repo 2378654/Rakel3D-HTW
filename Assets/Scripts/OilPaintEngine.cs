@@ -97,23 +97,7 @@ public class OilPaintEngine : MonoBehaviour
 
     public void SaveImg(int imgNum)
     {
-        //string filename = $"C:\\Users\\Dario Neumann\\Desktop\\Schule\\Master Studium\\Semester 2\\Forschungsprojekt\\Rakel-Projekt\\LayersOld\\LayersWithButton\\LayersWithButton\\Assets\\Resources\\CanvasPNG{imgNum}.png";
         Canvas.Reservoir.SaveImg(imgNum);
-        
-        
-        RenderTexture.active = Canvas.Texture;
-        Texture2D texture2D = new Texture2D(Canvas.Texture.width, Canvas.Texture.height, TextureFormat.RGBA32, false);
-        texture2D.ReadPixels(new Rect(0,0, Canvas.Texture.width, Canvas.Texture.height), 0,0);
-        texture2D.Apply();
-
-        //byte[] bytes = texture2D.EncodeToPNG();
-        //string path = Path.Combine(Application.persistentDataPath, filename);
-        //File.WriteAllBytes(path,bytes);
-        
-        //Debug.Log("Canvas saved as PNG");
-        
-        RenderTexture.active = null;
-        Destroy(texture2D);
     }
     
     public void LoadImg(int imgNum)

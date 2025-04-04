@@ -93,9 +93,10 @@ public class InputManager
             case InputSourceType.Auto:
                 RakelPositionZSource = new AutoRakelPositionZ();
                 break;
-            case InputSourceType.Tracker:
-                RakelPositionZSource = new TrackerRakelPositionZ();
-                break;
+            //case InputSourceType.Tracker:
+            //    RakelPositionZSource = new TrackerRakelPositionZ();
+            //    break;
+            
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPositionZSource", inputConfig.RakelPositionZ.Source.ToString()));
                 break;

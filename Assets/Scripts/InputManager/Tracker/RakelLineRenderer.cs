@@ -22,6 +22,8 @@ public class RakelLineRenderer : MonoBehaviour
     private GameObject _rakel;
     
     private LineRenderer _line;
+
+    private float _rakelRotationZ;
     void Start()
     {
         rakelLength = new RakelConfiguration().Length; //Rakel Length
@@ -29,6 +31,7 @@ public class RakelLineRenderer : MonoBehaviour
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _line.material = new Material(Shader.Find("Sprites/Default"));
+        _line.useWorldSpace = true;
         
         //Changing the Width of the LineRenderer
         _line.startWidth = rakelWidth; 
@@ -36,59 +39,70 @@ public class RakelLineRenderer : MonoBehaviour
 
         _box = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _rakel = GameObject.Find("RenderedRakel");
+        
+        OilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Current Position (current Solution)
-        float posX = (_rakel.transform.position.x + 0.41f) * 15f; //Testing
-        float posY = (_rakel.transform.position.y - 1.58f) * 16f; //Testing
-        float posZ = (_rakel.transform.position.z);
-  
-        //float posX = (_rakel.transform.position.x - 0.02f) * 4.9f; //At School
-        //float posY = (_rakel.transform.position.y - 1.57f) * 6f; //At School
+        //Used for Testing
+        //float posX = (_rakel.transform.position.x + 0.41f) * 15f; 
+        //float posY = (_rakel.transform.position.y - 1.58f) * 16f; 
         
-        Vector3 center = new Vector3(posX,posY,0); // CenterPosition (Anchor Point)
+        Vector3 world_up = Vector3.up;
+        Vector3 rakel_up = GameObject.Find("RenderedRakel").transform.up;
+        float _rakelRotationZ = Vector3.SignedAngle(rakel_up, world_up, Vector3.forward);
+
+        //float _offsetY = _rakelRotationZ; //* (-1.55f);
+        //float _offsetX = GameObject.Find("RenderedRakel").transform.rotation * (-0.1f);
+        //Used for productive Usage
+
+        float _offsetX = -0.1f;
+        float _offsetY = -1.55f;
+        float _offsetZ =0f;// -2.68f; //Max --> -2.73f Min-->
+        Vector3 offset =new (_offsetX, _offsetY, _offsetZ);
+        
+        float _minZ = -2.6f; //-2.7
+        float _maxZ = -2.56f; //-2.68
+
+        float rakelTilt = Mathf.Abs(GameObject.Find("RenderedRakel").transform.eulerAngles.y- 180);
+       
+        
+        if (rakelTilt > 79)
+        {
+            rakelTilt = 79;
+        }
+        
+        if (rakelTilt > 90)
+        {
+            rakelTilt = 180-rakelTilt;
+        }
+        
+        //rakelTilt = Mathf.Clamp(rakelTilt, 0, 79);
+        offset.z = _minZ +(rakelTilt / 79f) * (_maxZ - _minZ);
+//        Debug.Log("Offset Z: " + offset.z);
+        float posX = (_rakel.transform.position.x + offset.x)* 6.1f; //At School +0.34
+        float posY = (_rakel.transform.position.y + offset.y)* 7.3f; //At School -1.56
+        float posZ = (_rakel.transform.position.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
+        
+        Vector3 center =  new (posX ,posY,posZ); // CenterPosition (Anchor Point)
         Vector3 up = _rakel.transform.up; // Vector for Rotation
-            
+        
         //Startpoint and Endpoint
         Vector3 startPoint = center - (up * (rakelLength / 2)); 
         Vector3 endPoint = center + (up * (rakelLength / 2));  
+        
+        Vector3 transformedStartPoint = _rakel.transform.TransformPoint(startPoint);
+        Vector3 transformedEndPoint = _rakel.transform.TransformPoint(endPoint);
 
+        
         //Update LineRenderer Position
         _line.SetPosition(0, startPoint);  //Startpoint
         _line.SetPosition(1, endPoint);    //Endpoint
-        
-        _box.size = new Vector3(_box.size.x, _box.size.y, 3.65f);
-        _box.transform.position = new Vector3(posX,posY,posZ-1);
-        _box.transform.rotation = new Quaternion();
+        _box.transform.eulerAngles = new Vector3(0,0,_rakelRotationZ+90);
+        _box.size = new Vector3(4, _box.size.y , _box.size.z); // x, y, 3.65
+        _box.transform.position = new Vector3(posX,posY,posZ); 
 
-        
-        OilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
-        current_color = OilPaintEngine.GetCurrentColor();
-        
-        Vector3 color_vector = Colors.GetColor(current_color);
-        
-        paint_color = new Color(color_vector.x, color_vector.y, color_vector.z, 1.0f);
-        no_paint_color = new Color(color_vector.x * 0.5f, color_vector.y* 0.5f, color_vector.z* 0.5f, 1.0f);
-        Debug.Log(paint_color);
-        rakelpositionZ = _rakel.transform.localPosition.z;
-        canvaspositionZ = GameObject.Find("Wall").transform.localPosition.z;
-        
-        //Check if Rakel is on Wall --> show line renderer with selected color
-        if (rakelpositionZ >= canvaspositionZ) //0.085f
-        {
-            //GameObject.Find("DistanceToCanvas").GetComponent<TextMeshProUGUI>().color = paint_color;
-            _line.enabled = true;
-            _line.startColor = paint_color;
-            _line.endColor = paint_color;
-        }
-        else
-        {
-            // turn line renderer of when to far away, preventing confusion
-            _line.enabled = false;
-            //GameObject.Find("DistanceToCanvas").GetComponent<TextMeshProUGUI>().color = Color.black;
-        }
     }
 }
