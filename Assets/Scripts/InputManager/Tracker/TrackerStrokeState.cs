@@ -18,24 +18,31 @@ public class TrackerStrokeState : StrokeStateSource
     private float canvaspositionY;
     private float canvaspositionZ;
     
-    
-    
+    private BoxCollider _boxColliderIndikator;
+    private MeshCollider _meshColliderCanvas;
+
+    private float _rakelpositionZ;
+    private float _canvaspositionZ;
     public override void Update()
     {
-        rakelpositionZ = GameObject.Find("RenderedRakel").transform.localPosition.z;
-        canvaspositionZ = GameObject.Find("Wall").transform.localPosition.z;
-        
-        //Check if Rakel on Wall
-        if (rakelpositionZ + 0.085f >= canvaspositionZ &&
-            !GraphicsRaycaster.UIBlocking(GameObject.Find("RenderedRakel").transform.position))
+        _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
+        _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
+        _rakelpositionZ = (_boxColliderIndikator.transform.position.z+1.38f);
+        _canvaspositionZ = _meshColliderCanvas.transform.position.z;
+        if (_rakelpositionZ > _canvaspositionZ)
         {
             StrokeBegin = true;
             if (StrokeBegin)
             {
                 InStroke = true;
             }
+            else
+            {
+                InStroke = false;
+            }
         }
-        else
+
+        if (_rakelpositionZ < _canvaspositionZ)
         {
             InStroke = false;
         }

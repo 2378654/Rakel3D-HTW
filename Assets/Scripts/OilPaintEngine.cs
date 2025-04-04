@@ -95,6 +95,18 @@ public class OilPaintEngine : MonoBehaviour
         }
     }
 
+    public void SaveImg(int imgNum)
+    {
+        Canvas.Reservoir.SaveImg(imgNum);
+    }
+    
+    public void LoadImg(int imgNum)
+    {
+        Canvas.Reservoir.LoadImg(imgNum);
+        ShaderRegion sr = Canvas.GetFullShaderRegion();
+        Canvas.Render(sr);
+    }
+    
     void CreateInputManager()
     {
         InputManager = new InputManager(Config.InputConfig);
@@ -467,6 +479,12 @@ public class OilPaintEngine : MonoBehaviour
     public void UpdateColorMode(ColorMode mode)
     {
         Config.FillConfig.ColorMode = mode;
+    }
+
+    public Color_ GetCurrentColor()
+    {
+        //Debug.Log("Running");
+        return Config.FillConfig.Color;
     }
 
     public void UpdateFillWidthPart(float value)

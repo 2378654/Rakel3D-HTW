@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System.Linq;
 public enum ReduceFunction
 {
     Max,
@@ -42,6 +42,90 @@ public class CanvasReservoir : Reservoir
     public void DoSnapshot(ShaderRegion sr, bool debugEnabled = false)
     {
         Duplicate(PaintGrid, PaintGridSnapshot, sr, debugEnabled);
+    }
+    
+     public Vector3Int saved_size;
+    
+    public static List<Paint> ContentDataListFirstImg = new List<Paint>();
+    public static List<Paint> ContentDataListSecondImg = new List<Paint>();
+    public static List<Paint> ContentDataListThirdImg = new List<Paint>();
+    
+    public static List<ColumnInfo> InfoDataListFirstImg = new List<ColumnInfo>();
+    public static List<ColumnInfo> InfoDataListSecondImg = new List<ColumnInfo>();
+    public static List<ColumnInfo> InfoDataListThirdImg = new List<ColumnInfo>();
+    
+    public void SaveImg(int imgNum)
+    {
+        switch (imgNum)
+        {
+            case 1:
+                Debug.Log("Canvas Reservoir Save Triggered");
+                PaintGrid.ReadbackContent();
+                PaintGrid.ReadbackInfo();
+
+                saved_size = PaintGrid.Size;
+                
+                InfoDataListFirstImg = PaintGrid.InfoData.ToList();
+                Debug.Log("Saving InfoData Done");
+  
+                ContentDataListFirstImg = PaintGrid.ContentData.ToList();
+                Debug.Log("Saving ContentData Done");
+                break;
+            case 2:
+                Debug.Log("Canvas Reservoir Save Triggered");
+                PaintGrid.ReadbackContent();
+                PaintGrid.ReadbackInfo();
+
+                saved_size = PaintGrid.Size;
+
+                InfoDataListSecondImg = PaintGrid.InfoData.ToList();
+                Debug.Log("Saving InfoData Done");
+  
+                ContentDataListSecondImg = PaintGrid.ContentData.ToList();
+                Debug.Log("Saving ContentData Done");
+                break;
+            case 3:
+                Debug.Log("Canvas Reservoir Save Triggered");
+                PaintGrid.ReadbackContent();
+                PaintGrid.ReadbackInfo();
+
+                saved_size = PaintGrid.Size;
+
+                InfoDataListThirdImg = PaintGrid.InfoData.ToList();
+                Debug.Log("Saving InfoData Done");
+  
+                ContentDataListThirdImg = PaintGrid.ContentData.ToList();
+                Debug.Log("Saving ContentData Done");
+                break;
+        }
+    }
+    
+    public void LoadImg(int imgNum)
+    {
+        switch (imgNum)
+        {
+            case 1:
+                Debug.Log("Canvas Reservoir Load Triggered");
+                PaintGrid.Size = saved_size;
+        
+                PaintGrid.Content.SetData(ContentDataListFirstImg);
+                PaintGrid.Info.SetData(InfoDataListFirstImg);
+                break;
+            case 2:
+                Debug.Log("Canvas Reservoir Load Triggered");
+                PaintGrid.Size = saved_size;
+        
+                PaintGrid.Content.SetData(ContentDataListSecondImg);
+                PaintGrid.Info.SetData(InfoDataListSecondImg);
+                break;
+            case 3:
+                Debug.Log("Canvas Reservoir Load Triggered");
+                PaintGrid.Size = saved_size;
+        
+                PaintGrid.Content.SetData(ContentDataListThirdImg);
+                PaintGrid.Info.SetData(InfoDataListThirdImg);
+                break;
+        }
     }
 
     // only copies pixels that are currently not under the rakel

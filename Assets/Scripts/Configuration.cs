@@ -53,7 +53,7 @@ public class InputConfiguration
         // Vive Tracker Position
         RakelPositionX = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; 
         RakelPositionY = new InputValue() { Source = InputSourceType.Tracker, Value = 0 }; 
-        RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = 1 };
 
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         
@@ -169,9 +169,9 @@ public class RakelConfiguration
 
     public RakelConfiguration()
     {
-        Length = 3.65f; //Default 2f; At School = 3.65f;   Testing = 9.5f
+        Length = 4f; //Default 2f; At School = 3.65f;   Testing = 9.5f
         Width = 0.8f;
-        CellVolume = 2;
+        CellVolume = 2; //Default = 2
 
         TiltNoiseEnabled = true;
         TiltNoiseFrequency = 45;
@@ -192,7 +192,7 @@ public class FillConfiguration
         Color = Color_.CadmiumLightGreen;
         ColorMode = ColorMode.Flat;
         WidthPart = 0.6f;
-        Volume = 60;
+        Volume = 60; //DefaultVolume = 60
         VolumeMode = VolumeMode.Perlin;
     }
 

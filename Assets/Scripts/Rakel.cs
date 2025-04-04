@@ -89,7 +89,12 @@ public class Rakel
         // and will break the code!
         // If the used input device is based on another anchor for the position
         // it has to be transformed accordingly.
+
+
+
         Info.Anchor = new Vector3(0, 0.5f * Info.Length, 0);
+        
+        //Info.Anchor =  new Vector3(posX, Info.Length * 0.5f,-1); 
 
         InfoBuffer = new ComputeBuffer(1, RakelInfo.SizeInBytes);
         InfoBuffer.SetData(new RakelInfo[] { Info });

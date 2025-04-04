@@ -79,13 +79,13 @@ public class PaintGrid
         Content.SetData(ContentData);
     }
 
-    // Only used for testing purposes
+    // Used to save an existing image
     public void ReadbackInfo()
     {
         Info.GetData(InfoData);
     }
 
-    // Only used for testing purposes
+    // Used to save an existing image
     public void ReadbackContent()
     {
         Content.GetData(ContentData);
