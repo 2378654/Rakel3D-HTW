@@ -7,8 +7,8 @@ public class TrackerRakelTilt : FloatValueSource
     private float _rotationY;
     public override void Update()
     {
+        //only get positive Values
         _rotationY = Mathf.Abs(GameObject.Find("RenderedRakel").transform.eulerAngles.y- 180);
-        //_text = GameObject.Find("RotationForDebug").GetComponent<TextMeshProUGUI>();
         
         if (_rotationY > 79)
         {
@@ -19,9 +19,6 @@ public class TrackerRakelTilt : FloatValueSource
         {
             _rotationY = 180-_rotationY;
         }
-
-        //_text.SetText(_rotationY.ToString());
-        //Debug.Log("TILT: " + tilt);
         Value = _rotationY; 
     }
 }

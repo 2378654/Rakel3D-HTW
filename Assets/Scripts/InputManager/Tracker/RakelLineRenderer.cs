@@ -53,14 +53,11 @@ public class RakelLineRenderer : MonoBehaviour
         Vector3 world_up = Vector3.up;
         Vector3 rakel_up = GameObject.Find("RenderedRakel").transform.up;
         float _rakelRotationZ = Vector3.SignedAngle(rakel_up, world_up, Vector3.forward);
-
-        //float _offsetY = _rakelRotationZ; //* (-1.55f);
-        //float _offsetX = GameObject.Find("RenderedRakel").transform.rotation * (-0.1f);
+        
         //Used for productive Usage
-
         float _offsetX = -0.1f;
         float _offsetY = -1.55f;
-        float _offsetZ =0f;// -2.68f; //Max --> -2.73f Min-->
+        float _offsetZ =0f;
         Vector3 offset =new (_offsetX, _offsetY, _offsetZ);
         
         float _minZ = -2.6f; //-2.7
@@ -78,10 +75,9 @@ public class RakelLineRenderer : MonoBehaviour
         {
             rakelTilt = 180-rakelTilt;
         }
-        
-        //rakelTilt = Mathf.Clamp(rakelTilt, 0, 79);
+
         offset.z = _minZ +(rakelTilt / 79f) * (_maxZ - _minZ);
-//        Debug.Log("Offset Z: " + offset.z);
+
         float posX = (_rakel.transform.position.x + offset.x)* 6.1f; //At School +0.34
         float posY = (_rakel.transform.position.y + offset.y)* 7.3f; //At School -1.56
         float posZ = (_rakel.transform.position.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
