@@ -52,13 +52,10 @@ public class ButtonInteraction : MonoBehaviour
     public void SaveImg(int imgNum)
     {
         string textObject = "Text" + imgNum;
-        //Texture2D texture = Resources.Load($"CanvasPNG{imgNum}") as Texture2D;
         Debug.Log("Save - Button Pressed");
         oilpaintengine.SaveImg(imgNum);
-        //GameObject.Find($"CanvasImg{imgNum}").GetComponent<Renderer>().material.mainTexture = texture;
-       // Resources.Load($"CanvasPNG{imgNum}");
-       string message = "Image " + imgNum + " saved successfully";
-       GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
+        string message = "Image " + imgNum + " saved successfully";
+        GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
     }
 
     public void LoadImg(int imgNum)
@@ -146,7 +143,6 @@ public class ButtonInteraction : MonoBehaviour
             // Check if Color Button are between scroll buttons
             if (2f > g.transform.position.y &&  g.transform.position.y > -5f) 
             {
-                //Debug.Log(g.name);
                 g.SetActive(true);
             }
             else

@@ -84,7 +84,8 @@ public class ButtonCollision : MonoBehaviour
             }
         }
     }
-
+    
+    //If Rakel is longer on Scroll Button
     private IEnumerator KeepScrolling(string direction)
     {
         while (_holding)
@@ -95,6 +96,7 @@ public class ButtonCollision : MonoBehaviour
         
     }
     
+    //If Rakel is longer on Pressure Button
     private IEnumerator KeepChangingPressure(string direction)
     {
         while (_holding)
