@@ -82,3 +82,15 @@
     + check tilt Value = GameObject.Find("RenderedRakel").transform.eulerAngles.y;
     + check collider für canvas und indikator
     + Anchor Problem angucken, bilder machen
+
+
+
+---------------------------------------
+## Master
+
+* 23.04.2025
+    + Fragen nach anderen Widerständen (bsp 5kOhm)
+    + ESP32 S3 Mini und wie verbindet man den?
+    + On/Off Schalter
+    + Ausprobieren des neuen UIs an der Wand
+    + Ausprobieren die Raumvermessung so zu verwenden das kein Offset für X benötigt wird
