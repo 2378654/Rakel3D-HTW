@@ -94,3 +94,4 @@
     + On/Off Schalter
     + Ausprobieren des neuen UIs an der Wand
     + Ausprobieren die Raumvermessung so zu verwenden das kein Offset für X benötigt wird
+    + Wie funktioniert das mit zb LEDs? Werden die auf die Platine direkt gelötet?
