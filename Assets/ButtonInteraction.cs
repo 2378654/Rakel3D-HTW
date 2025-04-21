@@ -33,7 +33,7 @@ public class ButtonInteraction : MonoBehaviour
         _ui = GameObject.Find("UIForVR");
         _uiCover = GameObject.Find("UICover");
         _colorButtons = GameObject.Find("ColorButtons");
-        _canvasObj = GameObject.Find("Canvas");
+        
         _saveAndLoadButtons = GameObject.Find("SaveAndLoad");
         _scrollButtons = GameObject.Find("ScrollButtons");
         _rakelLength = GameObject.Find("RakelLength").GetComponent<Slider>();
@@ -65,6 +65,7 @@ public class ButtonInteraction : MonoBehaviour
     //not needed i think
     private void Update()
     {
+        _canvasObj = GameObject.Find("Canvas");
         current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
     }
     
@@ -102,7 +103,7 @@ public class ButtonInteraction : MonoBehaviour
     {
         _oilpaintengine.UpdateFillColor((Color_)color);
         Debug.Log("Color Selected: " + (Color_)color);
-        _oilpaintengine.FillApply();
+        //_oilpaintengine.FillApply();
         
         current_color = _oilpaintengine.GetCurrentColor();
         Vector3 colorVector = Colors.GetColor(current_color);
@@ -117,7 +118,7 @@ public class ButtonInteraction : MonoBehaviour
         //_newLength = (int)rakelLength.GetComponent<Slider>().value;
         if (length != _oldLength)
         {
-            if (length >2)
+            if (length >4)
             {
                 _oilpaintengine.UpdateRakelLength(length);
                 _oldLength = length;
@@ -233,13 +234,16 @@ public class ButtonInteraction : MonoBehaviour
 
         if (uiState == 0)
         {
+            _oilpaintengine.FillApply();
             _uiCover.SetActive(false);
             _ui.SetActive(false);
+            _canvasObj.transform.position = new (_canvasObj.transform.position.x,_canvasObj.transform.position.y, 0);
         }
         else
         {
             _uiCover.SetActive(true);
             _ui.SetActive(true);
+            _canvasObj.transform.position = new (_canvasObj.transform.position.x,_canvasObj.transform.position.y, 20);
         }
     }
     
