@@ -26,7 +26,6 @@ public class RakelLineRenderer : MonoBehaviour
     private float _rakelRotationZ;
     void Start()
     {
-        rakelLength = new RakelConfiguration().Length; //Rakel Length
         rakelWidth = new RakelConfiguration().Width * 0.2f;// Rakel Width
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
@@ -46,6 +45,8 @@ public class RakelLineRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rakelLength = OilPaintEngine.Config.RakelConfig.Length;
+        //Debug.Log("RakelLength: " + rakelLength);
         //Used for Testing
         //float posX = (_rakel.transform.position.x + 0.41f) * 15f; 
         //float posY = (_rakel.transform.position.y - 1.58f) * 16f; 

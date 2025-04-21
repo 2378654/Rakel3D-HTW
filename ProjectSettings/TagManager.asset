@@ -9,6 +9,8 @@ TagManager:
   - PressureDOWN
   - ScrollUP
   - ScrollDOWN
+  - Length
+  - Volume
   layers:
   - Default
   - TransparentFX

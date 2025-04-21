@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class ButtonCollision : MonoBehaviour
 {
-    private Button _button;
     private ButtonInteraction _interaction;
-    private bool _holding = false;
-    private Coroutine _scrollCoroutine, _pressureCoroutine;
+    private Button _button;
+    private Slider _slider;
+    private bool _holding,_sliderHolding = false;
+    private Coroutine _scrollCoroutine,_slideCoroutine,_pressureCoroutine;
     private float _cooldown = 1f;
-    private GameObject Interaction;
+    private float _sliderCooldown = 0.2f;
+    private GameObject Interaction,_hand;
 
     private void Start()
     {
@@ -21,6 +23,7 @@ public class ButtonCollision : MonoBehaviour
         {
             Debug.Log("Still NULL");
         }
+        _hand = GameObject.Find("Cube");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,6 +64,15 @@ public class ButtonCollision : MonoBehaviour
                 _pressureCoroutine = StartCoroutine(KeepChangingPressure("Down"));
             }
         }
+        else if (other.GetComponent<Slider>())
+        {
+            _slider = other.GetComponent<Slider>();
+            if (!_sliderHolding)
+            {
+                _sliderHolding = true;
+                _slideCoroutine = StartCoroutine(KeepSliding(_slider.GetComponent<BoxCollider>()));
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -83,6 +95,12 @@ public class ButtonCollision : MonoBehaviour
                 _pressureCoroutine = null;
             }
         }
+        else if (other.CompareTag("Length") || other.CompareTag("Volume"))
+        {
+            _sliderHolding = false;
+            StopCoroutine(_slideCoroutine);
+            _slideCoroutine = null;
+        }
     }
     
     //If Rakel is longer on Scroll Button
@@ -92,6 +110,51 @@ public class ButtonCollision : MonoBehaviour
         {
             yield return new WaitForSeconds(_cooldown);
             _interaction.Scroll(direction);
+        }
+        
+    }
+    
+    private IEnumerator KeepSliding(Collider other)
+    {
+        
+        while (_sliderHolding)
+        {
+            if (other.CompareTag("Length"))
+            { 
+                const float maxX = -3.61f;
+                const float minX = -7.21f;
+                const float minSlider = 2;
+                const float maxSlider = 20;
+                if (maxX + 0.1f > _hand.transform.position.x && _hand.transform.position.x > minX - 0.1f)
+                {
+                    _slider.handleRect.transform.position = new Vector3(_hand.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
+                    //_slider.fillRect.right = new Vector3(_hand.transform.position.x, _slider.fillRect.transform.position.y, _slider.fillRect.transform.position.z);
+                    float currentX = _slider.handleRect.transform.position.x;
+                    float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
+                    float sliderValue = Mathf.Lerp(minSlider, maxSlider, normalizedValue);
+                    _interaction.RakelLength(sliderValue);
+                }
+            }
+            else if (other.CompareTag("Volume"))
+            {
+                const float maxX = 5.29f;
+                const float minX = 1.58f;
+             
+                const float minSlider = 60;
+                const float maxSlider = 600;
+                
+                if (maxX + 0.1f > _hand.transform.position.x && _hand.transform.position.x > minX - 0.1f)
+                {
+                    _slider.handleRect.transform.position = new Vector3(_hand.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
+                    float currentX = _slider.handleRect.transform.position.x;
+                    float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
+                    float paintvolume = Mathf.Lerp(minSlider, maxSlider, normalizedValue);
+                    _interaction.PaintVolume((int)paintvolume);
+                }
+                
+            }
+            
+            yield return new WaitForSeconds(_sliderCooldown);
         }
         
     }
