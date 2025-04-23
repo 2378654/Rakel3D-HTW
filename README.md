@@ -90,8 +90,8 @@
 
 * 23.04.2025
     + Fragen nach anderen Widerständen (bsp 5kOhm)
-    + ESP32 S3 Mini und wie verbindet man den?
-    + On/Off Schalter
+    + ESP32 S3 Mini und wie verbindet man den? --> Nano für Bluetooth zum Testen erhalten
+    + On/Off Schalter --> Erhalten
     + Ausprobieren des neuen UIs an der Wand
     + Ausprobieren die Raumvermessung so zu verwenden das kein Offset für X benötigt wird
-    + Wie funktioniert das mit zb LEDs? Werden die auf die Platine direkt gelötet?
+    + Wie funktioniert das mit zb LEDs? Werden die auf die Platine direkt gelötet? --> Ja
