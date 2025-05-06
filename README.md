@@ -95,3 +95,13 @@
     + Ausprobieren des neuen UIs an der Wand
     + Ausprobieren die Raumvermessung so zu verwenden das kein Offset für X benötigt wird
     + Wie funktioniert das mit zb LEDs? Werden die auf die Platine direkt gelötet? --> Ja
+
+* 07.05.2025
+    + steam/config/chaperone_info.vrchap speichern wenn optimales setup eingerichtet damit die Collider nicht immer erneut nach dem kalibrieren angepasst werden müssen
+    + 2 Tracker verwenden um Offset Problem zu lösen
+        - Durchschnitt aus X und Durchschnitt aus Y. 
+        - Linerenderer Start und End mit den jeweiligen Objekten der Tracker
+
+
+* Ui Anpassen --> Usabality erhöhen
+        
