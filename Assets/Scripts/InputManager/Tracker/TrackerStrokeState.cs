@@ -27,7 +27,7 @@ public class TrackerStrokeState : StrokeStateSource
     {
         _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        _rakelpositionZ = (_boxColliderIndikator.transform.position.z+1.38f);
+        _rakelpositionZ = (_boxColliderIndikator.transform.position.z+1.14f);
         _canvaspositionZ = _meshColliderCanvas.transform.position.z;
         if (_rakelpositionZ > _canvaspositionZ)
         {

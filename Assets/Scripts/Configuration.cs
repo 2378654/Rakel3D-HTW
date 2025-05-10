@@ -61,6 +61,9 @@ public class InputConfiguration
         
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
         
+        //Pressure VIA Pressuresensor through the Rakelcontroller
+        RakelPressure = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
+        
         RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
         
         // Vive Tracker Rotation

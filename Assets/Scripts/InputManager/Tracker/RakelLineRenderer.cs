@@ -8,9 +8,8 @@ using UnityEngine.UIElements;
 public class RakelLineRenderer : MonoBehaviour
 {   
     private float canvaspositionZ;
-    private float rakelpositionX;
-    private float rakelpositionY;
-    private float rakelpositionZ;
+    
+    private float _rakelpositionZ;
     
     private OilPaintEngine OilPaintEngine;
     
@@ -23,7 +22,10 @@ public class RakelLineRenderer : MonoBehaviour
     
     private LineRenderer _line;
 
+    private float _rakelRotationX;
+    private float _rakelRotationY;
     private float _rakelRotationZ;
+    
     void Start()
     {
         rakelWidth = new RakelConfiguration().Width * 0.2f;// Rakel Width
@@ -46,21 +48,18 @@ public class RakelLineRenderer : MonoBehaviour
     void Update()
     {
         rakelLength = OilPaintEngine.Config.RakelConfig.Length;
-        //Debug.Log("RakelLength: " + rakelLength);
-        //Used for Testing
-        //float posX = (_rakel.transform.position.x + 0.41f) * 15f; 
-        //float posY = (_rakel.transform.position.y - 1.58f) * 16f; 
         
-        Vector3 world_up = Vector3.up;
-        Vector3 rakel_up = GameObject.Find("RenderedRakel").transform.up;
-        float _rakelRotationZ = Vector3.SignedAngle(rakel_up, world_up, Vector3.forward);
+        Vector3 worlUp = Vector3.up;
+        Vector3 rakelUp = GameObject.Find("RenderedRakel").transform.up;
+        _rakelRotationZ = Vector3.SignedAngle(rakelUp, worlUp, Vector3.forward);
+        _rakelRotationX = _rakel.transform.eulerAngles.x;
+        _rakelRotationY = _rakel.transform.eulerAngles.y;
         
         //Used for productive Usage
-        float _offsetX = -0.1f;
-        float _offsetY = -1.55f;
-        float _offsetZ =0f;
+        float _offsetX = 0f;
+        float _offsetY = -1.54f;
+        float _offsetZ = -0.1f;
         Vector3 offset =new (_offsetX, _offsetY, _offsetZ);
-        
         float _minZ = -2.6f; //-2.7
         float _maxZ = -2.56f; //-2.68
 
@@ -79,9 +78,9 @@ public class RakelLineRenderer : MonoBehaviour
 
         offset.z = _minZ +(rakelTilt / 79f) * (_maxZ - _minZ);
 
-        float posX = (_rakel.transform.position.x + offset.x)* 6.1f; //At School +0.34
-        float posY = (_rakel.transform.position.y + offset.y)* 7.3f; //At School -1.56
-        float posZ = (_rakel.transform.position.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
+        float posX = (_rakel.transform.localPosition.x + offset.x)* 8f; //8
+        float posY = (_rakel.transform.localPosition.y + offset.y)* 9.2f; //9.2
+        float posZ = (_rakel.transform.localPosition.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
         
         Vector3 center =  new (posX ,posY,posZ); // CenterPosition (Anchor Point)
         Vector3 up = _rakel.transform.up; // Vector for Rotation
@@ -90,14 +89,14 @@ public class RakelLineRenderer : MonoBehaviour
         Vector3 startPoint = center - (up * (rakelLength / 2)); 
         Vector3 endPoint = center + (up * (rakelLength / 2));  
         
-        Vector3 transformedStartPoint = _rakel.transform.TransformPoint(startPoint);
-        Vector3 transformedEndPoint = _rakel.transform.TransformPoint(endPoint);
+        Vector3 transformedStartPoint = _line.transform.TransformPoint(startPoint);
+        Vector3 transformedEndPoint = _line.transform.TransformPoint(endPoint);
 
         
         //Update LineRenderer Position
         _line.SetPosition(0, startPoint);  //Startpoint
         _line.SetPosition(1, endPoint);    //Endpoint
-        _box.transform.eulerAngles = new Vector3(0,0,_rakelRotationZ+90);
+        _box.transform.eulerAngles = new Vector3(0,0,-_rakelRotationZ+90);
         _box.size = new Vector3(4, _box.size.y , _box.size.z); // x, y, 3.65
         _box.transform.position = new Vector3(posX,posY,posZ); 
 

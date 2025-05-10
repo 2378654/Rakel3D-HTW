@@ -13,7 +13,7 @@ public class ButtonCollision : MonoBehaviour
     private Coroutine _scrollCoroutine,_slideCoroutine,_pressureCoroutine;
     private float _cooldown = 1f;
     private float _sliderCooldown = 0.2f;
-    private GameObject Interaction,_hand;
+    private GameObject Interaction,_line;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class ButtonCollision : MonoBehaviour
         {
             Debug.Log("Still NULL");
         }
-        _hand = GameObject.Find("Cube");
+        _line = GameObject.Find("LineRenderer");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -125,9 +125,9 @@ public class ButtonCollision : MonoBehaviour
                 const float minX = -7.21f;
                 const float minSlider = 2;
                 const float maxSlider = 20;
-                if (maxX + 0.1f > _hand.transform.position.x && _hand.transform.position.x > minX - 0.1f)
+                if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
                 {
-                    _slider.handleRect.transform.position = new Vector3(_hand.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
+                    _slider.handleRect.transform.position = new Vector3(_line.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
                     //_slider.fillRect.right = new Vector3(_hand.transform.position.x, _slider.fillRect.transform.position.y, _slider.fillRect.transform.position.z);
                     float currentX = _slider.handleRect.transform.position.x;
                     float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
@@ -143,9 +143,9 @@ public class ButtonCollision : MonoBehaviour
                 const float minSlider = 60;
                 const float maxSlider = 600;
                 
-                if (maxX + 0.1f > _hand.transform.position.x && _hand.transform.position.x > minX - 0.1f)
+                if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
                 {
-                    _slider.handleRect.transform.position = new Vector3(_hand.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
+                    _slider.handleRect.transform.position = new Vector3(_line.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
                     float currentX = _slider.handleRect.transform.position.x;
                     float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
                     float paintvolume = Mathf.Lerp(minSlider, maxSlider, normalizedValue);

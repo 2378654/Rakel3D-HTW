@@ -112,6 +112,9 @@ public class InputManager
             case InputSourceType.Pen:
                 RakelPressureSource = new PenRakelPressure();
                 break;
+            case InputSourceType.Tracker:
+                RakelPressureSource = new TrackerRakelPressure();
+                break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPressureSource", inputConfig.RakelPressure.Source.ToString()));
                 break;
