@@ -102,6 +102,10 @@
         - Durchschnitt aus X und Durchschnitt aus Y. 
         - Linerenderer Start und End mit den jeweiligen Objekten der Tracker
 
-
+* 20.05.2025
+    + Prototyp testen
+    + neuen Drucksensor testen
+    + CBS delete anpassen
+    
 * Ui Anpassen --> Usabality erhöhen
         
