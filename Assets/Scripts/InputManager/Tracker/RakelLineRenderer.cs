@@ -55,6 +55,14 @@ public class RakelLineRenderer : MonoBehaviour
         _rakelRotationX = _rakel.transform.eulerAngles.x;
         _rakelRotationY = _rakel.transform.eulerAngles.y;
         
+        //2 Tracker
+        float top_x = GameObject.Find("TOP").transform.position.x;
+        float bot_x = GameObject.Find("BOTTOM").transform.position.x;
+        
+        float top_y = GameObject.Find("TOP").transform.position.y + rakelLength;
+        float bot_y = GameObject.Find("BOTTOM").transform.position.y;
+        
+        
         //Used for productive Usage
         float _offsetX = 0f;
         float _offsetY = -1.54f;
@@ -78,8 +86,15 @@ public class RakelLineRenderer : MonoBehaviour
 
         offset.z = _minZ +(rakelTilt / 79f) * (_maxZ - _minZ);
 
-        float posX = (_rakel.transform.localPosition.x + offset.x)* 8f; //8
-        float posY = (_rakel.transform.localPosition.y + offset.y)* 9.2f; //9.2
+        //float posX = (_rakel.transform.localPosition.x + offset.x)* 8f; //8
+        float posX = (top_x + bot_x) / 2;
+        posX *= 8f;
+        
+        //float posY = (_rakel.transform.localPosition.y + offset.y)* 9.2f; //9.2
+        float posY = (top_y + bot_y) / 2;
+        posY = (posY - 1.54f) * 9.2f;
+        
+        
         float posZ = (_rakel.transform.localPosition.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
         
         Vector3 center =  new (posX ,posY,posZ); // CenterPosition (Anchor Point)

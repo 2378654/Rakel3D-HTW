@@ -134,40 +134,21 @@ public class ButtonInteraction : MonoBehaviour
 
     public void RakelLength(float length)
     {
-        if (length > 2)
-        {
-            _rakellength = length;
-            ApplyRakelSettings();
-            //_oilpaintengine.UpdateRakelLength(length);
-            //_oilpaintengine.FillApply();
-        }
+        _rakellength = length;
+        ApplyRakelSettings();
     }
     
     public void DeleteBuffer(bool state)
     {
-        if (!state)
-        {
-            _oilpaintengine.UpdateDeletePickedUpFromCSB(false);
-            _toggle.isOn = false;
-
-        }
-        else
-        {
-            _oilpaintengine.UpdateDeletePickedUpFromCSB(true);
-            _toggle.isOn = true;
-        }
+            _oilpaintengine.UpdateDeletePickedUpFromCSB(state);
     }
     
 
     public void PaintVolume(int volume)
     {
-        if (volume >60)
-        {
-            _paintvolume = volume;
-            //_oilpaintengine.UpdateFillVolume(volume);
-            //_oilpaintengine.FillApply();
-            ApplyRakelSettings();
-        }
+        _paintvolume = volume;
+        ApplyRakelSettings();
+        
     }
 
     public void ApplyRakelSettings()
@@ -298,7 +279,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void Pressure(float pressure)
     {
-        pressure = Mathf.Clamp01(pressure/550);
+        pressure = Mathf.Clamp01(pressure/1000);
         _oilpaintengine.Config.InputConfig.RakelPressure.Value = pressure;
         //_oilpaintengine.UpdateRakelPressure(pressure);
         _pressureText.SetText(pressure.ToString());
@@ -310,6 +291,11 @@ public class ButtonInteraction : MonoBehaviour
         return PRESSURE;
     }
 
+    public float GetLength()
+    {
+        return _rakellength;
+    }
+    
     public void IncreasePressure()
     {
         if (current_pressure < 1)
