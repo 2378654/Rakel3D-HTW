@@ -107,5 +107,8 @@
     + neuen Drucksensor testen
     + CBS delete anpassen
     
+* 28.05.2025
+    + tilt skript überprüfen
+
 * Ui Anpassen --> Usabality erhöhen
         
