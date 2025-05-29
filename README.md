@@ -108,7 +108,7 @@
     + CBS delete anpassen
     
 * 28.05.2025
-    + tilt skript überprüfen
+    + tilt skript überprüfen --> hinzufügen: Value = Rakel.ClampTilt(Value);
 
 * Ui Anpassen --> Usabality erhöhen
         
