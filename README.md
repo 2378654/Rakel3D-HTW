@@ -106,9 +106,10 @@
     + Prototyp testen
     + neuen Drucksensor testen
     + CBS delete anpassen
-    
-* 28.05.2025
-    + tilt skript überprüfen --> hinzufügen: Value = Rakel.ClampTilt(Value);
+
+* 02.06.2025
+    + offset problem fixen --> top bot als start und end? oder mit Inputmanager Position direkt probieren 
+    + + tilt skript überprüfen --> hinzufügen: Value = Rakel.ClampTilt(Value);
 
 * Ui Anpassen --> Usabality erhöhen
         
