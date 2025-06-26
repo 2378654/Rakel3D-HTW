@@ -19,7 +19,7 @@ Das Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zei
 ## Innerhalb des Projekts
 + Anpassen der virtuellen Rakelkante:
     - GameObject "LineRenderer" in der Szene 
-    ![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png).
+    - ![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png).
     - Die angepassten Werte müssen nochmal in TrackerPositionX.cs und TrackerPositionY.cs angepasst werden.
 + Anpassen der Entfernung zur Wand:
     - In TrackerStrokeState.cs bei Bedarf den Offset anpassen (Momentan 1.11f)
