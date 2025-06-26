@@ -1,6 +1,8 @@
 # Rakel3D
 Das Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zeicheninstrument) an einer realen Wand. Das Gemalte wird durch einen Projektor auf eine Wand projiziert.
 
+Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem vorherigen Projekt: 
+
 ## Anforderungen
 + Unity3D (Verwendete Version: 2022.3.8f1)
 + SteamVR
