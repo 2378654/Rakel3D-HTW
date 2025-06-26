@@ -5,11 +5,11 @@ Das Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zei
 + Unity3D (Verwendete Version: 2022.3.8f1)
 + SteamVR
 + Lighthouse Tracking
-    - Vier Lighthouses (Basestations) 
-    - Eine Vive Pro bzw. eine Vive Cosmos Elite verwendet --> Wird nicht beim Nutzen des Projekts getragen. Muss lediglich verbunden sein, um das Lighthouse Tracking zu ermöglichen.
+    - Vier [Lighthouses (Basestations)](https://www.vive.com/de/accessory/base-station2/)
+    - Eine [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/) bzw. eine Vive Cosmos Elite verwendet --> Wird nicht beim Nutzen des Projekts getragen. Muss lediglich verbunden sein, um das Lighthouse Tracking zu ermöglichen.
 
 + Der Rakel Controller beinhaltet:
-    - Zwei Vive Tracker 3.0
+    - Zwei [Vive Tracker 3.0](https://www.vive.com/de/accessory/tracker3/)
     - PowerBank zur Stromversorgung des eigentlichen Controllers
     - Controller (ESP32 Mikrocontroller mit Eingabeelementen)
     - Rakel als Malwerkzeug modifiziert mit einer weichen Kante, um die Wand nicht zu schädigen
@@ -18,7 +18,7 @@ Das Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zei
 
 ## Innerhalb des Projekts
 + Anpassen der virtuellen Rakelkante:
-    - GameObject "LineRenderer" in der Szene 
+    - GameObject "LineRenderer" in der Szene Offset X und Y sowie Mult X und Y bei Bedarf anpassen
     
      ![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png).
     - Die angepassten Werte müssen nochmal in TrackerPositionX.cs und TrackerPositionY.cs angepasst werden.
