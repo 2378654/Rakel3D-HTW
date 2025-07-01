@@ -6,6 +6,7 @@ Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem
 ## Anforderungen
 + Unity3D (Verwendete Version: 2022.3.8f1)
 + SteamVR
+    - ANMERKUNG: Beim Starten von SteamVR warten bis alle vier Basisstationen verbunden sind, dann den oberen Tracker (über der Powerbank) anschalten und anschließend den unteren. Falls die Geräte in anderer Reihenfolge gekoppelt werden, müssen bei den GameObjects "Top" und "Bottom" die Device Nummer gegebenfalls angepasst werden
 + Lighthouse Tracking
     - Vier [Lighthouses (Basestations)](https://www.vive.com/de/accessory/base-station2/)
     - Eine [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/) bzw. eine Vive Cosmos Elite verwendet --> Wird nicht beim Nutzen des Projekts getragen. Muss lediglich verbunden sein, um das Lighthouse Tracking zu ermöglichen.
