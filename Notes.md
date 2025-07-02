@@ -113,3 +113,6 @@
 
 * Ui Anpassen --> Usabality erhöhen
         
+* 02.07.2025
+    + Fixe werte für pressure und tilt testen
+    + Pressure 0 testen
