@@ -59,6 +59,8 @@ public class InputConfiguration
 
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = -4 * Paint.VOLUME_THICKNESS };
+        
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
         
         //Pressure VIA Pressuresensor through the Rakelcontroller
@@ -82,7 +84,7 @@ public class InputConfiguration
 public class CanvasConfiguration
 {
     private const float MAX_WIDTH = 30; //Def: 15
-    private const float MAX_HEIGHT = 16; // Def: 10
+    private const float MAX_HEIGHT = 20; // Def: 10
 
     public int FormatA;
     public int FormatB;
@@ -197,7 +199,7 @@ public class FillConfiguration
         Color = Color_.CadmiumLightGreen;
         ColorMode = ColorMode.Flat;
         WidthPart = 0.6f;
-        Volume = 60; //DefaultVolume = 60
+        Volume = 256; //DefaultVolume = 60
         VolumeMode = VolumeMode.Perlin;
     }
 

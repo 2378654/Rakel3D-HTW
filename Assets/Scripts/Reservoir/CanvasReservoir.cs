@@ -43,7 +43,42 @@ public class CanvasReservoir : Reservoir
     {
         Duplicate(PaintGrid, PaintGridSnapshot, sr, debugEnabled);
     }
-    
+    private Vector3Int backupSize;
+    private IList <Paint[]> backupContentData = new List<Paint[]>();
+    private IList <ColumnInfo[]> backupInfoData = new List<ColumnInfo[]>();
+    public void BackupLastStroke()
+    {
+        PaintGrid.ReadbackContent();
+        PaintGrid.ReadbackInfo();
+
+        backupSize = PaintGrid.Size;
+        
+        Paint[] contentCopy = (Paint[])PaintGrid.ContentData.Clone();
+        ColumnInfo[] infoCopy = (ColumnInfo[])PaintGrid.InfoData.Clone();
+
+        backupContentData.Add(contentCopy);
+        backupInfoData.Add(infoCopy);
+
+        Debug.Log("Current Length: " + backupContentData.Count);
+    }
+
+    public void UndoLastStroke()
+    {
+        PaintGrid.Size = backupSize;
+        if (backupContentData.Count != 0)
+        {
+            PaintGrid.Content.SetData(backupContentData[backupContentData.Count-1]);
+            PaintGrid.Info.SetData(backupInfoData[backupInfoData.Count-1]);
+        
+            backupContentData.RemoveAt(backupContentData.Count-1);
+            backupInfoData.RemoveAt(backupInfoData.Count - 1);
+            Debug.Log("Current Length: " + backupContentData.Count);   
+        }
+        else
+        {
+            Debug.Log("Nothing to Undo");
+        }
+    }
      public Vector3Int saved_size;
     
     public static List<Paint> ContentDataListFirstImg = new List<Paint>();

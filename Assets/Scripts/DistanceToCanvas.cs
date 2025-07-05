@@ -37,7 +37,7 @@ public class DistanceToCanvas : MonoBehaviour
         else if (distance < 1)
         {
             _line.enabled = true;
-            text.SetText("Current Distance to Canvas: " + distance);
+            text.SetText("Distance: " + distance);
         }
         else if (distance < 21 && _uicover.activeSelf)
         {
@@ -46,7 +46,7 @@ public class DistanceToCanvas : MonoBehaviour
         else
         {
             _line.enabled = false;
-            text.SetText("Current Distance to Canvas: " + distance);
+            text.SetText("Distance: " + distance);
         }
        
        

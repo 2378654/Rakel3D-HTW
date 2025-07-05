@@ -1,11 +1,9 @@
-
-using System;
-using Unity.VisualScripting;
+using JetBrains.Annotations;
+using System.Collections;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UIElements;
 using Slider = UnityEngine.UI.Slider;
-using System.IO.Ports;
+
 
 public class ButtonInteraction : MonoBehaviour
 { 
@@ -29,6 +27,9 @@ public class ButtonInteraction : MonoBehaviour
     private TextMeshProUGUI _pressureText;
     private int _saveCount;
     private GameObject _currentColor;
+    private GameObject _clearTextObj;
+    private TextMeshProUGUI _clearText;
+    private float _currentVolume;
     
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume = 0;
@@ -64,6 +65,8 @@ public class ButtonInteraction : MonoBehaviour
         _text1 = GameObject.Find("Text1").GetComponent<TextMeshProUGUI>();
         _text2 = GameObject.Find("Text2").GetComponent<TextMeshProUGUI>();
         _text3 = GameObject.Find("Text3").GetComponent<TextMeshProUGUI>();
+        _clearTextObj = GameObject.Find("ClearText");
+        _clearText = _clearTextObj.GetComponent<TextMeshProUGUI>();
 
         if (_text1.text == "New Text") { _text1.text = "Empty"; }
         if (_text2.text == "New Text") { _text2.text = "Empty"; }
@@ -74,6 +77,10 @@ public class ButtonInteraction : MonoBehaviour
     {
         _canvasObj = GameObject.Find("Canvas");
         current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
+        _oilpaintengine.Rakel.Reservoir.PaintGrid.ReadbackContent();
+        _currentVolume = _oilpaintengine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
+        _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
+        _line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
     }
     
     
@@ -82,20 +89,54 @@ public class ButtonInteraction : MonoBehaviour
         _ui.SetActive(false);
         _uiCover.SetActive(false);
         _saveAndLoadButtons.SetActive(false);
-        
     }
 
     public void ClearRakel()
     {
-        _oilpaintengine.ClearRakel();
+        StartCoroutine(Clearing());
     }
 
+    public void ClearCanvas()
+    {
+        _oilpaintengine.ClearCanvas();
+    }
+    
+    private IEnumerator Clearing()
+    {
+        _oilpaintengine.ClearRakel();
+        _clearText.SetText("Rakel Cleared");
+        _line.startColor = UnityEngine.Color.white;
+        _line.endColor = UnityEngine.Color.white;
+        yield return new WaitForSeconds(1);
+        _clearText.SetText("");
+    }
+    
+    /*public void ChangeSize(int mult)
+    {
+        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
+        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
+        float currentSize = screenshotCamera.orthographicSize;
+        width = _oilpaintengine.Config.CanvasConfig.FormatA * mult;
+        height = _oilpaintengine.Config.CanvasConfig.FormatB * mult;
+        currentSize = mult;
+        screenshotCamera.orthographicSize = currentSize;
+        _oilpaintengine.UpdateSize(height,width);
+    }
+    
+
+    */
+    public void UndoLastStroke()
+    {
+        Debug.Log("UNDO TRIGGERED");
+        _oilpaintengine.UndoLastStroke();
+    }
+    
     public void SaveImg(int imgNum)
     {
         string textObject = "Text" + imgNum;
         Debug.Log("Save - Button Pressed");
         _oilpaintengine.SaveImg(imgNum);
-        string message = "Image " + imgNum + " saved successfully";
+        string message = "Saved";
         GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
         
         
@@ -120,6 +161,7 @@ public class ButtonInteraction : MonoBehaviour
     {
         Debug.Log("Color Selected: " + (Color_)color);
         _color = color;
+        
         ApplyRakelSettings();
         
         current_color = _oilpaintengine.GetCurrentColor();
@@ -140,7 +182,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void DeleteBuffer(bool state)
     {
-            _oilpaintengine.UpdateDeletePickedUpFromCSB(state);
+        _oilpaintengine.UpdateDeletePickedUpFromCSB(state);
     }
     
 
@@ -148,11 +190,11 @@ public class ButtonInteraction : MonoBehaviour
     {
         _paintvolume = volume;
         ApplyRakelSettings();
-        
     }
 
     public void ApplyRakelSettings()
     {
+        Vector3 colorVector = Colors.GetColor((Color_)_color);
         if (_paintvolume != _oldPaintVolume)
         {
             _oilpaintengine.UpdateFillVolume(_paintvolume);
@@ -169,10 +211,10 @@ public class ButtonInteraction : MonoBehaviour
         {
             _oilpaintengine.UpdateFillColor((Color_)_color);
             _oldColor = _color;
-            
-            Vector3 colorVector = Colors.GetColor((Color_)_color);
             _currentColor.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
         }
+        _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
+        _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
         
         _oilpaintengine.FillApply();
     }
@@ -279,10 +321,9 @@ public class ButtonInteraction : MonoBehaviour
     
     public void Pressure(float pressure)
     {
-        pressure = Mathf.Clamp01(pressure/1000);
-        _oilpaintengine.Config.InputConfig.RakelPressure.Value = pressure;
-        //_oilpaintengine.UpdateRakelPressure(pressure);
-        _pressureText.SetText(pressure.ToString());
+        pressure = Mathf.Clamp01(pressure/1500);
+        //_oilpaintengine.Config.InputConfig.RakelPressure.Value = pressure;
+        //_pressureText.SetText(pressure.ToString());
         PRESSURE = pressure;
     }
 
@@ -290,12 +331,17 @@ public class ButtonInteraction : MonoBehaviour
     {
         return PRESSURE;
     }
-
+    
     public float GetLength()
     {
         return _rakellength;
     }
     
+    public int GetCurrentColor()
+    {
+        return _color;
+    }
+
     public void IncreasePressure()
     {
         if (current_pressure < 1)

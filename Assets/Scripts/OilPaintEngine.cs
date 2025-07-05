@@ -95,6 +95,18 @@ public class OilPaintEngine : MonoBehaviour
         }
     }
 
+    public void BackupStroke()
+    {
+        Canvas.Reservoir.BackupLastStroke();
+    }
+
+    public void UndoLastStroke()
+    {
+        Canvas.Reservoir.UndoLastStroke();
+        ShaderRegion sr = Canvas.GetFullShaderRegion();
+        Canvas.Render(sr);
+    }
+    
     public void SaveImg(int imgNum)
     {
         Canvas.Reservoir.SaveImg(imgNum);
@@ -198,7 +210,7 @@ public class OilPaintEngine : MonoBehaviour
     void Update()
     {
         //Fix for Error : ArgumentNullException: Value cannot be null. Parameter name: control
-        if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker)
+        if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker && Config.InputConfig.StrokeStateSource != InputSourceType.Mouse)
         {
             if (Pen.current.IsActuated() && !PenConfigLoaded)
             {
@@ -466,7 +478,15 @@ public class OilPaintEngine : MonoBehaviour
         CreateCanvas();
         CreateRakel();
     }
-
+    
+    /*
+     public void UpdateSize(int height, int width)
+    {
+        Config.CanvasConfig.Height = height;
+        Config.CanvasConfig.Width = width;
+        CreateCanvas();
+    }
+    */
     // ****************************************************************************************
     // ***                                     TOP RIGHT                                    ***
     // ****************************************************************************************

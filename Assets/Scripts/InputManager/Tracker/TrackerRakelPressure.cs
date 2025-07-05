@@ -2,12 +2,13 @@
 
 public class TrackerRakelPressure : FloatValueSource
 {
-    
+
     private ButtonInteraction _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
-    
+
     public override void Update()
     {
-        float pressure = _interaction.GetPressure();
-        Value = pressure;
+        Value = _interaction.GetPressure();
+        Value = Mathf.Clamp01(Value);
+        //Value = 0f;
     }
 }

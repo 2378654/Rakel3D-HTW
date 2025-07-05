@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 public class TrackerRakelPositionX : FloatValueSource
 {
-    private float _rakelRotationZ;
+    
     private float _rakelPositionX;
+    private Vector3 _top, _bot;
+    private float _rakelSideOffset = -0.05f;
     public override void Update()
     {
-        // float offset = _rakelRotationZ * -0.1f;
-        //Value = (GameObject.Find("RenderedRakel").transform.localPosition.x) * 8f; //vor Ort - 0.2f
+        _top = GameObject.Find("Top").transform.position;
+        _bot = GameObject.Find("Bottom").transform.position;
+        Vector3 rakelDir = (_top - _bot).normalized;
+
+            
+        Vector3 rakelRight = Vector3.Cross(rakelDir, Vector3.forward).normalized;
         
-        //2 Trackers
-        float top_x = GameObject.Find("TOP").transform.position.x;
-        float bot_x = GameObject.Find("BOTTOM").transform.position.x;
-        float pos_x = (top_x + bot_x) / 2;
-        Value = pos_x * 8f;
+        Vector3 center = (_top + _bot) / 2f;
+
+        center += rakelRight * _rakelSideOffset;
+        
+        Value = (center.x + 0.5f) * 8.9f;
     }
 }

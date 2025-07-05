@@ -25,7 +25,7 @@ public class ArduinoReader : MonoBehaviour
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         //_canvasReservoir = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>().GetComponent<CanvasReservoir>();
         
-        const string portName = "COM7";
+        const string portName = "COM8";
         numberOfColors = 23;
         
         _serialPort = new SerialPort(portName, 115200);
@@ -89,7 +89,7 @@ public class ArduinoReader : MonoBehaviour
                 }
             }
             //CanvasSnapshotBuffer
-            else if (line.Contains("CSB"))
+            if (line.Contains("CSB"))
             {
                 string csb = line.Replace("CSB", "");
                 int csbInt;
@@ -97,12 +97,35 @@ public class ArduinoReader : MonoBehaviour
                 {
                     if (csbInt == 0)
                     {
-                        _interaction.DeleteBuffer(false);
+                        _oilpaintengine.UpdateDeletePickedUpFromCSB(false);
                     }
                     else
                     {
-                        _interaction.DeleteBuffer(true);
+                        _oilpaintengine.UpdateDeletePickedUpFromCSB(true);
                     }
+                }
+            }
+            else if (line.Contains("Canvas"))
+            {
+                Debug.Log("Cleared Canvas");
+                _interaction.ClearCanvas();
+            }
+            else if (line.Contains("Undo"))
+            {
+                Debug.Log("Undo");
+                _interaction.UndoLastStroke();
+            }
+            else if (line.Contains("Size"))
+            {
+                string sizeStr = line.Replace("Size", "");
+                int size;
+                if (int.TryParse(sizeStr, out size))
+                {
+                    //_interaction.ChangeSize(size);
+                }
+                else
+                {
+                    Debug.Log("Size couldn't parse correctly");
                 }
             }
             //Save
@@ -112,6 +135,7 @@ public class ArduinoReader : MonoBehaviour
                 int imgNum;
                 if (int.TryParse(saveStr, out imgNum))
                 {
+                    Debug.Log(line);
                     _interaction.SaveImg(imgNum);
                 }
                 else
@@ -146,7 +170,6 @@ public class ArduinoReader : MonoBehaviour
                 if (float.TryParse(lengthStr, out length))
                 {
                     _interaction.RakelLength(length);
-                    //_interaction.ApplyRakelSettings();
                 }
                 else
                 {
@@ -160,7 +183,6 @@ public class ArduinoReader : MonoBehaviour
                 if (int.TryParse(volumeStr, out volume))
                 {
                     _interaction.PaintVolume(volume);
-                    //_interaction.ApplyRakelSettings();
                 }
                 else
                 {

@@ -1,16 +1,11 @@
-using CodiceApp;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UIElements;
+    using UnityEngine;
+    using Vector3 = UnityEngine.Vector3;
 
 public class RakelLineRenderer : MonoBehaviour
 {   
     private float canvaspositionZ;
     
     private float _rakelpositionZ;
-    
     private OilPaintEngine OilPaintEngine;
     
     private float rakelLength;
@@ -19,20 +14,26 @@ public class RakelLineRenderer : MonoBehaviour
     private Color paint_color, no_paint_color;
     private BoxCollider _box;
     private GameObject _rakel;
+    private RenderedRakel _renderedRakel;
     
     private LineRenderer _line;
 
+    public float multX, multY;
+    public float offsetX, offsetY,offsetZ;
+    
     private float _rakelRotationX;
     private float _rakelRotationY;
     private float _rakelRotationZ;
+    float rakelSideOffset = -0.05f;
+    
+    private Transform _top, _bot;
     
     void Start()
     {
-        rakelWidth = new RakelConfiguration().Width * 0.2f;// Rakel Width
+        rakelWidth = new RakelConfiguration().Width * 0.2f;
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _line.material = new Material(Shader.Find("Sprites/Default"));
-        _line.useWorldSpace = true;
         
         //Changing the Width of the LineRenderer
         _line.startWidth = rakelWidth; 
@@ -40,80 +41,56 @@ public class RakelLineRenderer : MonoBehaviour
 
         _box = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _rakel = GameObject.Find("RenderedRakel");
-        
+        _renderedRakel = _rakel.GetComponent<RenderedRakel>();
         OilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
+        
+        _top = GameObject.Find("Top").transform;
+        _bot = GameObject.Find("Bottom").transform;
     }
-
-    // Update is called once per frame
     void Update()
     {
         rakelLength = OilPaintEngine.Config.RakelConfig.Length;
-        
-        Vector3 worlUp = Vector3.up;
-        Vector3 rakelUp = GameObject.Find("RenderedRakel").transform.up;
-        _rakelRotationZ = Vector3.SignedAngle(rakelUp, worlUp, Vector3.forward);
-        _rakelRotationX = _rakel.transform.eulerAngles.x;
-        _rakelRotationY = _rakel.transform.eulerAngles.y;
-        
-        //2 Tracker
-        float top_x = GameObject.Find("TOP").transform.position.x;
-        float bot_x = GameObject.Find("BOTTOM").transform.position.x;
-        
-        float top_y = GameObject.Find("TOP").transform.position.y + rakelLength;
-        float bot_y = GameObject.Find("BOTTOM").transform.position.y;
-        
-        
-        //Used for productive Usage
-        float _offsetX = 0f;
-        float _offsetY = -1.54f;
-        float _offsetZ = -0.1f;
-        Vector3 offset =new (_offsetX, _offsetY, _offsetZ);
-        float _minZ = -2.6f; //-2.7
-        float _maxZ = -2.56f; //-2.68
 
-        float rakelTilt = Mathf.Abs(GameObject.Find("RenderedRakel").transform.eulerAngles.y- 180);
-       
-        
-        if (rakelTilt > 79)
-        {
-            rakelTilt = 79;
-        }
-        
-        if (rakelTilt > 90)
-        {
-            rakelTilt = 180-rakelTilt;
-        }
+        Vector3 offset = new Vector3(offsetX, offsetY, offsetZ);
+        float _minZ = -2.6f;
+        float _maxZ = -2.56f;
 
-        offset.z = _minZ +(rakelTilt / 79f) * (_maxZ - _minZ);
+        float rakelTilt = Mathf.Abs(_rakel.transform.eulerAngles.y - 180);
+        if (rakelTilt > 79) rakelTilt = 79;
+        if (rakelTilt > 90) rakelTilt = 180 - rakelTilt;
 
-        //float posX = (_rakel.transform.localPosition.x + offset.x)* 8f; //8
-        float posX = (top_x + bot_x) / 2;
-        posX *= 8f;
+        offset.z = _minZ + (rakelTilt / 79f) * (_maxZ - _minZ);
         
-        //float posY = (_rakel.transform.localPosition.y + offset.y)* 9.2f; //9.2
-        float posY = (top_y + bot_y) / 2;
-        posY = (posY - 1.54f) * 9.2f;
-        
-        
-        float posZ = (_rakel.transform.localPosition.z + offset.z); // posZ - offset, so the buttons aren't clicked till rakel is on the wall -2.6f
-        
-        Vector3 center =  new (posX ,posY,posZ); // CenterPosition (Anchor Point)
-        Vector3 up = _rakel.transform.up; // Vector for Rotation
-        
-        //Startpoint and Endpoint
-        Vector3 startPoint = center - (up * (rakelLength / 2)); 
-        Vector3 endPoint = center + (up * (rakelLength / 2));  
-        
-        Vector3 transformedStartPoint = _line.transform.TransformPoint(startPoint);
-        Vector3 transformedEndPoint = _line.transform.TransformPoint(endPoint);
+        Vector3 topPos = _top.position;
+        Vector3 botPos = _bot.position;
+        Vector3 rakelDir = (topPos - botPos).normalized;
 
         
-        //Update LineRenderer Position
-        _line.SetPosition(0, startPoint);  //Startpoint
-        _line.SetPosition(1, endPoint);    //Endpoint
-        _box.transform.eulerAngles = new Vector3(0,0,-_rakelRotationZ+90);
-        _box.size = new Vector3(4, _box.size.y , _box.size.z); // x, y, 3.65
-        _box.transform.position = new Vector3(posX,posY,posZ); 
+        Vector3 rakelRight = Vector3.Cross(rakelDir, Vector3.forward).normalized;
+        
+        Vector3 center = (topPos + botPos) / 2f;
 
+        center += rakelRight * rakelSideOffset;
+        
+        Vector3 pos = new Vector3((center.x + offset.x) * multX, (center.y + offset.y) * multY, center.z + offset.z);
+        
+        Vector3 startPoint = pos + (rakelDir * (rakelLength / 2));
+        Vector3 endPoint = pos - (rakelDir * (rakelLength / 2));
+        
+        startPoint.z = -0.3f;
+        endPoint.z = -0.3f;
+
+        _line.SetPosition(0, startPoint);
+        _line.SetPosition(1, endPoint);
+        
+        Quaternion rakelRotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
+        _box.transform.rotation = rakelRotation;
+        
+        _box.size = new Vector3(rakelWidth, rakelLength, 0.01f);
+        
+        //_box.transform.position = pos + rakelDir;
+        _box.transform.position = pos;
+
+        _line.transform.rotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
     }
 }
