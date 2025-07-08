@@ -58,7 +58,7 @@ public class ButtonInteraction : MonoBehaviour
         
         float current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
         
-        GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
+        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         
         

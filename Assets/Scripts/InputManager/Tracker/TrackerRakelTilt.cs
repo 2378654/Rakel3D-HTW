@@ -3,10 +3,12 @@ using TMPro;
 public class TrackerRakelTilt : FloatValueSource
 {
     private TextMeshProUGUI _text = GameObject.Find("TiltText").GetComponent<TextMeshProUGUI>();
+    private GameObject _top = GameObject.Find("Top");
+    private GameObject _bot = GameObject.Find("Bottom");
     public override void Update()
     {
         //only get positive Values
-        Value = GameObject.Find("RenderedRakel").transform.eulerAngles.y - 180;
+        Value = (_top.transform.eulerAngles.y - 180 + (_bot.transform.eulerAngles.y - 180))/2;
 
         Value = Rakel.ClampTilt(Value);
         _text.SetText(Value.ToString());

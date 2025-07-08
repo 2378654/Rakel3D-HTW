@@ -25,7 +25,7 @@ public class ArduinoReader : MonoBehaviour
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         //_canvasReservoir = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>().GetComponent<CanvasReservoir>();
         
-        const string portName = "COM8";
+        const string portName = "COM4";
         numberOfColors = 23;
         
         _serialPort = new SerialPort(portName, 115200);

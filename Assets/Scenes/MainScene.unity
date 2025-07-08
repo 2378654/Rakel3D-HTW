@@ -18520,9 +18520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529be5af8638f8b4985ee0dcb1c320d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multX: 8.9
-  multY: 10
-  offsetX: 0.5
+  multX: 9.35
+  multY: 10.7
+  offsetX: 0.12
   offsetY: -1.58
   offsetZ: -0.1
 --- !u!114 &770273875
@@ -22238,7 +22238,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -21}
+  m_LocalPosition: {x: 0, y: 0, z: -17.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40241,7 +40241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 4
+  index: 7
   origin: {fileID: 0}
 --- !u!65 &1718673390
 BoxCollider:
@@ -47076,7 +47076,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106008058}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
@@ -47560,7 +47560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 5
+  index: 8
   origin: {fileID: 0}
 --- !u!65 &2134366759
 BoxCollider:

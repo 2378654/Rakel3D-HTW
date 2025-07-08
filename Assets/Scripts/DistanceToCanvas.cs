@@ -24,7 +24,7 @@ public class DistanceToCanvas : MonoBehaviour
         _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
         
-        float rakel_Z = (_boxColliderIndikator.transform.position.z + 1.14f); //1.38f
+        float rakel_Z = (_boxColliderIndikator.transform.position.z + 1.25f); //1.38f
         float canvas_Z = _meshColliderCanvas.transform.position.z;
         float distance = canvas_Z - rakel_Z;
        

@@ -18,6 +18,6 @@ public class TrackerRakelPositionX : FloatValueSource
 
         center += rakelRight * _rakelSideOffset;
         
-        Value = (center.x + 0.5f) * 8.9f;
+        Value = (center.x + 0.12f) * 9.35f;
     }
 }

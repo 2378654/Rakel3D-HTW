@@ -199,7 +199,7 @@ public class FillConfiguration
         Color = Color_.CadmiumLightGreen;
         ColorMode = ColorMode.Flat;
         WidthPart = 0.6f;
-        Volume = 256; //DefaultVolume = 60
+        Volume = 60; //DefaultVolume = 60
         VolumeMode = VolumeMode.Perlin;
     }
 

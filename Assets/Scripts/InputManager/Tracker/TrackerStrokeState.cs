@@ -4,38 +4,28 @@ public class TrackerStrokeState : StrokeStateSource
 {
     private BoxCollider _boxColliderIndikator;
     private MeshCollider _meshColliderCanvas;
-    private float _tolerance = 0.01f;
-    private bool _wasInStroke = false;
     private GraphicsRaycaster GraphicsRaycaster;
-    
+    private ButtonInteraction _interaction;
+    private GameObject _top, _bot;
     public TrackerStrokeState()
     {
         _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         GraphicsRaycaster = GameObject.Find("UI").GetComponent<GraphicsRaycaster>(); ;
+        _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
+        _top = GameObject.Find("Top");
+        _bot = GameObject.Find("Bottom");
     }
 
     public override void Update()
     {
-        float _rakelpositionZ = _boxColliderIndikator.transform.position.z + 1.1f;
+        /*float _rakelpositionZ = _boxColliderIndikator.transform.position.z + 1.2f;
         _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
+        float pressure = _interaction.GetPressure();
         float _canvaspositionZ = _meshColliderCanvas.transform.position.z;
-
-        /*bool isCurrentlyInStroke = rakelpositionZ > canvaspositionZ;
-
-        StrokeBegin = !InStroke && isCurrentlyInStroke;
-        if (StrokeBegin)
+        
+        if (_rakelpositionZ > _canvaspositionZ && pressure > 0)
         {
-            InStroke = true;
-        }
-
-        if (rakelpositionZ < canvaspositionZ)
-        {
-            InStroke = false;
-        }
-        */
-        if (_rakelpositionZ > _canvaspositionZ)
-        {
-            StrokeBegin = _rakelpositionZ > _canvaspositionZ && !GraphicsRaycaster.UIBlocking(_boxColliderIndikator.transform.position);
+            StrokeBegin = _rakelpositionZ > _canvaspositionZ && pressure > 0 && !GraphicsRaycaster.UIBlocking((_top.transform.position + _bot.transform.position)/2);
             if (StrokeBegin)
             {
                 InStroke = true;
@@ -45,7 +35,16 @@ public class TrackerStrokeState : StrokeStateSource
         if (_rakelpositionZ < _canvaspositionZ)
         {
             InStroke = false;
-        }
+        }*/
+        _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
+        float rakelpositionZ = _boxColliderIndikator.transform.position.z + 1.25f;
+        float _canvaspositionZ = _meshColliderCanvas.transform.position.z;
+        float pressure = _interaction.GetPressure();
+        bool isCurrentlyInStroke = rakelpositionZ > _canvaspositionZ && pressure > 0;
+        
+        StrokeBegin = !InStroke && isCurrentlyInStroke;
+
+        InStroke = isCurrentlyInStroke;
 
     }
 }

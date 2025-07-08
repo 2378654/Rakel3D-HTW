@@ -12,6 +12,6 @@ public class TrackerRakelPositionY : FloatValueSource
         Vector3 center = (_top + _bot) / 2f;
 
         center += rakelRight * _rakelSideOffset;
-        Value = (center.y - 1.58f) * 10f;
+        Value = (center.y - 1.58f) * 10.7f;
     }
 }
