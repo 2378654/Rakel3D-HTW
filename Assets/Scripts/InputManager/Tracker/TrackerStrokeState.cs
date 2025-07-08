@@ -6,12 +6,14 @@ public class TrackerStrokeState : StrokeStateSource
     private MeshCollider _meshColliderCanvas;
     private GraphicsRaycaster GraphicsRaycaster;
     private ButtonInteraction _interaction;
+    private OilPaintEngine _oilpaintengine;
     private GameObject _top, _bot;
     public TrackerStrokeState()
     {
         _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         GraphicsRaycaster = GameObject.Find("UI").GetComponent<GraphicsRaycaster>(); ;
         _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
+        _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         _top = GameObject.Find("Top");
         _bot = GameObject.Find("Bottom");
     }
@@ -44,6 +46,11 @@ public class TrackerStrokeState : StrokeStateSource
         
         StrokeBegin = !InStroke && isCurrentlyInStroke;
 
+        if (StrokeBegin)
+        {
+            _oilpaintengine.BackupStroke();
+        }
+        
         InStroke = isCurrentlyInStroke;
 
     }

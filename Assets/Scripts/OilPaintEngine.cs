@@ -479,14 +479,14 @@ public class OilPaintEngine : MonoBehaviour
         CreateRakel();
     }
     
-    /*
-     public void UpdateSize(int height, int width)
+    public void UpdateHeight(int height)
     {
         Config.CanvasConfig.Height = height;
-        Config.CanvasConfig.Width = width;
-        CreateCanvas();
     }
-    */
+    public void UpdateWidth( int width)
+    {
+        Config.CanvasConfig.Width = width;
+    }
     // ****************************************************************************************
     // ***                                     TOP RIGHT                                    ***
     // ****************************************************************************************

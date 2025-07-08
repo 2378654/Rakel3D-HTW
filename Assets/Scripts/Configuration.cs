@@ -105,6 +105,10 @@ public class CanvasConfiguration
                 return MAX_WIDTH;
             }
         }
+        set
+        {
+            Width = value;
+        }
     }
 
     public float Height
@@ -122,6 +126,10 @@ public class CanvasConfiguration
                 float height = width / ratio;
                 return height;
             }
+        }
+        set
+        {
+            Height = value;
         }
     }
 

@@ -1,12 +1,15 @@
 using JetBrains.Annotations;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 using Slider = UnityEngine.UI.Slider;
-
+using UnityEngine.Experimental.Rendering;
 
 public class ButtonInteraction : MonoBehaviour
 { 
+    public Camera screenshotCamera;
     private OilPaintEngine _oilpaintengine;
     private GameObject _colorButtons;
     private GameObject _saveAndLoadButtons;
@@ -30,6 +33,7 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject _clearTextObj;
     private TextMeshProUGUI _clearText;
     private float _currentVolume;
+    private GameObject _settingsAfterSize;
     
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume = 0;
@@ -53,7 +57,7 @@ public class ButtonInteraction : MonoBehaviour
         _toggle = GameObject.Find("Checkbox").GetComponent<UnityEngine.UI.Toggle>();
         _saveCount = 0;
         _toggle.isOn = false;
-        
+        _settingsAfterSize = GameObject.Find("SettingsAfterSize");
         GetChildren();
         
         float current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
@@ -111,27 +115,52 @@ public class ButtonInteraction : MonoBehaviour
         _clearText.SetText("");
     }
     
-    /*public void ChangeSize(int mult)
-    {
-        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
-        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
-        float currentSize = screenshotCamera.orthographicSize;
-        width = _oilpaintengine.Config.CanvasConfig.FormatA * mult;
-        height = _oilpaintengine.Config.CanvasConfig.FormatB * mult;
-        currentSize = mult;
-        screenshotCamera.orthographicSize = currentSize;
-        _oilpaintengine.UpdateSize(height,width);
-    }
-    
-
-    */
     public void UndoLastStroke()
     {
         Debug.Log("UNDO TRIGGERED");
         _oilpaintengine.UndoLastStroke();
     }
     
+    private float currentWidthFirstImg, currentHeightFirstImg;
+    private float currentWidthSecondImg, currentHeightSecondImg;
+    private float currentWidthThirdImg, currentHeightThirdImg;
+    private int formatAFirstImg, formatBFirstImg;
+    private int formatASecondImg, formatBSecondImg;
+    private int formatAThirdImg, formatBThirdImg;
+
     public void SaveImg(int imgNum)
+    {
+        switch (imgNum)
+        {
+            case 1:
+                currentWidthFirstImg = _oilpaintengine.Config.CanvasConfig.Width;
+                currentHeightFirstImg = _oilpaintengine.Config.CanvasConfig.Height;
+                formatAFirstImg = _oilpaintengine.Config.CanvasConfig.FormatA;
+                formatBFirstImg = _oilpaintengine.Config.CanvasConfig.FormatB;
+                break;
+            case 2:
+                currentWidthSecondImg = _oilpaintengine.Config.CanvasConfig.Width;
+                currentHeightSecondImg = _oilpaintengine.Config.CanvasConfig.Height;
+                formatASecondImg = _oilpaintengine.Config.CanvasConfig.FormatA;
+                formatBSecondImg = _oilpaintengine.Config.CanvasConfig.FormatB;
+                break;
+            case 3:
+                currentWidthThirdImg = _oilpaintengine.Config.CanvasConfig.Width;
+                currentHeightThirdImg = _oilpaintengine.Config.CanvasConfig.Height;
+                formatAThirdImg = _oilpaintengine.Config.CanvasConfig.FormatA;
+                formatBThirdImg = _oilpaintengine.Config.CanvasConfig.FormatB;
+                break;
+            default:
+                Debug.Log("No Image");
+                break;
+        }
+        StartCoroutine(SaveImgRoutine(imgNum));
+        
+    }
+
+
+    private string fileName = "Test.png";
+    private IEnumerator SaveImgRoutine(int imgNum)
     {
         string textObject = "Text" + imgNum;
         Debug.Log("Save - Button Pressed");
@@ -139,8 +168,7 @@ public class ButtonInteraction : MonoBehaviour
         string message = "Saved";
         GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
         
-        
-        //HACK: right now the first load has to be triggered so the SaveAndLoad functions work correctly
+        //HACK: right now the first saved image has to be loaded instantly so the SaveAndLoad functions work correctly --> short pause but saves and loads work without a problem
         _saveCount++;
 
         if (_saveCount == 1)
@@ -149,11 +177,178 @@ public class ButtonInteraction : MonoBehaviour
             _oilpaintengine.LoadImg(imgNum);
         }
 
+        //_ui.SetActive(false);
+        //_uiCover.SetActive(false);
+        
+        yield return new WaitForEndOfFrame();
+
+        string path = $"Assets/SavedArtworks/{fileName}";
+        _canvasObj = GameObject.Find("Canvas");
+        
+        int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * _oilpaintengine.Config.TextureResolution;
+        int rectHeight= (int)_oilpaintengine.Config.CanvasConfig.Height * _oilpaintengine.Config.TextureResolution;
+
+        RenderTexture rt = new(rectWidth, rectHeight, GraphicsFormat.R8G8B8A8_SRGB, GraphicsFormat.None);
+        rt.Create();
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = rt;
+        
+        Debug.Log("Width x Height : " + rt.width + " x " + rt.height);
+        
+        screenshotCamera.targetTexture = rt;
+        screenshotCamera.backgroundColor = UnityEngine.Color.clear;
+        
+        Debug.Log("Screenshot Camera Rect: " + screenshotCamera.rect);
+        screenshotCamera.Render();
+        Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
+        
+        image.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        image.Apply();
+
+        byte[] bytes = image.EncodeToPNG();
+        File.WriteAllBytes(path, bytes);
+        Debug.Log("Screenshot saved");
+        
+        RenderTexture.active = currentRT;
+        Destroy(image);
+       
+        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate); 
+        
+        yield return new WaitForEndOfFrame();
+
+        //_ui.SetActive(true);
+        //_uiCover.SetActive(true);
+    }
+    
+    public void ApplySize()
+    {
+        GameObject.Find("Size").SetActive(false);
+        _settingsAfterSize.SetActive(true);
+    }
+  
+    const int BaseFormatA = 3;
+    const int BaseFormatB = 2;
+    int width;
+    int height;
+    public void ChangeWidthOnController(int widthMult)
+    {
+        width = BaseFormatA * widthMult;
+     
+        int result = GetRatio(width, height);
+        int newformatA = width / result;
+        int newformatB = height / result;
+
+        _oilpaintengine.UpdateWidth(width);
+        _oilpaintengine.UpdateCanvasFormatA(newformatA);
+        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+    }
+ 
+    public void ChangeHeightOnController(int heightMult)
+    {
+        height = BaseFormatB * heightMult;
+     
+        int result = GetRatio(width, height);
+        int newformatA = width / result;
+        int newformatB = height / result;
+
+        _oilpaintengine.UpdateHeight(height);
+        _oilpaintengine.UpdateCanvasFormatA(newformatA);
+        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+    }
+    
+    public void ChangeWidthOnWall(string direction)
+    {
+        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
+        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
+
+        if (direction == "plus")
+        {
+            width += BaseFormatA;
+        }
+        else
+        {
+            width -= BaseFormatA;
+        }
+
+        int result = GetRatio(width, height);
+        int newformatA = width / result;
+        int newformatB = height / result;
+
+        _oilpaintengine.UpdateWidth(width);
+        _oilpaintengine.UpdateCanvasFormatA(newformatA);
+        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+    }
+
+    public void ChangeHeightOnWall(string direction)
+    {
+        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
+        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
+        float orthographicSize = screenshotCamera.orthographicSize;
+    
+        if (direction == "plus")
+        {
+            height += BaseFormatB;
+            orthographicSize += 1;
+        }
+        else
+        {
+            height -= BaseFormatB;
+            orthographicSize -= 1;
+        }
+
+        int result = GetRatio(width, height);
+        int newformatA = width / result;
+        int newformatB = height / result;
+
+        screenshotCamera.orthographicSize = orthographicSize;
+        _oilpaintengine.UpdateHeight(height);
+        _oilpaintengine.UpdateCanvasFormatA(newformatA);
+        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+    }
+
+    private static int GetRatio(int width, int height)
+    {
+        while (width != 0 && height != 0)
+        {
+            if (width > height)
+                width %= height;
+            else
+                height %= width;
+        }
+
+        return width | height;
     }
     
     public void LoadImg(int imgNum)
     {
         Debug.Log("Load - Button Pressed");
+ 
+        switch (imgNum)
+        {
+            case 1:
+                _oilpaintengine.Config.CanvasConfig.Width = currentWidthFirstImg;
+                _oilpaintengine.Config.CanvasConfig.Height = currentHeightFirstImg;
+                _oilpaintengine.Config.CanvasConfig.FormatA = formatAFirstImg;
+                _oilpaintengine.Config.CanvasConfig.FormatB = formatBFirstImg;
+                break;
+            case 2:
+                _oilpaintengine.Config.CanvasConfig.Width = currentWidthSecondImg;
+                _oilpaintengine.Config.CanvasConfig.Height = currentHeightSecondImg;
+                _oilpaintengine.Config.CanvasConfig.FormatA = formatASecondImg;
+                _oilpaintengine.Config.CanvasConfig.FormatB = formatBSecondImg;
+                break;
+            case 3:
+                _oilpaintengine.Config.CanvasConfig.Width = currentWidthThirdImg;
+                _oilpaintengine.Config.CanvasConfig.Height = currentHeightThirdImg;
+                _oilpaintengine.Config.CanvasConfig.FormatA = formatAThirdImg;
+                _oilpaintengine.Config.CanvasConfig.FormatB = formatBThirdImg;
+            
+                break;
+            default:
+                Debug.Log("No Image");
+                break;
+        }
+    
         _oilpaintengine.ClearCanvas();
         _oilpaintengine.LoadImg(imgNum);
     }
