@@ -8,6 +8,7 @@ public class TrackerStrokeState : StrokeStateSource
     private ButtonInteraction _interaction;
     private OilPaintEngine _oilpaintengine;
     private GameObject _top, _bot;
+    private DistanceToCanvas _distanceToCanvas;
     public TrackerStrokeState()
     {
         _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
@@ -16,30 +17,14 @@ public class TrackerStrokeState : StrokeStateSource
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         _top = GameObject.Find("Top");
         _bot = GameObject.Find("Bottom");
+        _distanceToCanvas =  GameObject.Find("DistanceController").GetComponent<DistanceToCanvas>();
     }
 
     public override void Update()
     {
-        /*float _rakelpositionZ = _boxColliderIndikator.transform.position.z + 1.2f;
         _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        float pressure = _interaction.GetPressure();
-        float _canvaspositionZ = _meshColliderCanvas.transform.position.z;
-        
-        if (_rakelpositionZ > _canvaspositionZ && pressure > 0)
-        {
-            StrokeBegin = _rakelpositionZ > _canvaspositionZ && pressure > 0 && !GraphicsRaycaster.UIBlocking((_top.transform.position + _bot.transform.position)/2);
-            if (StrokeBegin)
-            {
-                InStroke = true;
-            }
-        }
-
-        if (_rakelpositionZ < _canvaspositionZ)
-        {
-            InStroke = false;
-        }*/
-        _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        float rakelpositionZ = _boxColliderIndikator.transform.position.z + 1.25f;
+        float currentOffset = _distanceToCanvas.canvasOffset;
+        float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
         float _canvaspositionZ = _meshColliderCanvas.transform.position.z;
         float pressure = _interaction.GetPressure();
         bool isCurrentlyInStroke = rakelpositionZ > _canvaspositionZ && pressure > 0;

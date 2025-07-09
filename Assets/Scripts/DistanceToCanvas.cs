@@ -10,21 +10,21 @@ public class DistanceToCanvas : MonoBehaviour
     public TextMeshProUGUI text;
     private LineRenderer _line;
     private GameObject _uicover;
+    public float canvasOffset;
     
     private void Start()
     {
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _uicover = GameObject.Find("UICover");
+        _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
     }
     
     private BoxCollider _boxColliderIndikator;
     private MeshCollider _meshColliderCanvas;
     void Update()
     { 
-        _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        
-        float rakel_Z = (_boxColliderIndikator.transform.position.z + 1.25f); //1.38f
+        float rakel_Z = (_boxColliderIndikator.transform.position.z + canvasOffset); //1.38f
         float canvas_Z = _meshColliderCanvas.transform.position.z;
         float distance = canvas_Z - rakel_Z;
        

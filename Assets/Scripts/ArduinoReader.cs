@@ -108,6 +108,7 @@ public class ArduinoReader : MonoBehaviour
             else if (line.Contains("Canvas"))
             {
                 Debug.Log("Cleared Canvas");
+                _interaction.ApplySize();
                 _interaction.ClearCanvas();
             }
             else if (line.Contains("Undo"))
@@ -187,6 +188,32 @@ public class ArduinoReader : MonoBehaviour
                 else
                 {
                     Debug.Log("Volume couldn't parse correctly");
+                }
+            }
+            else if (line.Contains("Width"))
+            {
+                string widthStr = line.Replace("Width", "");
+                int width;
+                if (int.TryParse(widthStr, out width))
+                {
+                    _interaction.ChangeWidthOnController(width);
+                }
+                else
+                {
+                    Debug.Log("Width couldn't parse correctly");
+                }
+            }
+            else if (line.Contains("Height"))
+            {
+                string heightStr = line.Replace("Height", "");
+                int height;
+                if (int.TryParse(heightStr, out height))
+                {
+                    _interaction.ChangeHeightOnController(height);
+                }
+                else
+                {
+                    Debug.Log("Height couldn't parse correctly");
                 }
             }
             else if (line.Contains("Reapply"))

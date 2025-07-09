@@ -34,6 +34,8 @@ public class ButtonInteraction : MonoBehaviour
     private TextMeshProUGUI _clearText;
     private float _currentVolume;
     private GameObject _settingsAfterSize;
+    private GameObject _sizeObj;
+    private Light _light;
     
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume = 0;
@@ -42,6 +44,7 @@ public class ButtonInteraction : MonoBehaviour
     
     private void Start()
     {
+        _sizeObj = GameObject.Find("Size");
         _currentColor = GameObject.Find("Color");
         _pressureText = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
@@ -58,11 +61,13 @@ public class ButtonInteraction : MonoBehaviour
         _saveCount = 0;
         _toggle.isOn = false;
         _settingsAfterSize = GameObject.Find("SettingsAfterSize");
+        _light =  GameObject.Find("Directional Light").GetComponent<Light>();
+        
         GetChildren();
         
-        float current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
+        //float current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
         
-        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
+        //_pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         
         
@@ -80,7 +85,7 @@ public class ButtonInteraction : MonoBehaviour
     private void Update()
     {
         _canvasObj = GameObject.Find("Canvas");
-        current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
+        //current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
         _oilpaintengine.Rakel.Reservoir.PaintGrid.ReadbackContent();
         _currentVolume = _oilpaintengine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
         _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
@@ -93,6 +98,7 @@ public class ButtonInteraction : MonoBehaviour
         _ui.SetActive(false);
         _uiCover.SetActive(false);
         _saveAndLoadButtons.SetActive(false);
+        //_settingsAfterSize.SetActive(false);
     }
 
     public void ClearRakel()
@@ -130,36 +136,10 @@ public class ButtonInteraction : MonoBehaviour
 
     public void SaveImg(int imgNum)
     {
-        switch (imgNum)
-        {
-            case 1:
-                currentWidthFirstImg = _oilpaintengine.Config.CanvasConfig.Width;
-                currentHeightFirstImg = _oilpaintengine.Config.CanvasConfig.Height;
-                formatAFirstImg = _oilpaintengine.Config.CanvasConfig.FormatA;
-                formatBFirstImg = _oilpaintengine.Config.CanvasConfig.FormatB;
-                break;
-            case 2:
-                currentWidthSecondImg = _oilpaintengine.Config.CanvasConfig.Width;
-                currentHeightSecondImg = _oilpaintengine.Config.CanvasConfig.Height;
-                formatASecondImg = _oilpaintengine.Config.CanvasConfig.FormatA;
-                formatBSecondImg = _oilpaintengine.Config.CanvasConfig.FormatB;
-                break;
-            case 3:
-                currentWidthThirdImg = _oilpaintengine.Config.CanvasConfig.Width;
-                currentHeightThirdImg = _oilpaintengine.Config.CanvasConfig.Height;
-                formatAThirdImg = _oilpaintengine.Config.CanvasConfig.FormatA;
-                formatBThirdImg = _oilpaintengine.Config.CanvasConfig.FormatB;
-                break;
-            default:
-                Debug.Log("No Image");
-                break;
-        }
         StartCoroutine(SaveImgRoutine(imgNum));
-        
     }
 
-
-    private string fileName = "Test.png";
+    
     private IEnumerator SaveImgRoutine(int imgNum)
     {
         string textObject = "Text" + imgNum;
@@ -169,20 +149,23 @@ public class ButtonInteraction : MonoBehaviour
         GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
         
         //HACK: right now the first saved image has to be loaded instantly so the SaveAndLoad functions work correctly --> short pause but saves and loads work without a problem
-        _saveCount++;
+        /*_saveCount++;
 
         if (_saveCount == 1)
         {
             _oilpaintengine.ClearCanvas();
             _oilpaintengine.LoadImg(imgNum);
-        }
+        }*/
 
         //_ui.SetActive(false);
         //_uiCover.SetActive(false);
         
         yield return new WaitForEndOfFrame();
-
-        string path = $"Assets/SavedArtworks/{fileName}";
+        string currentTime = System.DateTime.Now.ToString();
+        currentTime = currentTime.Replace(" ", "");
+        currentTime = currentTime.Replace(".", "");
+        currentTime = currentTime.Replace(":", "");
+        string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
         _canvasObj = GameObject.Find("Canvas");
         
         int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * _oilpaintengine.Config.TextureResolution;
@@ -196,10 +179,14 @@ public class ButtonInteraction : MonoBehaviour
         Debug.Log("Width x Height : " + rt.width + " x " + rt.height);
         
         screenshotCamera.targetTexture = rt;
-        screenshotCamera.backgroundColor = UnityEngine.Color.clear;
+        screenshotCamera.backgroundColor = UnityEngine.Color.white;
         
         Debug.Log("Screenshot Camera Rect: " + screenshotCamera.rect);
+        
+        //_light.enabled = false;
         screenshotCamera.Render();
+        //_light.enabled = true;
+        
         Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
         
         image.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
@@ -222,7 +209,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ApplySize()
     {
-        GameObject.Find("Size").SetActive(false);
+        _sizeObj.SetActive(false);
         _settingsAfterSize.SetActive(true);
     }
   
@@ -322,32 +309,6 @@ public class ButtonInteraction : MonoBehaviour
     public void LoadImg(int imgNum)
     {
         Debug.Log("Load - Button Pressed");
- 
-        switch (imgNum)
-        {
-            case 1:
-                _oilpaintengine.Config.CanvasConfig.Width = currentWidthFirstImg;
-                _oilpaintengine.Config.CanvasConfig.Height = currentHeightFirstImg;
-                _oilpaintengine.Config.CanvasConfig.FormatA = formatAFirstImg;
-                _oilpaintengine.Config.CanvasConfig.FormatB = formatBFirstImg;
-                break;
-            case 2:
-                _oilpaintengine.Config.CanvasConfig.Width = currentWidthSecondImg;
-                _oilpaintengine.Config.CanvasConfig.Height = currentHeightSecondImg;
-                _oilpaintengine.Config.CanvasConfig.FormatA = formatASecondImg;
-                _oilpaintengine.Config.CanvasConfig.FormatB = formatBSecondImg;
-                break;
-            case 3:
-                _oilpaintengine.Config.CanvasConfig.Width = currentWidthThirdImg;
-                _oilpaintengine.Config.CanvasConfig.Height = currentHeightThirdImg;
-                _oilpaintengine.Config.CanvasConfig.FormatA = formatAThirdImg;
-                _oilpaintengine.Config.CanvasConfig.FormatB = formatBThirdImg;
-            
-                break;
-            default:
-                Debug.Log("No Image");
-                break;
-        }
     
         _oilpaintengine.ClearCanvas();
         _oilpaintengine.LoadImg(imgNum);
@@ -549,7 +510,7 @@ public class ButtonInteraction : MonoBehaviour
             current_pressure = 1;
         }
         _oilpaintengine.UpdateRakelPressure(current_pressure);
-        GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
+        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
     }
 
    
@@ -566,7 +527,7 @@ public class ButtonInteraction : MonoBehaviour
             current_pressure = 0;
         }
         _oilpaintengine.UpdateRakelPressure(current_pressure);
-        GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString()); 
+        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString()); 
     }
 }
 

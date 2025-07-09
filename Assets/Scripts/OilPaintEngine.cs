@@ -16,7 +16,7 @@ public class OilPaintEngine : MonoBehaviour
 
     private bool UsePen;
     private bool PenConfigLoaded;
-
+    
     private bool InputLocked = false;
 
     private  LineRenderer _line;
@@ -463,7 +463,6 @@ public class OilPaintEngine : MonoBehaviour
     public void UpdateCanvasFormatA(int formatA)
     {
         Config.CanvasConfig.FormatA = formatA;
-        CreateCanvas();
     }
 
     public void UpdateCanvasFormatB(int formatB)

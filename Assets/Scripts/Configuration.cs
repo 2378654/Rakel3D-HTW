@@ -83,8 +83,8 @@ public class InputConfiguration
 
 public class CanvasConfiguration
 {
-    private const float MAX_WIDTH = 30; //Def: 15
-    private const float MAX_HEIGHT = 20; // Def: 10
+    private float MAX_WIDTH = 30; //Def: 15  Prod: 30
+    private float MAX_HEIGHT = 20; // Def: 10 Prod: 20
 
     public int FormatA;
     public int FormatB;
@@ -107,7 +107,7 @@ public class CanvasConfiguration
         }
         set
         {
-            Width = value;
+            MAX_WIDTH = value;
         }
     }
 
@@ -129,7 +129,7 @@ public class CanvasConfiguration
         }
         set
         {
-            Height = value;
+            MAX_HEIGHT = value;
         }
     }
 

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 public class TrackerRakelPositionY : FloatValueSource
 {
-    private Vector3 _top, _bot;
+    private Vector3 _top = GameObject.Find("Top").transform.position;
+    private Vector3 _bot = GameObject.Find("Bottom").transform.position;
     private float _rakelSideOffset = -0.05f;
+    private RakelLineRenderer _lineRenderer = GameObject.Find("LineRenderer").GetComponent<RakelLineRenderer>();
     public override void Update()
     {
         _top = GameObject.Find("Top").transform.position;
@@ -12,6 +14,6 @@ public class TrackerRakelPositionY : FloatValueSource
         Vector3 center = (_top + _bot) / 2f;
 
         center += rakelRight * _rakelSideOffset;
-        Value = (center.y - 1.58f) * 10.7f;
+        Value = (center.y + _lineRenderer.offsetY) * _lineRenderer.multY;
     }
 }
