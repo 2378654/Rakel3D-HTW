@@ -1,42 +1,51 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class TrackerStrokeState : StrokeStateSource
 {
-    private BoxCollider _boxColliderIndikator;
+    private BoxCollider _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
     private MeshCollider _meshColliderCanvas;
     private GraphicsRaycaster GraphicsRaycaster;
-    private ButtonInteraction _interaction;
-    private OilPaintEngine _oilpaintengine;
-    private GameObject _top, _bot;
+    private ButtonInteraction _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
     private DistanceToCanvas _distanceToCanvas;
+    private GameObject _renderedRakel;
+    private TextMeshProUGUI _text;
+    private OilPaintEngine _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
     public TrackerStrokeState()
     {
-        _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         GraphicsRaycaster = GameObject.Find("UI").GetComponent<GraphicsRaycaster>(); ;
-        _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
-        _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
-        _top = GameObject.Find("Top");
-        _bot = GameObject.Find("Bottom");
+        _renderedRakel = GameObject.Find("RenderedRakel");
         _distanceToCanvas =  GameObject.Find("DistanceController").GetComponent<DistanceToCanvas>();
+        _text = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
     }
-
+        
+    private bool _wasPreviouslyInStroke;
     public override void Update()
     {
-        _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        float currentOffset = _distanceToCanvas.canvasOffset;
+        float canvaspositionZ = GameObject.Find("Canvas").GetComponent<MeshCollider>().transform.position.z;
+		float currentOffset = _distanceToCanvas.canvasOffset;
         float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
-        float _canvaspositionZ = _meshColliderCanvas.transform.position.z;
-        float pressure = _interaction.GetPressure();
-        bool isCurrentlyInStroke = rakelpositionZ > _canvaspositionZ && pressure > 0;
+		float pressure = _interaction.GetPressure();
+        bool isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
+        bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
+        bool isCurrentlyInStroke = isTouchingCanvas && !isBlockedByUI;
         
-        StrokeBegin = !InStroke && isCurrentlyInStroke;
-
-        if (StrokeBegin)
+		if (rakelpositionZ > canvaspositionZ && pressure > 0)
         {
-            _oilpaintengine.BackupStroke();
+            StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
+            if (StrokeBegin)
+            {
+                InStroke = true;
+            }
+        }
+
+        if (rakelpositionZ < canvaspositionZ || pressure < 0)
+        {
+            InStroke = false;
         }
         
-        InStroke = isCurrentlyInStroke;
+        //InStroke = isCurrentlyInStroke;
+        _wasPreviouslyInStroke = isCurrentlyInStroke;
 
     }
 }

@@ -15,7 +15,6 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject _saveAndLoadButtons;
     private GameObject _ui;
     private GameObject _scrollButtons;
-    private Slider _rakelLength,_paintVolume;
     private GameObject _uiCover;
     private GameObject _canvasObj;
     private UnityEngine.UI.Toggle _toggle;
@@ -24,19 +23,18 @@ public class ButtonInteraction : MonoBehaviour
     private LineRenderer _line;
     private Color paint_color;
     private Color_ current_color;
-    private bool _delete;
     private float current_pressure, PRESSURE;
     private int tab, uiState;
     private TextMeshProUGUI _pressureText;
-    private int _saveCount;
     private GameObject _currentColor;
     private GameObject _clearTextObj;
-    private TextMeshProUGUI _clearText;
+    private TextMeshProUGUI _clearText, _clearTextOnWall;
     private float _currentVolume;
     private GameObject _settingsAfterSize;
     private GameObject _sizeObj;
     private Light _light;
-    
+
+    private bool _delete;
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume = 0;
     private float _rakellength, _oldRakelLength = 0;
@@ -46,37 +44,28 @@ public class ButtonInteraction : MonoBehaviour
     {
         _sizeObj = GameObject.Find("Size");
         _currentColor = GameObject.Find("Color");
-        _pressureText = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
+        _pressureText = GameObject.Find("PressureTextOnWall").GetComponent<TextMeshProUGUI>();
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         _ui = GameObject.Find("UIForVR");
         _uiCover = GameObject.Find("UICover");
         _colorButtons = GameObject.Find("ColorButtons");
         _saveAndLoadButtons = GameObject.Find("SaveAndLoad");
         _scrollButtons = GameObject.Find("ScrollButtons");
-        _rakelLength = GameObject.Find("RakelLength").GetComponent<Slider>();
-        _paintVolume = GameObject.Find("RakelVolume").GetComponent<Slider>();
         _parent = GameObject.Find("ColorButtons");
-        _delete = false;
         _toggle = GameObject.Find("Checkbox").GetComponent<UnityEngine.UI.Toggle>();
-        _saveCount = 0;
         _toggle.isOn = false;
         _settingsAfterSize = GameObject.Find("SettingsAfterSize");
         _light =  GameObject.Find("Directional Light").GetComponent<Light>();
-        
-        GetChildren();
-        
-        //float current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
-        
-        //_pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
-        
-        
         _text1 = GameObject.Find("Text1").GetComponent<TextMeshProUGUI>();
         _text2 = GameObject.Find("Text2").GetComponent<TextMeshProUGUI>();
         _text3 = GameObject.Find("Text3").GetComponent<TextMeshProUGUI>();
         _clearTextObj = GameObject.Find("ClearText");
         _clearText = _clearTextObj.GetComponent<TextMeshProUGUI>();
-
+        _clearTextOnWall = GameObject.Find("ClearTextOnWall").GetComponent<TextMeshProUGUI>();
+        
+        GetChildren();
+        
         if (_text1.text == "New Text") { _text1.text = "Empty"; }
         if (_text2.text == "New Text") { _text2.text = "Empty"; }
         if (_text3.text == "New Text") { _text3.text = "Empty"; }
@@ -84,7 +73,6 @@ public class ButtonInteraction : MonoBehaviour
     }
     private void Update()
     {
-        _canvasObj = GameObject.Find("Canvas");
         //current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
         _oilpaintengine.Rakel.Reservoir.PaintGrid.ReadbackContent();
         _currentVolume = _oilpaintengine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
@@ -97,20 +85,33 @@ public class ButtonInteraction : MonoBehaviour
     {
         _ui.SetActive(false);
         _uiCover.SetActive(false);
-        _saveAndLoadButtons.SetActive(false);
-        //_settingsAfterSize.SetActive(false);
+        _saveAndLoadButtons.SetActive(false); 
+        _settingsAfterSize.SetActive(false);
     }
 
+    public void ClearRakelOnWall()
+    {
+        StartCoroutine(ClearingOnWall());
+    }
+
+    //Coroutine to show Rakel was cleared as an Indicator
+    private IEnumerator ClearingOnWall()
+    {
+        _oilpaintengine.ClearRakel();
+        _clearTextOnWall.SetText("Rakel Cleared");
+        _line.startColor = UnityEngine.Color.white;
+        _line.endColor = UnityEngine.Color.white;
+        yield return new WaitForSeconds(1);
+        _clearTextOnWall.SetText("");
+    }
+    
+    
     public void ClearRakel()
     {
         StartCoroutine(Clearing());
     }
 
-    public void ClearCanvas()
-    {
-        _oilpaintengine.ClearCanvas();
-    }
-    
+    //Coroutine to show Rakel was cleared as an Indicator
     private IEnumerator Clearing()
     {
         _oilpaintengine.ClearRakel();
@@ -120,6 +121,13 @@ public class ButtonInteraction : MonoBehaviour
         yield return new WaitForSeconds(1);
         _clearText.SetText("");
     }
+    
+    public void ClearCanvas()
+    {
+        _oilpaintengine.ClearCanvas();
+    }
+    
+    
     
     public void UndoLastStroke()
     {
@@ -166,7 +174,7 @@ public class ButtonInteraction : MonoBehaviour
         currentTime = currentTime.Replace(".", "");
         currentTime = currentTime.Replace(":", "");
         string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
-        _canvasObj = GameObject.Find("Canvas");
+        //_canvasObj = GameObject.Find("Canvas");
         
         int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * _oilpaintengine.Config.TextureResolution;
         int rectHeight= (int)_oilpaintengine.Config.CanvasConfig.Height * _oilpaintengine.Config.TextureResolution;
@@ -176,17 +184,11 @@ public class ButtonInteraction : MonoBehaviour
         RenderTexture currentRT = RenderTexture.active;
         RenderTexture.active = rt;
         
-        Debug.Log("Width x Height : " + rt.width + " x " + rt.height);
-        
         screenshotCamera.targetTexture = rt;
         screenshotCamera.backgroundColor = UnityEngine.Color.white;
         
-        Debug.Log("Screenshot Camera Rect: " + screenshotCamera.rect);
-        
-        //_light.enabled = false;
         screenshotCamera.Render();
-        //_light.enabled = true;
-        
+
         Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
         
         image.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
@@ -329,6 +331,15 @@ public class ButtonInteraction : MonoBehaviour
         
     }
 
+    public void ChangeRakelLengthOnWall(float length)
+    {
+        _oilpaintengine.UpdateRakelLength(length);
+    }
+    
+    public void ChangeRakelVolumeOnWall(float volume)
+    {
+        _oilpaintengine.UpdateFillVolume((int)volume);
+    }
 
     public void RakelLength(float length)
     {
@@ -339,6 +350,22 @@ public class ButtonInteraction : MonoBehaviour
     public void DeleteBuffer(bool state)
     {
         _oilpaintengine.UpdateDeletePickedUpFromCSB(state);
+    }
+    
+    public void DeleteBufferOnWall()
+    {
+        if (_delete == false)
+        {
+            _delete = true;
+            _toggle.isOn = true;
+        }
+        else
+        {
+            _delete = false;
+            _toggle.isOn = false;
+        }
+        
+        _oilpaintengine.UpdateDeletePickedUpFromCSB(_delete);
     }
     
 
@@ -434,7 +461,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ShowUI()
     {
-        
+        _canvasObj = GameObject.Find("Canvas");
         if (uiState == 0)
         {
             uiState = 1;
@@ -446,11 +473,13 @@ public class ButtonInteraction : MonoBehaviour
 
         if (uiState == 0)
         {
+            _canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, _canvasObj.transform.position.z-20);
             _uiCover.SetActive(false);
             _ui.SetActive(false);
         }
         else
         {
+            _canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, 20); 
             _uiCover.SetActive(true);
             _ui.SetActive(true);
             
@@ -478,14 +507,12 @@ public class ButtonInteraction : MonoBehaviour
     public void Pressure(float pressure)
     {
         pressure = Mathf.Clamp01(pressure/1500);
-        //_oilpaintengine.Config.InputConfig.RakelPressure.Value = pressure;
-        //_pressureText.SetText(pressure.ToString());
-        PRESSURE = pressure;
+        current_pressure = pressure;
     }
 
     public float GetPressure()
     {
-        return PRESSURE;
+        return current_pressure;
     }
     
     public float GetLength()
@@ -503,7 +530,7 @@ public class ButtonInteraction : MonoBehaviour
         if (current_pressure < 1)
         {
             current_pressure += 0.1f;
-            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f;
+            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
         }
         else
         {
@@ -520,7 +547,7 @@ public class ButtonInteraction : MonoBehaviour
         if (current_pressure > 0)
         {
             current_pressure -= 0.1f;
-            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f;
+            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
         }
         else
         {

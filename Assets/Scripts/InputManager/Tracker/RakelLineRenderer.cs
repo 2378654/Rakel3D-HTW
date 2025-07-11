@@ -71,14 +71,11 @@ public class RakelLineRenderer : MonoBehaviour
         Vector3 center = (topPos + botPos) / 2f;
 
         center += rakelRight * rakelSideOffset;
-        
+   
         Vector3 pos = new Vector3((center.x + offset.x) * multX, (center.y + offset.y) * multY, center.z + offset.z);
         
         Vector3 startPoint = pos + (rakelDir * (rakelLength / 2));
         Vector3 endPoint = pos - (rakelDir * (rakelLength / 2));
-        
-        startPoint.z = -0.3f;
-        endPoint.z = -0.3f;
 
         _line.SetPosition(0, startPoint);
         _line.SetPosition(1, endPoint);
@@ -86,11 +83,10 @@ public class RakelLineRenderer : MonoBehaviour
         Quaternion rakelRotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
         _box.transform.rotation = rakelRotation;
         
-        _box.size = new Vector3(rakelWidth, rakelLength, 0.01f);
+        _box.size = new Vector3(rakelWidth, 4, 0.01f); //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
         
         //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;
-
         _line.transform.rotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
     }
 }

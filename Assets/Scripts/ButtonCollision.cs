@@ -63,6 +63,7 @@ public class ButtonCollision : MonoBehaviour
                 _holding = true;
                 _pressureCoroutine = StartCoroutine(KeepChangingPressure("Down"));
             }
+
         }
         else if (other.GetComponent<Slider>())
         {
@@ -124,7 +125,7 @@ public class ButtonCollision : MonoBehaviour
                 const float maxX = -3.61f;
                 const float minX = -7.21f;
                 const float minSlider = 2;
-                const float maxSlider = 20;
+                const float maxSlider = 15;
                 if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
                 {
                     _slider.handleRect.transform.position = new Vector3(_line.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
@@ -132,7 +133,7 @@ public class ButtonCollision : MonoBehaviour
                     float currentX = _slider.handleRect.transform.position.x;
                     float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
                     float sliderValue = Mathf.Lerp(minSlider, maxSlider, normalizedValue);
-                    _interaction.RakelLength(sliderValue);
+                    _interaction.ChangeRakelLengthOnWall(sliderValue);
                 }
             }
             else if (other.CompareTag("Volume"))
@@ -149,7 +150,7 @@ public class ButtonCollision : MonoBehaviour
                     float currentX = _slider.handleRect.transform.position.x;
                     float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
                     float paintvolume = Mathf.Lerp(minSlider, maxSlider, normalizedValue);
-                    _interaction.PaintVolume((int)paintvolume);
+                    _interaction.ChangeRakelVolumeOnWall((int)paintvolume);
                 }
                 
             }
@@ -159,7 +160,6 @@ public class ButtonCollision : MonoBehaviour
         
     }
     
-    //If Rakel is longer on Pressure Button
     private IEnumerator KeepChangingPressure(string direction)
     {
         while (_holding)

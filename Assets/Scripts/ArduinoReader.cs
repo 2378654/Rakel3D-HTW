@@ -43,7 +43,7 @@ public class ArduinoReader : MonoBehaviour
             try
             {
                 line = _serialPort.ReadLine();
-                Debug.Log("CURRENT LINE: " + line);
+                //Debug.Log("CURRENT LINE: " + line);
 
             }
             catch (Exception)
