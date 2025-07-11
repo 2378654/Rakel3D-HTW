@@ -19734,6 +19734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0d203a6ee7cea41865c4e93a547a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WallController: 0
   screenshotCamera: {fileID: 0}
 --- !u!114 &778749313
 MonoBehaviour:
@@ -20395,6 +20396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0d203a6ee7cea41865c4e93a547a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WallController: 0
   screenshotCamera: {fileID: 2092542432}
 --- !u!4 &831324582
 Transform:
@@ -31539,7 +31541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1252684432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42025,7 +42027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 6
+  index: 5
   origin: {fileID: 0}
 --- !u!65 &1718673390
 BoxCollider:
@@ -49629,7 +49631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
+  index: 6
   origin: {fileID: 0}
 --- !u!65 &2134366759
 BoxCollider:

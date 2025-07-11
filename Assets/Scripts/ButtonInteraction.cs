@@ -8,7 +8,8 @@ using Slider = UnityEngine.UI.Slider;
 using UnityEngine.Experimental.Rendering;
 
 public class ButtonInteraction : MonoBehaviour
-{ 
+{
+    public bool WallController = false;
     public Camera screenshotCamera;
     private OilPaintEngine _oilpaintengine;
     private GameObject _colorButtons;
@@ -85,8 +86,8 @@ public class ButtonInteraction : MonoBehaviour
     {
         _ui.SetActive(false);
         _uiCover.SetActive(false);
-        _saveAndLoadButtons.SetActive(false); 
-        _settingsAfterSize.SetActive(false);
+        _saveAndLoadButtons.SetActive(false);
+        //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
     }
 
     public void ClearRakelOnWall()

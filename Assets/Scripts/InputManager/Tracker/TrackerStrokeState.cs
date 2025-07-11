@@ -26,26 +26,56 @@ public class TrackerStrokeState : StrokeStateSource
 		float currentOffset = _distanceToCanvas.canvasOffset;
         float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
 		float pressure = _interaction.GetPressure();
-        bool isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
+        
+        
+        bool isTouchingCanvas;
+        if (_interaction.WallController)
+        {
+            isTouchingCanvas = rakelpositionZ > canvaspositionZ;
+        }
+        else
+        {
+            isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
+        }
+        
         bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
         bool isCurrentlyInStroke = isTouchingCanvas && !isBlockedByUI;
-        
-		if (rakelpositionZ > canvaspositionZ && pressure > 0)
+
+        if (_interaction.WallController)
         {
-            StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
-            if (StrokeBegin)
+            if (rakelpositionZ > canvaspositionZ)
             {
-                InStroke = true;
+                StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
+                if (StrokeBegin)
+                {
+                    InStroke = true;
+                }
             }
-        }
 
-        if (rakelpositionZ < canvaspositionZ || pressure < 0)
+            if (rakelpositionZ < canvaspositionZ)
+            {
+                InStroke = false;
+            }
+            //InStroke = isCurrentlyInStroke;
+            _wasPreviouslyInStroke = isCurrentlyInStroke;
+        }
+        else
         {
-            InStroke = false;
-        }
-        
-        //InStroke = isCurrentlyInStroke;
-        _wasPreviouslyInStroke = isCurrentlyInStroke;
+            if (rakelpositionZ > canvaspositionZ && pressure > 0)
+            {
+                StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
+                if (StrokeBegin)
+                {
+                    InStroke = true;
+                }
+            }
 
+            if (rakelpositionZ < canvaspositionZ || pressure < 0)
+            {
+                InStroke = false;
+            }
+            //InStroke = isCurrentlyInStroke;
+            _wasPreviouslyInStroke = isCurrentlyInStroke;
+        }
     }
 }
