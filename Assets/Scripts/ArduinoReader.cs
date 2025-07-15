@@ -30,10 +30,14 @@ public class ArduinoReader : MonoBehaviour
         
         _serialPort = new SerialPort(portName, 115200);
         _serialPort.ReadTimeout = 100;
+        _serialPort.WriteTimeout = 100;
         _serialPort.Open();
 
         serialThread = new Thread(ReadSerial);
         serialThread.Start();
+        
+        //Sending a signal to reset the sizeDone Variable, so the user is able to adjust the canvas size on every programm start
+        _serialPort.WriteLine("Reset");
     }
 
     void ReadSerial()

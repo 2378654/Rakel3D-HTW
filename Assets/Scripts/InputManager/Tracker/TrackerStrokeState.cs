@@ -1,28 +1,23 @@
-﻿using TMPro;
+﻿using PlasticPipe.PlasticProtocol.Messages;
+using TMPro;
 using UnityEngine;
 
 public class TrackerStrokeState : StrokeStateSource
 {
+    
     private BoxCollider _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
     private MeshCollider _meshColliderCanvas;
     private GraphicsRaycaster GraphicsRaycaster;
     private ButtonInteraction _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
-    private DistanceToCanvas _distanceToCanvas;
-    private GameObject _renderedRakel;
+    private DistanceToCanvas _distanceToCanvas = GameObject.Find("DistanceController").GetComponent<DistanceToCanvas>();
     private TextMeshProUGUI _text;
     private OilPaintEngine _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
-    public TrackerStrokeState()
-    {
-        GraphicsRaycaster = GameObject.Find("UI").GetComponent<GraphicsRaycaster>(); ;
-        _renderedRakel = GameObject.Find("RenderedRakel");
-        _distanceToCanvas =  GameObject.Find("DistanceController").GetComponent<DistanceToCanvas>();
-        _text = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
-    }
+    float canvaspositionZ = GameObject.Find("Canvas").GetComponent<MeshCollider>().transform.position.z;
         
     private bool _wasPreviouslyInStroke;
     public override void Update()
     {
-        float canvaspositionZ = GameObject.Find("Canvas").GetComponent<MeshCollider>().transform.position.z;
+        
 		float currentOffset = _distanceToCanvas.canvasOffset;
         float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
 		float pressure = _interaction.GetPressure();
@@ -38,8 +33,8 @@ public class TrackerStrokeState : StrokeStateSource
             isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
         }
         
-        bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
-        bool isCurrentlyInStroke = isTouchingCanvas && !isBlockedByUI;
+        //bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
+        bool isCurrentlyInStroke = isTouchingCanvas;// && !isBlockedByUI;
 
         if (_interaction.WallController)
         {
@@ -48,7 +43,9 @@ public class TrackerStrokeState : StrokeStateSource
                 StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
                 if (StrokeBegin)
                 {
+                    _oilPaintEngine.BackupStroke();
                     InStroke = true;
+                    
                 }
             }
 
@@ -66,6 +63,7 @@ public class TrackerStrokeState : StrokeStateSource
                 StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
                 if (StrokeBegin)
                 {
+                    _oilPaintEngine.BackupStroke();
                     InStroke = true;
                 }
             }

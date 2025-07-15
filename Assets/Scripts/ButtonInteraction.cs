@@ -33,7 +33,9 @@ public class ButtonInteraction : MonoBehaviour
     private float _currentVolume;
     private GameObject _settingsAfterSize;
     private GameObject _sizeObj;
-    private Light _light;
+
+    [SerializeField] private GameObject _camera;
+    //private Light _light;
 
     private bool _delete;
     //Fill Rakel
@@ -56,7 +58,7 @@ public class ButtonInteraction : MonoBehaviour
         _toggle = GameObject.Find("Checkbox").GetComponent<UnityEngine.UI.Toggle>();
         _toggle.isOn = false;
         _settingsAfterSize = GameObject.Find("SettingsAfterSize");
-        _light =  GameObject.Find("Directional Light").GetComponent<Light>();
+        //_light =  GameObject.Find("Directional Light").GetComponent<Light>();
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _text1 = GameObject.Find("Text1").GetComponent<TextMeshProUGUI>();
         _text2 = GameObject.Find("Text2").GetComponent<TextMeshProUGUI>();
@@ -75,6 +77,7 @@ public class ButtonInteraction : MonoBehaviour
     private void Update()
     {
         //current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
+        //_canvasObj = GameObject.Find("Canvas");
         _oilpaintengine.Rakel.Reservoir.PaintGrid.ReadbackContent();
         _currentVolume = _oilpaintengine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
         _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
@@ -87,7 +90,7 @@ public class ButtonInteraction : MonoBehaviour
         _ui.SetActive(false);
         _uiCover.SetActive(false);
         _saveAndLoadButtons.SetActive(false);
-        //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
+       //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
     }
 
     public void ClearRakelOnWall()
@@ -147,7 +150,6 @@ public class ButtonInteraction : MonoBehaviour
     {
         StartCoroutine(SaveImgRoutine(imgNum));
     }
-
     
     private IEnumerator SaveImgRoutine(int imgNum)
     {
@@ -175,10 +177,10 @@ public class ButtonInteraction : MonoBehaviour
         currentTime = currentTime.Replace(".", "");
         currentTime = currentTime.Replace(":", "");
         string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
-        //_canvasObj = GameObject.Find("Canvas");
-        
-        int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * _oilpaintengine.Config.TextureResolution;
-        int rectHeight= (int)_oilpaintengine.Config.CanvasConfig.Height * _oilpaintengine.Config.TextureResolution;
+        _canvasObj = GameObject.Find("Canvas");
+
+        int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * 40;//_oilpaintengine.Config.TextureResolution;
+        int rectHeight = (int)_oilpaintengine.Config.CanvasConfig.Height * 40;//_oilpaintengine.Config.TextureResolution;
 
         RenderTexture rt = new(rectWidth, rectHeight, GraphicsFormat.R8G8B8A8_SRGB, GraphicsFormat.None);
         rt.Create();
@@ -188,8 +190,11 @@ public class ButtonInteraction : MonoBehaviour
         screenshotCamera.targetTexture = rt;
         screenshotCamera.backgroundColor = UnityEngine.Color.white;
         
+        //Changing the shader of the plane for the screenshot to avoid reflections of the directional light
+        _canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Texture");
         screenshotCamera.Render();
-
+        _canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
+        
         Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
         
         image.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);

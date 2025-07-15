@@ -8,7 +8,7 @@ public abstract class FloatValueSource
 
 
 public abstract class StrokeStateSource
-{
+{ 
     public abstract void Update();
     public bool StrokeBegin { get; protected set; }
     public bool InStroke { get; protected set; }

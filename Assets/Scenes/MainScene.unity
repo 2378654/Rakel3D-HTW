@@ -12225,7 +12225,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -485.54, y: -242.41}
+  m_AnchoredPosition: {x: -485.2, y: -242.41}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &539646626
@@ -19382,10 +19382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529be5af8638f8b4985ee0dcb1c320d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multX: 8.75
+  multX: 8.9
   multY: 10.2
-  offsetX: 0.15
-  offsetY: -1.3
+  offsetX: -0.1
+  offsetY: -1.52
   offsetZ: -0.1
 --- !u!114 &770273875
 MonoBehaviour:
@@ -19736,6 +19736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WallController: 0
   screenshotCamera: {fileID: 0}
+  _camera: {fileID: 0}
 --- !u!114 &778749313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20396,8 +20397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0d203a6ee7cea41865c4e93a547a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallController: 0
+  WallController: 1
   screenshotCamera: {fileID: 2092542432}
+  _camera: {fileID: 963194225}
 --- !u!4 &831324582
 Transform:
   m_ObjectHideFlags: 0
@@ -23054,7 +23056,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -28819,7 +28821,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -485.0279, y: -237.87}
+  m_AnchoredPosition: {x: -485.3101, y: -237.87}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1157581161
@@ -31541,7 +31543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1252684432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35975,7 +35977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -485.54, y: -243.16}
+  m_AnchoredPosition: {x: -485.2, y: -243.16}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1438829726
@@ -37051,7 +37053,6 @@ GameObject:
   - component: {fileID: 1518416453}
   - component: {fileID: 1518416452}
   - component: {fileID: 1518416451}
-  - component: {fileID: 1518416455}
   m_Layer: 5
   m_Name: WallNormal
   m_TagString: Untagged
@@ -37146,20 +37147,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
---- !u!114 &1518416455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1518416450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 5
-  origin: {fileID: 0}
 --- !u!1 &1522288949
 GameObject:
   m_ObjectHideFlags: 0
@@ -48935,7 +48922,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 1
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: c82ddda539794544989008731fca8f72, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 8d31b446bc7c58d4fb04f10e9a6f4f0d, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1

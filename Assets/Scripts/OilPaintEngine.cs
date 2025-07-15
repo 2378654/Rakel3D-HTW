@@ -178,6 +178,10 @@ public class OilPaintEngine : MonoBehaviour
         renderer.material.SetTexture("_MainTex", Canvas.Texture);
         renderer.material.EnableKeyword("_NORMALMAP");
         renderer.material.SetTexture("_BumpMap", Canvas.NormalMap);
+        
+        //using an unlit texture removes the reflection of the directional light for a screenshot
+        //renderer.material.shader = Shader.Find("Unlit/Texture");
+        
         renderer.material.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
 
         // Trigger lighting update
