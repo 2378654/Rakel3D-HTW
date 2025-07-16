@@ -112,5 +112,6 @@
     + Bugfix Wandsteuerung erste Farbe
     + ColorButtons GameObject dynamisch positionieren
     + Slider bewegung dynamisch machen
+    + 0 oder 1 zu false oder true
 
         
