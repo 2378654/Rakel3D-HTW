@@ -109,5 +109,8 @@
     + sizeDone zu bool ändern
     + für paper leinwand maximale Leinwandgröße messen
     + Darstellung der eingestellten Farbmenge
+    + Bugfix Wandsteuerung erste Farbe
+    + ColorButtons GameObject dynamisch positionieren
+    + Slider bewegung dynamisch machen
 
         
