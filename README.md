@@ -103,5 +103,11 @@
         - Linerenderer Start und End mit den jeweiligen Objekten der Tracker
 
 
-* Ui Anpassen --> Usabality erhöhen
+* 17.07.2025
+    + Undo und Canvas Clear als Button für Wandcontroller
+    + Canvaswidth und height bugfix
+    + sizeDone zu bool ändern
+    + für paper leinwand maximale Leinwandgröße messen
+    + Darstellung der eingestellten Farbmenge
+
         
