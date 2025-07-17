@@ -106,6 +106,7 @@
 * 17.07.2025
     + Undo und Canvas Clear als Button für Wandcontroller - Buttons da aber noch nicht komplett funktionsfähig
     + Canvaswidth und height bugfix
+        - private int _width = 24, _height = 16; in Start()
     + sizeDone zu bool ändern
     + für paper leinwand maximale Leinwandgröße messen - Done
     + Darstellung der eingestellten Farbmenge
