@@ -13,7 +13,7 @@ public class Configuration
 
     public Configuration()
     {
-        TextureResolution = 25;//40;
+        TextureResolution = 40;//40; //20 or 25
         ColorSpace = ColorSpace.RGB;
 
         InputConfig = new InputConfiguration();

@@ -56,15 +56,16 @@ public class CanvasReservoir : Reservoir
     {
         _commandManager.Undo();
     }
-     public Vector3Int saved_size;
     
-    public static List<Paint> ContentDataListFirstImg = new List<Paint>();
-    public static List<Paint> ContentDataListSecondImg = new List<Paint>();
-    public static List<Paint> ContentDataListThirdImg = new List<Paint>();
+    private Vector3Int saved_size;
     
-    public static List<ColumnInfo> InfoDataListFirstImg = new List<ColumnInfo>();
-    public static List<ColumnInfo> InfoDataListSecondImg = new List<ColumnInfo>();
-    public static List<ColumnInfo> InfoDataListThirdImg = new List<ColumnInfo>();
+    private static Paint[] ContentDataListFirstImg;
+    private static Paint[] ContentDataListSecondImg;
+    private static Paint[] ContentDataListThirdImg;
+    
+    private static ColumnInfo[] InfoDataListFirstImg;
+    private static ColumnInfo[] InfoDataListSecondImg;
+    private static ColumnInfo[] InfoDataListThirdImg;
     
     public void SaveImg(int imgNum)
     {
@@ -77,10 +78,10 @@ public class CanvasReservoir : Reservoir
 
                 saved_size = PaintGrid.Size;
                 
-                InfoDataListFirstImg = PaintGrid.InfoData.ToList();
+                InfoDataListFirstImg = PaintGrid.InfoData;
                 Debug.Log("Saving InfoData Done");
   
-                ContentDataListFirstImg = PaintGrid.ContentData.ToList();
+                ContentDataListFirstImg = PaintGrid.ContentData;
                 Debug.Log("Saving ContentData Done");
                 break;
             case 2:
@@ -90,10 +91,10 @@ public class CanvasReservoir : Reservoir
 
                 saved_size = PaintGrid.Size;
 
-                InfoDataListSecondImg = PaintGrid.InfoData.ToList();
+                InfoDataListSecondImg = PaintGrid.InfoData;
                 Debug.Log("Saving InfoData Done");
   
-                ContentDataListSecondImg = PaintGrid.ContentData.ToList();
+                ContentDataListSecondImg = PaintGrid.ContentData;
                 Debug.Log("Saving ContentData Done");
                 break;
             case 3:
@@ -103,10 +104,10 @@ public class CanvasReservoir : Reservoir
 
                 saved_size = PaintGrid.Size;
 
-                InfoDataListThirdImg = PaintGrid.InfoData.ToList();
+                InfoDataListThirdImg = PaintGrid.InfoData;
                 Debug.Log("Saving InfoData Done");
   
-                ContentDataListThirdImg = PaintGrid.ContentData.ToList();
+                ContentDataListThirdImg = PaintGrid.ContentData;
                 Debug.Log("Saving ContentData Done");
                 break;
         }

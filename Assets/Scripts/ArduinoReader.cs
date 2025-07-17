@@ -20,10 +20,8 @@ public class ArduinoReader : MonoBehaviour
     private int _lastSave, _lastLoad;
     void Start()
     {
-        
         _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
-        //_canvasReservoir = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>().GetComponent<CanvasReservoir>();
         
         const string portName = "COM4";
         numberOfColors = 23;
@@ -31,13 +29,20 @@ public class ArduinoReader : MonoBehaviour
         _serialPort = new SerialPort(portName, 115200);
         _serialPort.ReadTimeout = 100;
         _serialPort.WriteTimeout = 100;
-        _serialPort.Open();
-
-        serialThread = new Thread(ReadSerial);
-        serialThread.Start();
+        try
+        {
+            _serialPort.Open();
+            serialThread = new Thread(ReadSerial);
+            serialThread.Start();
         
-        //Sending a signal to reset the sizeDone Variable, so the user is able to adjust the canvas size on every programm start
-        _serialPort.WriteLine("Reset");
+            //Sending a signal to reset the sizeDone Variable, so the user is able to adjust the canvas size on every programm start
+            _serialPort.WriteLine("Reset");
+        }
+        catch (Exception )
+        {
+            Debug.Log("Serial Error");
+        }
+        
     }
 
     void ReadSerial()

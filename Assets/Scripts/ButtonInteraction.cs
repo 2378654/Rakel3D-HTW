@@ -9,9 +9,9 @@ using UnityEngine.Experimental.Rendering;
 
 public class ButtonInteraction : MonoBehaviour
 {
-    public bool WallController = false;
+    public bool wallController;
     public Camera screenshotCamera;
-    private OilPaintEngine _oilpaintengine;
+    private OilPaintEngine _oilPaintEngine;
     private GameObject _colorButtons;
     private GameObject _saveAndLoadButtons;
     private GameObject _ui;
@@ -19,69 +19,73 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject _uiCover;
     private GameObject _canvasObj;
     private UnityEngine.UI.Toggle _toggle;
-    private TextMeshProUGUI _text1, _text2, _text3;
-    private GameObject _parent;
+    private TextMeshProUGUI _savedImageText1, _savedImageText2, _savedImageText3;
     private LineRenderer _line;
-    private Color paint_color;
-    private Color_ current_color;
-    private float current_pressure, PRESSURE;
-    private int tab, uiState;
+    private Color _paintColor;
+    private Color_ _currentColor;
+    private float _currentPressure;
+    private bool _tab, _uiState;
     private TextMeshProUGUI _pressureText;
-    private GameObject _currentColor;
+    private GameObject _currentColorObj;
     private GameObject _clearTextObj;
     private TextMeshProUGUI _clearText, _clearTextOnWall;
     private float _currentVolume;
     private GameObject _settingsAfterSize;
     private GameObject _sizeObj;
-
-    [SerializeField] private GameObject _camera;
-    //private Light _light;
-
-    private bool _delete;
+    private bool _deleteFromBuffer;
+    public bool uiActive;
+    
     //Fill Rakel
-    private int _paintvolume, _oldPaintVolume = 0;
-    private float _rakellength, _oldRakelLength = 0;
-    private int _color, _oldColor = 0;
+    private int _paintvolume, _oldPaintVolume;
+    private float _rakellength, _oldRakelLength;
+    private int _color, _oldColor;
+    
+    
+    //ColorObject Position
+    private float _posXForColorObject, _posYForColorObject;
     
     private void Start()
     {
         _sizeObj = GameObject.Find("Size");
-        _currentColor = GameObject.Find("Color");
+        _currentColorObj = GameObject.Find("Color");
         _pressureText = GameObject.Find("PressureTextOnWall").GetComponent<TextMeshProUGUI>();
-        _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
+        _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         _ui = GameObject.Find("UIForVR");
         _uiCover = GameObject.Find("UICover");
         _colorButtons = GameObject.Find("ColorButtons");
         _saveAndLoadButtons = GameObject.Find("SaveAndLoad");
         _scrollButtons = GameObject.Find("ScrollButtons");
-        _parent = GameObject.Find("ColorButtons");
         _toggle = GameObject.Find("Checkbox").GetComponent<UnityEngine.UI.Toggle>();
         _toggle.isOn = false;
         _settingsAfterSize = GameObject.Find("SettingsAfterSize");
-        //_light =  GameObject.Find("Directional Light").GetComponent<Light>();
+        
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
-        _text1 = GameObject.Find("Text1").GetComponent<TextMeshProUGUI>();
-        _text2 = GameObject.Find("Text2").GetComponent<TextMeshProUGUI>();
-        _text3 = GameObject.Find("Text3").GetComponent<TextMeshProUGUI>();
+        
+        //UI texts for saved Images
+        _savedImageText1 = GameObject.Find("Text1").GetComponent<TextMeshProUGUI>();
+        _savedImageText2 = GameObject.Find("Text2").GetComponent<TextMeshProUGUI>();
+        _savedImageText3 = GameObject.Find("Text3").GetComponent<TextMeshProUGUI>();
+        
         _clearTextObj = GameObject.Find("ClearText");
         _clearText = _clearTextObj.GetComponent<TextMeshProUGUI>();
         _clearTextOnWall = GameObject.Find("ClearTextOnWall").GetComponent<TextMeshProUGUI>();
         
         GetChildren();
         
-        if (_text1.text == "New Text") { _text1.text = "Empty"; }
-        if (_text2.text == "New Text") { _text2.text = "Empty"; }
-        if (_text3.text == "New Text") { _text3.text = "Empty"; }
+        if (_savedImageText1.text == "New Text") { _savedImageText1.text = "Empty"; }
+        if (_savedImageText2.text == "New Text") { _savedImageText2.text = "Empty"; }
+        if (_savedImageText3.text == "New Text") { _savedImageText3.text = "Empty"; }
         Invoke(nameof(DisableAtStart), 0.1f);
+        
+        _posXForColorObject = _colorButtons.transform.localPosition.x;
+        _posYForColorObject = _colorButtons.transform.localPosition.y;
     }
     private void Update()
     {
-        //current_pressure = _oilpaintengine.Config.InputConfig.RakelPressure.Value;
-        //_canvasObj = GameObject.Find("Canvas");
-        _oilpaintengine.Rakel.Reservoir.PaintGrid.ReadbackContent();
-        _currentVolume = _oilpaintengine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
-        _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
-        _line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, paint_color, _currentVolume);
+        _oilPaintEngine.Rakel.Reservoir.PaintGrid.ReadbackContent();
+        _currentVolume = _oilPaintEngine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
+        _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
+        _line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
     }
     
     
@@ -95,13 +99,13 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ClearRakelOnWall()
     {
+        _oilPaintEngine.ClearRakel();
         StartCoroutine(ClearingOnWall());
     }
 
     //Coroutine to show Rakel was cleared as an Indicator
     private IEnumerator ClearingOnWall()
     {
-        _oilpaintengine.ClearRakel();
         _clearTextOnWall.SetText("Rakel Cleared");
         _line.startColor = UnityEngine.Color.white;
         _line.endColor = UnityEngine.Color.white;
@@ -112,13 +116,13 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ClearRakel()
     {
+        _oilPaintEngine.ClearRakel();
         StartCoroutine(Clearing());
     }
 
     //Coroutine to show Rakel was cleared as an Indicator
     private IEnumerator Clearing()
     {
-        _oilpaintengine.ClearRakel();
         _clearText.SetText("Rakel Cleared");
         _line.startColor = UnityEngine.Color.white;
         _line.endColor = UnityEngine.Color.white;
@@ -126,25 +130,30 @@ public class ButtonInteraction : MonoBehaviour
         _clearText.SetText("");
     }
     
-    public void ClearCanvas()
-    {
-        _oilpaintengine.ClearCanvas();
+    private IEnumerator ClearingCanvasOnWall()
+    {   
+        _clearTextOnWall.SetText("Canvas Cleared");
+        yield return new WaitForSeconds(1);
+        _clearTextOnWall.SetText("");
     }
     
+    public void ClearCanvas()
+    {
+        Debug.Log("Cleared Canvas");
+        _oilPaintEngine.ClearCanvas();
+    }
     
+    public void ClearCanvasOnWall()
+    {
+        _oilPaintEngine.ClearCanvas();
+        StartCoroutine(ClearingCanvasOnWall());
+    }
     
     public void UndoLastStroke()
     {
         Debug.Log("UNDO TRIGGERED");
-        _oilpaintengine.UndoLastStroke();
+        _oilPaintEngine.UndoLastStroke();
     }
-    
-    private float currentWidthFirstImg, currentHeightFirstImg;
-    private float currentWidthSecondImg, currentHeightSecondImg;
-    private float currentWidthThirdImg, currentHeightThirdImg;
-    private int formatAFirstImg, formatBFirstImg;
-    private int formatASecondImg, formatBSecondImg;
-    private int formatAThirdImg, formatBThirdImg;
 
     public void SaveImg(int imgNum)
     {
@@ -155,21 +164,9 @@ public class ButtonInteraction : MonoBehaviour
     {
         string textObject = "Text" + imgNum;
         Debug.Log("Save - Button Pressed");
-        _oilpaintengine.SaveImg(imgNum);
+        _oilPaintEngine.SaveImg(imgNum);
         string message = "Saved";
         GameObject.Find(textObject).GetComponent<TextMeshProUGUI>().SetText(message);
-        
-        //HACK: right now the first saved image has to be loaded instantly so the SaveAndLoad functions work correctly --> short pause but saves and loads work without a problem
-        /*_saveCount++;
-
-        if (_saveCount == 1)
-        {
-            _oilpaintengine.ClearCanvas();
-            _oilpaintengine.LoadImg(imgNum);
-        }*/
-
-        //_ui.SetActive(false);
-        //_uiCover.SetActive(false);
         
         yield return new WaitForEndOfFrame();
         string currentTime = System.DateTime.Now.ToString();
@@ -179,8 +176,8 @@ public class ButtonInteraction : MonoBehaviour
         string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
         _canvasObj = GameObject.Find("Canvas");
 
-        int rectWidth = (int)_oilpaintengine.Config.CanvasConfig.Width * 40;//_oilpaintengine.Config.TextureResolution;
-        int rectHeight = (int)_oilpaintengine.Config.CanvasConfig.Height * 40;//_oilpaintengine.Config.TextureResolution;
+        int rectWidth = (int)_oilPaintEngine.Config.CanvasConfig.Width * 40;//_oilPaintEngine.Config.TextureResolution;
+        int rectHeight = (int)_oilPaintEngine.Config.CanvasConfig.Height * 40;//_oilPaintEngine.Config.TextureResolution;
 
         RenderTexture rt = new(rectWidth, rectHeight, GraphicsFormat.R8G8B8A8_SRGB, GraphicsFormat.None);
         rt.Create();
@@ -205,14 +202,12 @@ public class ButtonInteraction : MonoBehaviour
         Debug.Log("Screenshot saved");
         
         RenderTexture.active = currentRT;
-        Destroy(image);
-       
+        //Destroy(image);
+        //Destroy(rt);
         AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate); 
         
         yield return new WaitForEndOfFrame();
-
-        //_ui.SetActive(true);
-        //_uiCover.SetActive(true);
+        
     }
     
     public void ApplySize()
@@ -233,9 +228,9 @@ public class ButtonInteraction : MonoBehaviour
         int newformatA = width / result;
         int newformatB = height / result;
 
-        _oilpaintengine.UpdateWidth(width);
-        _oilpaintengine.UpdateCanvasFormatA(newformatA);
-        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+        _oilPaintEngine.UpdateWidth(width);
+        _oilPaintEngine.UpdateCanvasFormatA(newformatA);
+        _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
  
     public void ChangeHeightOnController(int heightMult)
@@ -246,15 +241,15 @@ public class ButtonInteraction : MonoBehaviour
         int newformatA = width / result;
         int newformatB = height / result;
 
-        _oilpaintengine.UpdateHeight(height);
-        _oilpaintengine.UpdateCanvasFormatA(newformatA);
-        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+        _oilPaintEngine.UpdateHeight(height);
+        _oilPaintEngine.UpdateCanvasFormatA(newformatA);
+        _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
     
     public void ChangeWidthOnWall(string direction)
     {
-        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
-        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
+        int width = (int)_oilPaintEngine.Config.CanvasConfig.Width;
+        int height = (int)_oilPaintEngine.Config.CanvasConfig.Height;
 
         if (direction == "plus")
         {
@@ -269,15 +264,15 @@ public class ButtonInteraction : MonoBehaviour
         int newformatA = width / result;
         int newformatB = height / result;
 
-        _oilpaintengine.UpdateWidth(width);
-        _oilpaintengine.UpdateCanvasFormatA(newformatA);
-        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+        _oilPaintEngine.UpdateWidth(width);
+        _oilPaintEngine.UpdateCanvasFormatA(newformatA);
+        _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
 
     public void ChangeHeightOnWall(string direction)
     {
-        int width = (int)_oilpaintengine.Config.CanvasConfig.Width;
-        int height = (int)_oilpaintengine.Config.CanvasConfig.Height;
+        int width = (int)_oilPaintEngine.Config.CanvasConfig.Width;
+        int height = (int)_oilPaintEngine.Config.CanvasConfig.Height;
         float orthographicSize = screenshotCamera.orthographicSize;
     
         if (direction == "plus")
@@ -296,9 +291,9 @@ public class ButtonInteraction : MonoBehaviour
         int newformatB = height / result;
 
         screenshotCamera.orthographicSize = orthographicSize;
-        _oilpaintengine.UpdateHeight(height);
-        _oilpaintengine.UpdateCanvasFormatA(newformatA);
-        _oilpaintengine.UpdateCanvasFormatB(newformatB);
+        _oilPaintEngine.UpdateHeight(height);
+        _oilPaintEngine.UpdateCanvasFormatA(newformatA);
+        _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
 
     private static int GetRatio(int width, int height)
@@ -318,33 +313,36 @@ public class ButtonInteraction : MonoBehaviour
     {
         Debug.Log("Load - Button Pressed");
     
-        _oilpaintengine.ClearCanvas();
-        _oilpaintengine.LoadImg(imgNum);
+        _oilPaintEngine.ClearCanvas();
+        _oilPaintEngine.LoadImg(imgNum);
     }
+
+  
     public void Color(int color)
     {
         Debug.Log("Color Selected: " + (Color_)color);
         _color = color;
         
+        
+        _currentColor = _oilPaintEngine.GetCurrentColor();
+        Vector3 colorVector = Colors.GetColor(_currentColor);
+        _paintColor = new Color(colorVector.x, colorVector.y, colorVector.z, 1.0f);
+        
+        _line.startColor = _paintColor;
+        _line.endColor = _paintColor;
+        
         ApplyRakelSettings();
-        
-        current_color = _oilpaintengine.GetCurrentColor();
-        Vector3 colorVector = Colors.GetColor(current_color);
-        paint_color = new Color(colorVector.x, colorVector.y, colorVector.z, 1.0f);
-        
-        _line.startColor = paint_color;
-        _line.endColor = paint_color;
         
     }
 
     public void ChangeRakelLengthOnWall(float length)
     {
-        _oilpaintengine.UpdateRakelLength(length);
+        _oilPaintEngine.UpdateRakelLength(length);
     }
     
     public void ChangeRakelVolumeOnWall(float volume)
     {
-        _oilpaintengine.UpdateFillVolume((int)volume);
+        _oilPaintEngine.UpdateFillVolume((int)volume);
     }
 
     public void RakelLength(float length)
@@ -355,23 +353,23 @@ public class ButtonInteraction : MonoBehaviour
     
     public void DeleteBuffer(bool state)
     {
-        _oilpaintengine.UpdateDeletePickedUpFromCSB(state);
+        _oilPaintEngine.UpdateDeletePickedUpFromCSB(state);
     }
     
     public void DeleteBufferOnWall()
     {
-        if (_delete == false)
+        if (_deleteFromBuffer == false)
         {
-            _delete = true;
+            _deleteFromBuffer = true;
             _toggle.isOn = true;
         }
         else
         {
-            _delete = false;
+            _deleteFromBuffer = false;
             _toggle.isOn = false;
         }
         
-        _oilpaintengine.UpdateDeletePickedUpFromCSB(_delete);
+        _oilPaintEngine.UpdateDeletePickedUpFromCSB(_deleteFromBuffer);
     }
     
 
@@ -386,33 +384,31 @@ public class ButtonInteraction : MonoBehaviour
         Vector3 colorVector = Colors.GetColor((Color_)_color);
         if (_paintvolume != _oldPaintVolume)
         {
-            _oilpaintengine.UpdateFillVolume(_paintvolume);
+            _oilPaintEngine.UpdateFillVolume(_paintvolume);
             _oldPaintVolume = _paintvolume;
         }
 
         if (_rakellength != _oldRakelLength)
         {
-            _oilpaintengine.UpdateRakelLength(_rakellength);
+            _oilPaintEngine.UpdateRakelLength(_rakellength);
             _oldRakelLength = _rakellength;
         }
 
         if (_color != _oldColor)
         {
-            _oilpaintengine.UpdateFillColor((Color_)_color);
+            _oilPaintEngine.UpdateFillColor((Color_)_color);
             _oldColor = _color;
-            _currentColor.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _currentColorObj.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
         }
         _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
         _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
         
-        _oilpaintengine.FillApply();
+        _oilPaintEngine.FillApply();
     }
 
 
     private const float Step = 0.84f;
     private const float PosZ = -0.15f;
-    private const float PosX = -494.8062f;
-    private static float _startY = -245.77f;
     private float _posY;
     
     public void Scroll(string direction)
@@ -420,19 +416,19 @@ public class ButtonInteraction : MonoBehaviour
 
         if (direction == "Up")
         {
-            _posY  = _startY - Step;
+            _posY  = _posYForColorObject - Step;
         
-            _colorButtons.transform.localPosition = new Vector3(PosX, _posY, PosZ);
-            _startY -= Step;
+            _colorButtons.transform.localPosition = new Vector3(_posXForColorObject, _posY, PosZ);
+            _posYForColorObject -= Step;
             GetChildren();
         }
 
         if (direction == "Down")
         {
-            _posY = _startY + Step;
+            _posY = _posYForColorObject + Step;
         
-            _colorButtons.transform.localPosition = new Vector3(PosX, _posY, PosZ);
-            _startY += Step;
+            _colorButtons.transform.localPosition = new Vector3(_posXForColorObject, _posY, PosZ);
+            _posYForColorObject += Step;
             GetChildren();
         }
 
@@ -440,16 +436,16 @@ public class ButtonInteraction : MonoBehaviour
     
     public void TabSelection()
     {
-        if (tab == 0)
+        if (_tab == false)
         {
-            tab = 1;
+            _tab = true;
         }
         else
         {
-            tab = 0;
+            _tab = false;
         }
 
-        if (tab == 0)
+        if (_tab == false)
         {
             _colorButtons.SetActive(true);
             _saveAndLoadButtons.SetActive(false);
@@ -457,7 +453,7 @@ public class ButtonInteraction : MonoBehaviour
             
         }
         
-        if (tab == 1)
+        if (_tab == true)
         {
             _colorButtons.SetActive(false);
             _saveAndLoadButtons.SetActive(true);
@@ -468,38 +464,41 @@ public class ButtonInteraction : MonoBehaviour
     public void ShowUI()
     {
         _canvasObj = GameObject.Find("Canvas");
-        if (uiState == 0)
+        if (_uiState == false)
         {
-            uiState = 1;
+            _uiState = true;
         }
         else
         {
-            uiState = 0;
+            _uiState = false;
         }
 
-        if (uiState == 0)
+        if (_uiState == false)
         {
-            _canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, _canvasObj.transform.position.z-20);
+            uiActive = false;
+            //_canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, _canvasObj.transform.position.z-20);
             _uiCover.SetActive(false);
             _ui.SetActive(false);
         }
         else
         {
-            _canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, 20); 
+            uiActive = true;
+            //_canvasObj.transform.position = new Vector3(_canvasObj.transform.position.x, _canvasObj.transform.position.y, 20); 
             _uiCover.SetActive(true);
             _ui.SetActive(true);
+            
             
         }
     }
 
     public void GetChildren()
     {
-        foreach (Transform child in _parent.transform)
+        foreach (Transform child in _colorButtons.transform)
         {
             GameObject g = child.gameObject;
             
             // Check if Color Button are between scroll buttons
-            if (-1f > g.transform.position.y &&  g.transform.position.y > -6f) 
+            if (0f > g.transform.position.y &&  g.transform.position.y > -6f) 
             {
                 g.SetActive(true);
             }
@@ -512,13 +511,13 @@ public class ButtonInteraction : MonoBehaviour
     
     public void Pressure(float pressure)
     {
-        pressure = Mathf.Clamp01(pressure/1500);
-        current_pressure = pressure;
+        pressure = Mathf.Clamp01(pressure/500);
+        _currentPressure = pressure;
     }
 
     public float GetPressure()
     {
-        return current_pressure;
+        return _currentPressure;
     }
     
     public float GetLength()
@@ -533,34 +532,32 @@ public class ButtonInteraction : MonoBehaviour
 
     public void IncreasePressure()
     {
-        if (current_pressure < 1)
+        if (_currentPressure < 1)
         {
-            current_pressure += 0.1f;
-            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
+            _currentPressure += 0.1f;
+            _currentPressure = Mathf.Round(_currentPressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
         }
         else
         {
-            current_pressure = 1;
+            _currentPressure = 1;
         }
-        _oilpaintengine.UpdateRakelPressure(current_pressure);
-        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString());
+        _oilPaintEngine.UpdateRakelPressure(_currentPressure);
+        _pressureText.GetComponent<TextMeshProUGUI>().SetText(_currentPressure.ToString());
     }
-
-   
 
     public void DecreasePressure()
     {
-        if (current_pressure > 0)
+        if (_currentPressure > 0)
         {
-            current_pressure -= 0.1f;
-            current_pressure = Mathf.Round(current_pressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
+            _currentPressure -= 0.1f;
+            _currentPressure = Mathf.Round(_currentPressure * 10f) * 0.1f; //getting rid weird numbers from addition of float values
         }
         else
         {
-            current_pressure = 0;
+            _currentPressure = 0;
         }
-        _oilpaintengine.UpdateRakelPressure(current_pressure);
-        _pressureText.GetComponent<TextMeshProUGUI>().SetText(current_pressure.ToString()); 
+        _oilPaintEngine.UpdateRakelPressure(_currentPressure);
+        _pressureText.GetComponent<TextMeshProUGUI>().SetText(_currentPressure.ToString()); 
     }
 }
 
