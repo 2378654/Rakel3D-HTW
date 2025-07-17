@@ -104,14 +104,14 @@
 
 
 * 17.07.2025
-    + Undo und Canvas Clear als Button für Wandcontroller
+    + Undo und Canvas Clear als Button für Wandcontroller - Buttons da aber noch nicht komplett funktionsfähig
     + Canvaswidth und height bugfix
     + sizeDone zu bool ändern
-    + für paper leinwand maximale Leinwandgröße messen
+    + für paper leinwand maximale Leinwandgröße messen - Done
     + Darstellung der eingestellten Farbmenge
     + Bugfix Wandsteuerung erste Farbe
-    + ColorButtons GameObject dynamisch positionieren
+    + ColorButtons GameObject dynamisch positionieren - Done
     + Slider bewegung dynamisch machen
-    + 0 oder 1 zu false oder true
+    + 0 oder 1 zu false oder true - Done
 
         
