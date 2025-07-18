@@ -8,13 +8,12 @@ public class RakelLineRenderer : MonoBehaviour
     private float _rakelpositionZ;
     private OilPaintEngine OilPaintEngine;
     
-    private float rakelLength;
-    private float rakelWidth;
-    private Color_ current_color;
-    private Color paint_color, no_paint_color;
+    private float _rakelLength;
+    private float _rakelWidth;
+    private Color_ _current_color;
+    private Color _paint_color, _no_paint_color;
     private BoxCollider _box;
     private GameObject _rakel;
-    private RenderedRakel _renderedRakel;
     
     private LineRenderer _line;
 
@@ -24,24 +23,22 @@ public class RakelLineRenderer : MonoBehaviour
     private float _rakelRotationX;
     private float _rakelRotationY;
     private float _rakelRotationZ;
-    float rakelSideOffset = -0.05f;
     
     private Transform _top, _bot;
     
     void Start()
     {
-        rakelWidth = new RakelConfiguration().Width * 0.2f;
+        _rakelWidth = new RakelConfiguration().Width * 0.2f;
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _line.material = new Material(Shader.Find("Sprites/Default"));
         
         //Changing the Width of the LineRenderer
-        _line.startWidth = rakelWidth; 
-        _line.endWidth = rakelWidth;
+        _line.startWidth = _rakelWidth; 
+        _line.endWidth = _rakelWidth;
 
         _box = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _rakel = GameObject.Find("RenderedRakel");
-        _renderedRakel = _rakel.GetComponent<RenderedRakel>();
         OilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         
         _top = GameObject.Find("Top").transform;
@@ -49,7 +46,7 @@ public class RakelLineRenderer : MonoBehaviour
     }
     void Update()
     {
-        rakelLength = OilPaintEngine.Config.RakelConfig.Length;
+        _rakelLength = OilPaintEngine.Config.RakelConfig.Length;
 
         Vector3 offset = new Vector3(offsetX, offsetY, offsetZ);
         float _minZ = -2.6f;
@@ -65,17 +62,11 @@ public class RakelLineRenderer : MonoBehaviour
         Vector3 botPos = _bot.position;
         Vector3 rakelDir = (topPos - botPos).normalized;
 
-        
-        Vector3 rakelRight = Vector3.Cross(rakelDir, Vector3.forward).normalized;
-        
         Vector3 center = (topPos + botPos) / 2f;
-
-        center += rakelRight * rakelSideOffset;
-   
         Vector3 pos = new Vector3((center.x + offset.x) * multX, (center.y + offset.y) * multY, center.z + offset.z);
         
-        Vector3 startPoint = pos + (rakelDir * (rakelLength / 2));
-        Vector3 endPoint = pos - (rakelDir * (rakelLength / 2));
+        Vector3 startPoint = pos + (rakelDir * (_rakelLength / 2));
+        Vector3 endPoint = pos - (rakelDir * (_rakelLength / 2));
 
         _line.SetPosition(0, startPoint);
         _line.SetPosition(1, endPoint);
@@ -83,7 +74,7 @@ public class RakelLineRenderer : MonoBehaviour
         Quaternion rakelRotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
         _box.transform.rotation = rakelRotation;
         
-        _box.size = new Vector3(rakelWidth, 4, 0.01f); //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
+        _box.size = new Vector3(_rakelWidth, 4, 0.01f); //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
         
         //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;

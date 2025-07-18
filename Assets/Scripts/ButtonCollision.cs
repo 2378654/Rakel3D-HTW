@@ -11,7 +11,7 @@ public class ButtonCollision : MonoBehaviour
     private Slider _slider;
     private bool _holding,_sliderHolding = false;
     private Coroutine _scrollCoroutine,_slideCoroutine,_pressureCoroutine;
-    private float _cooldown = 1f;
+    private float _cooldown = 0.5f;
     private float _sliderCooldown = 0.2f;
     private GameObject Interaction,_line;
 

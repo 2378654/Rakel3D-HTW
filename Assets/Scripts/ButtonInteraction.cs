@@ -32,13 +32,19 @@ public class ButtonInteraction : MonoBehaviour
     private float _currentVolume;
     private GameObject _settingsAfterSize;
     private GameObject _sizeObj;
+    private GameObject _sizeText;
     private bool _deleteFromBuffer;
     public bool uiActive;
-    
+
+    private GameObject _wallButtons;
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume;
     private float _rakellength, _oldRakelLength;
-    private int _color, _oldColor;
+    private int _color = -1;
+    private int _oldColor = -2;
+    
+    private int _canvasWidth = 30;
+    private int _canvasHeight = 20;
     
     
     //ColorObject Position
@@ -47,6 +53,7 @@ public class ButtonInteraction : MonoBehaviour
     private void Start()
     {
         _sizeObj = GameObject.Find("Size");
+        _sizeText = GameObject.Find("AdjustSizeText");
         _currentColorObj = GameObject.Find("Color");
         _pressureText = GameObject.Find("PressureTextOnWall").GetComponent<TextMeshProUGUI>();
         _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
@@ -58,6 +65,7 @@ public class ButtonInteraction : MonoBehaviour
         _toggle = GameObject.Find("Checkbox").GetComponent<UnityEngine.UI.Toggle>();
         _toggle.isOn = false;
         _settingsAfterSize = GameObject.Find("SettingsAfterSize");
+        _wallButtons = GameObject.Find("WallButtons");
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         
@@ -79,13 +87,14 @@ public class ButtonInteraction : MonoBehaviour
         
         _posXForColorObject = _colorButtons.transform.localPosition.x;
         _posYForColorObject = _colorButtons.transform.localPosition.y;
+
     }
     private void Update()
     {
-        _oilPaintEngine.Rakel.Reservoir.PaintGrid.ReadbackContent();
-        _currentVolume = _oilPaintEngine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
-        _line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
-        _line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
+        //_oilPaintEngine.Rakel.Reservoir.PaintGrid.ReadbackContent();
+        //_currentVolume = _oilPaintEngine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
+        //_line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
+        //_line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
     }
     
     
@@ -94,7 +103,18 @@ public class ButtonInteraction : MonoBehaviour
         _ui.SetActive(false);
         _uiCover.SetActive(false);
         _saveAndLoadButtons.SetActive(false);
-       //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
+        //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
+
+        if (!wallController)
+        {
+            //_sizeObj.SetActive(false);
+            _wallButtons.SetActive(false);
+        }
+        else
+        {
+            //_sizeObj.SetActive(true);
+            _wallButtons.SetActive(true);
+        }
     }
 
     public void ClearRakelOnWall()
@@ -188,9 +208,9 @@ public class ButtonInteraction : MonoBehaviour
         screenshotCamera.backgroundColor = UnityEngine.Color.white;
         
         //Changing the shader of the plane for the screenshot to avoid reflections of the directional light
-        _canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Texture");
+        //_canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
         screenshotCamera.Render();
-        _canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
+        //_canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
         
         Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
         
@@ -212,36 +232,36 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ApplySize()
     {
-        _sizeObj.SetActive(false);
+        //_sizeObj.SetActive(false);
         _settingsAfterSize.SetActive(true);
+        //_sizeText.SetActive(false);
     }
   
     const int BaseFormatA = 3;
     const int BaseFormatB = 2;
-    int width;
-    int height;
+    
     public void ChangeWidthOnController(int widthMult)
     {
-        width = BaseFormatA * widthMult;
+        _canvasWidth = BaseFormatA * widthMult;
      
-        int result = GetRatio(width, height);
-        int newformatA = width / result;
-        int newformatB = height / result;
+        int result = GetRatio(_canvasWidth, _canvasHeight);
+        int newformatA = _canvasWidth / result;
+        int newformatB = _canvasHeight / result;
 
-        _oilPaintEngine.UpdateWidth(width);
+        _oilPaintEngine.UpdateWidth(_canvasWidth);
         _oilPaintEngine.UpdateCanvasFormatA(newformatA);
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
  
     public void ChangeHeightOnController(int heightMult)
     {
-        height = BaseFormatB * heightMult;
+        _canvasHeight = BaseFormatB * heightMult;
      
-        int result = GetRatio(width, height);
-        int newformatA = width / result;
-        int newformatB = height / result;
+        int result = GetRatio(_canvasWidth, _canvasHeight);
+        int newformatA = _canvasWidth / result;
+        int newformatB = _canvasHeight / result;
 
-        _oilPaintEngine.UpdateHeight(height);
+        _oilPaintEngine.UpdateHeight(_canvasHeight);
         _oilPaintEngine.UpdateCanvasFormatA(newformatA);
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
@@ -320,18 +340,30 @@ public class ButtonInteraction : MonoBehaviour
   
     public void Color(int color)
     {
-        Debug.Log("Color Selected: " + (Color_)color);
         _color = color;
-        
-        
         _currentColor = _oilPaintEngine.GetCurrentColor();
-        Vector3 colorVector = Colors.GetColor(_currentColor);
-        _paintColor = new Color(colorVector.x, colorVector.y, colorVector.z, 1.0f);
-        
-        _line.startColor = _paintColor;
-        _line.endColor = _paintColor;
-        
         ApplyRakelSettings();
+        
+    }
+    
+    public void ColorOnWall(int color)
+    {
+        _color = color;
+        _currentColor = (Color_)_color;
+        
+        Vector3 colorVector = Colors.GetColor(_currentColor);
+        if (_color != _oldColor)
+        {
+            Debug.Log("Current Color: " + _color);
+            _oilPaintEngine.UpdateFillColor(_currentColor);
+            _currentColorObj.GetComponent<MeshRenderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
+        
+            _oilPaintEngine.FillApply();
+        
+            _oldColor = _color;
+        }
         
     }
 
@@ -381,7 +413,13 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ApplyRakelSettings()
     {
-        Vector3 colorVector = Colors.GetColor((Color_)_color);
+        if (_paintvolume == 0) { _paintvolume = 60; }
+        if (_rakellength == 0) { _rakellength = 4; }
+
+        if (_color == -1) { _color = 0; }
+        
+        _currentColor = (Color_)_color;
+        Vector3 colorVector = Colors.GetColor(_currentColor);
         if (_paintvolume != _oldPaintVolume)
         {
             _oilPaintEngine.UpdateFillVolume(_paintvolume);
@@ -396,9 +434,15 @@ public class ButtonInteraction : MonoBehaviour
 
         if (_color != _oldColor)
         {
-            _oilPaintEngine.UpdateFillColor((Color_)_color);
+            //_oilPaintEngine.UpdateFillColor(_currentColor);
+            //_oldColor = _color;
+            //_currentColorObj.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _oilPaintEngine.UpdateFillColor(_currentColor);
+            _currentColorObj.GetComponent<MeshRenderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
+            _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
+        
             _oldColor = _color;
-            _currentColorObj.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
         }
         _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
         _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
@@ -407,7 +451,7 @@ public class ButtonInteraction : MonoBehaviour
     }
 
 
-    private const float Step = 0.84f;
+    private const float Step = 0.84f; // Step per scroll
     private const float PosZ = -0.15f;
     private float _posY;
     
@@ -523,6 +567,11 @@ public class ButtonInteraction : MonoBehaviour
     public float GetLength()
     {
         return _rakellength;
+    }
+    
+    public float GetVolume()
+    {
+        return _paintvolume;
     }
     
     public int GetCurrentColor()

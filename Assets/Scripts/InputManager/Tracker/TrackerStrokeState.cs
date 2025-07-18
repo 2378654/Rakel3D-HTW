@@ -13,33 +13,30 @@ public class TrackerStrokeState : StrokeStateSource
     private TextMeshProUGUI _text;
     private OilPaintEngine _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
     float canvaspositionZ = GameObject.Find("Canvas").GetComponent<MeshCollider>().transform.position.z;
-        
+    private TextMeshProUGUI _textMeshProUGUI = GameObject.Find("TEST").GetComponent<TextMeshProUGUI>();
     private bool _wasPreviouslyInStroke;
-
+    private bool _isTouchingCanvas;
+    private float counter = 0;
     public override void Update()
     {
 
         float currentOffset = _distanceToCanvas.canvasOffset;
         float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
         float pressure = _interaction.GetPressure();
-
-        bool isTouchingCanvas;
         //if (!_interaction.uiActive)
         //{
-
-
             if (_interaction.wallController)
             {
-                isTouchingCanvas = rakelpositionZ > canvaspositionZ;
+                _isTouchingCanvas = rakelpositionZ > canvaspositionZ;
             }
             else
             {
-                isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
+                _isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0;
             }
 
             //bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
-            bool isCurrentlyInStroke = isTouchingCanvas; // && !isBlockedByUI;
-
+            bool isCurrentlyInStroke = _isTouchingCanvas; // && !isBlockedByUI;
+            
             if (_interaction.wallController)
             {
                 if (rakelpositionZ > canvaspositionZ)
@@ -47,18 +44,18 @@ public class TrackerStrokeState : StrokeStateSource
                     StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
                     if (StrokeBegin)
                     {
-                        //_oilPaintEngine.BackupStroke();
+                        counter++;
+                        _textMeshProUGUI.SetText(counter.ToString());
+                        _oilPaintEngine.BackupStroke();
                         InStroke = true;
 
                     }
                 }
-
+                
                 if (rakelpositionZ < canvaspositionZ)
                 {
                     InStroke = false;
                 }
-
-                //InStroke = isCurrentlyInStroke;
                 _wasPreviouslyInStroke = isCurrentlyInStroke;
             }
             else
@@ -68,7 +65,9 @@ public class TrackerStrokeState : StrokeStateSource
                     StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
                     if (StrokeBegin)
                     {
-                        //_oilPaintEngine.BackupStroke();
+                        counter++;
+                        _textMeshProUGUI.SetText(counter.ToString()); 
+                        _oilPaintEngine.BackupStroke();
                         InStroke = true;
                     }
                 }
@@ -77,8 +76,6 @@ public class TrackerStrokeState : StrokeStateSource
                 {
                     InStroke = false;
                 }
-
-                //InStroke = isCurrentlyInStroke;
                 _wasPreviouslyInStroke = isCurrentlyInStroke;
             }
         //}
