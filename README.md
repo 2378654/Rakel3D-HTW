@@ -106,6 +106,7 @@
 * 17.07.2025
     + Undo und Canvas Clear als Button für Wandcontroller - Buttons da aber noch nicht komplett funktionsfähig
         - Fix: Prüfen ob das treffende Objekt die Leinwand ist
+
                     ```csharp
                     else if (other.GetComponent<MeshCollider>() && other.CompareTag("Canvas"))
                     {
@@ -114,6 +115,7 @@
                         _oilPaintEngine.BackupStroke();
                     }
                     ```
+                    
     + Canvaswidth und height bugfix - Done
         - private int _width = 24, _height = 16; in Start() - Done
     + sizeDone zu bool ändern
