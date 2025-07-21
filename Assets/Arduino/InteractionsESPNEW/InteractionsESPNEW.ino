@@ -157,6 +157,9 @@ void ReapplyColor() {
   static bool lastState = HIGH;
   bool state = digitalRead(reapplyPin);
   if (state == HIGH && lastState == LOW) {
+    if (sizeDone == 0){
+        sizeDone = 1;
+    }
     SendToReceiver("Reapply");
     delay(250);
   }
@@ -187,9 +190,6 @@ void ClearCanvas(){
   static bool lastState = HIGH;
   bool state = digitalRead(clearCanvasPin);
   if (state == LOW && lastState == HIGH) {
-    if (sizeDone == false){
-        sizeDone = true;
-    }
     SendToReceiver("Canvas");
     delay(250);
   }
