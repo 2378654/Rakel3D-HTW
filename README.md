@@ -127,5 +127,6 @@
     + 0 oder 1 zu false oder true - Done
 
     + ApplySize nicht mehr auf Canvas Clear sondern zu Refill
+    + Nach drücken auf Canvas Clear nochmal nachfragen ob Die Nutzende Person sich sicher ist
 
         
