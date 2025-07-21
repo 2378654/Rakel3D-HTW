@@ -126,4 +126,6 @@
         - durch Gameobjects am Start und Ende der Slider
     + 0 oder 1 zu false oder true - Done
 
+    + ApplySize nicht mehr auf Canvas Clear sondern zu Refill
+
         
