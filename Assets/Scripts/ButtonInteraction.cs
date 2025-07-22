@@ -103,16 +103,16 @@ public class ButtonInteraction : MonoBehaviour
         _ui.SetActive(false);
         _uiCover.SetActive(false);
         _saveAndLoadButtons.SetActive(false);
-        //_settingsAfterSize.SetActive(false);  //Comment cause WIP 
+        _settingsAfterSize.SetActive(false); 
 
         if (!wallController)
         {
-            //_sizeObj.SetActive(false);
+            _sizeObj.SetActive(false);
             _wallButtons.SetActive(false);
         }
         else
         {
-            //_sizeObj.SetActive(true);
+            _sizeObj.SetActive(true);
             _wallButtons.SetActive(true);
         }
     }
@@ -232,9 +232,9 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ApplySize()
     {
-        //_sizeObj.SetActive(false);
+        _sizeObj.SetActive(false);
+        _sizeText.SetActive(false);
         _settingsAfterSize.SetActive(true);
-        //_sizeText.SetActive(false);
     }
   
     const int BaseFormatA = 3;

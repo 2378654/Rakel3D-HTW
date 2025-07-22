@@ -18,10 +18,18 @@ public class ArduinoReader : MonoBehaviour
     private string line;
     private CanvasReservoir _canvasReservoir;
     private int _lastSave, _lastLoad;
+    
+    private int _sizeSet;
+    
+    //Confirm CanvasClear
+    private bool _clearCanvasPressed;
+    private GameObject _sizeText;
     void Start()
     {
         _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
+        
+        _sizeText  = GameObject.Find("AdjustSizeText");
         
         const string portName = "COM4";
         numberOfColors = 23;
@@ -71,6 +79,7 @@ public class ArduinoReader : MonoBehaviour
             //ColorPicker
             if (line.Contains("Color"))
             {   
+                AbortClearCanvas();
                 string colorNum = line.Replace("Color", "");
                 int colorInt;
                 if (int.TryParse(colorNum, out colorInt))
@@ -86,6 +95,7 @@ public class ArduinoReader : MonoBehaviour
             //PressureController
             else if (line.Contains("Pressure"))
             {
+                AbortClearCanvas();
                 string pressureNum = line.Replace("Pressure", "");
                 int pressureInt;
                 if (int.TryParse(pressureNum, out pressureInt))
@@ -100,6 +110,7 @@ public class ArduinoReader : MonoBehaviour
             //CanvasSnapshotBuffer
             if (line.Contains("CSB"))
             {
+                AbortClearCanvas();
                 string csb = line.Replace("CSB", "");
                 int csbInt;
                 if (int.TryParse(csb, out csbInt))
@@ -116,31 +127,29 @@ public class ArduinoReader : MonoBehaviour
             }
             else if (line.Contains("Canvas"))
             {
-                Debug.Log("Cleared Canvas");
-                _interaction.ApplySize();
-                _interaction.ClearCanvas();
-            }
-            else if (line.Contains("Undo"))
-            {
-                Debug.Log("Undo");
-                _interaction.UndoLastStroke();
-            }
-            else if (line.Contains("Size"))
-            {
-                string sizeStr = line.Replace("Size", "");
-                int size;
-                if (int.TryParse(sizeStr, out size))
+                if (!_clearCanvasPressed)
                 {
-                    //_interaction.ChangeSize(size);
+                    _sizeText.SetActive(true);
+                    _clearCanvasPressed = true;
+                    _sizeText.GetComponent<TextMeshProUGUI>().SetText("Are you sure you want to clear the canvas?");
                 }
                 else
                 {
-                    Debug.Log("Size couldn't parse correctly");
+                    Debug.Log("Cleared Canvas");
+                    _interaction.ClearCanvas();
+                    AbortClearCanvas();
                 }
+            }
+            else if (line.Contains("Undo"))
+            {
+                AbortClearCanvas();
+                Debug.Log("Undo");
+                _interaction.UndoLastStroke();
             }
             //Save
             else if (line.Contains("Save"))
             {
+                AbortClearCanvas();
                 string saveStr = line.Replace("Save", "");
                 int imgNum;
                 if (int.TryParse(saveStr, out imgNum))
@@ -156,6 +165,7 @@ public class ArduinoReader : MonoBehaviour
             //Load
             else if (line.Contains("Load"))
             {
+                AbortClearCanvas();
                 string loadStr = line.Replace("Load", "");
                 int imgNum;
                 if (int.TryParse(loadStr, out imgNum))
@@ -170,11 +180,13 @@ public class ArduinoReader : MonoBehaviour
             //ClearRakel
             else if (line.Contains("Clear"))
             {
+                AbortClearCanvas();
                 Debug.Log("Cleared Rakel");
                  _interaction.ClearRakel();
             }
             else if (line.Contains("Length"))
             {
+                AbortClearCanvas();
                 string lengthStr = line.Replace("Length", "");
                 float length;
                 if (float.TryParse(lengthStr, out length))
@@ -188,6 +200,7 @@ public class ArduinoReader : MonoBehaviour
             }
             else if (line.Contains("Volume"))
             {
+                AbortClearCanvas();
                 string volumeStr = line.Replace("Volume", "");
                 int volume;
                 if (int.TryParse(volumeStr, out volume))
@@ -227,6 +240,14 @@ public class ArduinoReader : MonoBehaviour
             }
             else if (line.Contains("Reapply"))
             {
+                AbortClearCanvas();
+                _sizeSet++;
+                
+                //we only need to call ApplySize once so we pass on it if its pressed more than once
+                if (_sizeSet == 1)
+                {
+                    _interaction.ApplySize();
+                }
                 Debug.Log("Reapply Color");
                 _interaction.ApplyRakelSettings();
             }
@@ -237,10 +258,16 @@ public class ArduinoReader : MonoBehaviour
         }
         line = "";
     }
-    
+
+    //Gets called if for every other string other than "Canvas" or after "Canvas" 2 times in a row
+    void AbortClearCanvas()
+    {
+        _clearCanvasPressed = false;
+        _sizeText.SetActive(false);
+    }
+
     void Colorpicker(int colorNum)
     {
-            
         int color = Mathf.Clamp(colorNum, 0, numberOfColors - 1);
         if (color != oldColor)
         {

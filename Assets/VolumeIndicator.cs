@@ -39,8 +39,8 @@ public class VolumeIndicator : MonoBehaviour {
     private IEnumerator ShowVolumeIndicator()  
     { 
         //PaintVolume
-        _line.SetPosition(0, new Vector3(currentX, -1.8f, -0.15f));        
-        _line.SetPosition(1, new Vector3(currentX, -1.8f+currentVolume/60, -0.15f));                
+        _line.SetPosition(0, new Vector3(currentX, -1.8f, -0.155f));        
+        _line.SetPosition(1, new Vector3(currentX, -1.8f+currentVolume/60, -0.155f));                
         
         //PaintContainer
         _lineContainer.SetPosition(0, new Vector3(currentX, -2f, -0.15f));        
@@ -53,7 +53,7 @@ public class VolumeIndicator : MonoBehaviour {
         _lineContainer.SetPosition(1, new Vector3(currentX, 0, -0.15f));                
         
         //PaintVolume
-        _line.SetPosition(0, new Vector3(currentX, 0, -0.15f));        
-        _line.SetPosition(1, new Vector3(currentX, 0, -0.15f));
+        _line.SetPosition(0, new Vector3(currentX, 0, -0.155f));        
+        _line.SetPosition(1, new Vector3(currentX, 0, -0.155f));
     }
 }

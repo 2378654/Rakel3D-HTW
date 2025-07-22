@@ -13,17 +13,24 @@ public class ButtonCollision : MonoBehaviour
     private Coroutine _scrollCoroutine,_slideCoroutine,_pressureCoroutine;
     private float _cooldown = 0.5f;
     private float _sliderCooldown = 0.2f;
-    private GameObject Interaction,_line;
+    private GameObject _line;
+    private GameObject _rakelLengthStart, _rakelLengthEnd;
+    private GameObject _paintVolumeStart, _paintVolumeEnd;
 
     private void Start()
     {
-        Interaction = GameObject.Find("Interaction");
-        _interaction = Interaction.GetComponent<ButtonInteraction>();
+        _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         if (_interaction == null)
         {
             Debug.Log("Still NULL");
         }
         _line = GameObject.Find("LineRenderer");
+        
+        //GameObjects for Sliders for Wallcontroller
+        _rakelLengthStart = GameObject.Find("RakelLengthStart");
+        _rakelLengthEnd = GameObject.Find("RakelLengthEnd");
+        _paintVolumeStart = GameObject.Find("RakelVolumeStart");
+        _paintVolumeEnd = GameObject.Find("RakelVolumeEnd");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -122,8 +129,8 @@ public class ButtonCollision : MonoBehaviour
         {
             if (other.CompareTag("Length"))
             { 
-                const float maxX = -3.61f;
-                const float minX = -7.21f;
+                float minX = _rakelLengthStart.transform.position.x;
+                float maxX = _rakelLengthEnd.transform.position.x;
                 const float minSlider = 2;
                 const float maxSlider = 15;
                 if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
@@ -138,11 +145,11 @@ public class ButtonCollision : MonoBehaviour
             }
             else if (other.CompareTag("Volume"))
             {
-                const float maxX = 5.29f;
-                const float minX = 1.58f;
+                float minX = _paintVolumeStart.transform.position.x;
+                float maxX = _paintVolumeEnd.transform.position.x;
              
                 const float minSlider = 60;
-                const float maxSlider = 600;
+                const float maxSlider = 256;
                 
                 if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
                 {
