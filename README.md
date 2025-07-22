@@ -105,14 +105,28 @@
 
 * 17.07.2025
     + Undo und Canvas Clear als Button für Wandcontroller - Buttons da aber noch nicht komplett funktionsfähig
-    + Canvaswidth und height bugfix
-        - private int _width = 24, _height = 16; in Start()
-    + sizeDone zu bool ändern
+        - Fix: Prüfen ob das treffende Objekt die Leinwand ist
+
+                    ```csharp
+                    else if (other.GetComponent<MeshCollider>() && other.CompareTag("Canvas"))
+                    {
+                        counter++;
+                        Debug.Log("Current Stroke: " + counter);
+                        _oilPaintEngine.BackupStroke();
+                    }
+                    ``` 
+    + Canvaswidth und height bugfix - Done
+        - private int _width = 24, _height = 16; in Start() - Done
+    + sizeDone zu bool ändern - Done
     + für paper leinwand maximale Leinwandgröße messen - Done
-    + Darstellung der eingestellten Farbmenge
-    + Bugfix Wandsteuerung erste Farbe
+    + Darstellung der eingestellten Farbmenge - Done 
+    + Bugfix Wandsteuerung erste Farbe - Done
     + ColorButtons GameObject dynamisch positionieren - Done
-    + Slider bewegung dynamisch machen
+    + Slider bewegung dynamisch machen - Done
+        - durch Gameobjects am Start und Ende der Slider
     + 0 oder 1 zu false oder true - Done
+
+    + ApplySize nicht mehr auf Canvas Clear sondern zu Refill
+    + Nach drücken auf Canvas Clear nochmal nachfragen ob Die Nutzende Person sich sicher ist
 
         

@@ -40,7 +40,7 @@ unsigned long lastSendFormatA = 0;
 unsigned long lastSendFormatB = 0;
 const unsigned long interval = 200;
 
-int sizeDone =0; //used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
+bool sizeDone = false; //used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
 
 void setup() {
   Serial.begin(115200);
@@ -157,6 +157,9 @@ void ReapplyColor() {
   static bool lastState = HIGH;
   bool state = digitalRead(reapplyPin);
   if (state == HIGH && lastState == LOW) {
+    if (sizeDone == 0){
+        sizeDone = 1;
+    }
     SendToReceiver("Reapply");
     delay(250);
   }
@@ -187,9 +190,6 @@ void ClearCanvas(){
   static bool lastState = HIGH;
   bool state = digitalRead(clearCanvasPin);
   if (state == LOW && lastState == HIGH) {
-    if (sizeDone == 0){
-        sizeDone = 1;
-    }
     SendToReceiver("Canvas");
     delay(250);
   }
@@ -200,7 +200,7 @@ void Length() {
   unsigned long now = millis();
   if (now - lastSendLength >= interval) {
     int val = analogRead(lengthPin);
-    if(sizeDone == 0){
+    if(sizeDone == false){
       int canvasWidth = map(val, 0, 4095, 1, 10);
       if (canvasWidth != oldCanvasWidth) {
         snprintf(msg, sizeof(msg), "Width%d", canvasWidth);
@@ -225,7 +225,7 @@ void Volume() {
   unsigned long now = millis();
   if (now - lastSendVolume >= interval) {
     int val = analogRead(volumePin);
-    if(sizeDone == 0){
+    if(sizeDone == false){
       int canvasHeight = map(val, 0, 4095, 1, 10);
       if (canvasHeight != oldCanvasHeight) {
         snprintf(msg, sizeof(msg), "Height%d", canvasHeight);
@@ -256,7 +256,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.println(data.a);
   //Check if reset is send
   if (strcmp(data.a, "Reset") == 0){
-    sizeDone = 0;
+    sizeDone = false;
   }
 }
 
