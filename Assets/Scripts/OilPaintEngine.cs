@@ -151,6 +151,7 @@ public class OilPaintEngine : MonoBehaviour
             1,
             Config.CanvasConfig.Height / 10); // convert world space to local scale
         GameObject canvas_ = GameObject.Find("Canvas");
+        
         Transform canvasTransform = canvas_.GetComponent<Transform>();
         canvasTransform.localScale = localScale;
 
@@ -161,9 +162,14 @@ public class OilPaintEngine : MonoBehaviour
         canvas.transform.position = canvasTransform.position;
         canvas.transform.localScale = canvasTransform.localScale;
         canvas.transform.rotation = canvasTransform.rotation;
+        
+        
         Destroy(canvas_);
         canvas.name = "Canvas";
         canvas.tag = "Canvas";
+        
+        //Turning the canvas convex so we can check if the squeegee is touching the canvas and not just something on the same height as the canvas
+        canvas.GetComponent<MeshCollider>().convex = true;
 
         Vector3 position = canvas.transform.position;
         Canvas = new Canvas_(
@@ -173,7 +179,7 @@ public class OilPaintEngine : MonoBehaviour
             Config.TextureResolution,
             Config.CanvasConfig.NormalScale,
             Config.ColorSpace);
-
+        
         Renderer renderer = canvas.GetComponent<Renderer>();
         renderer.material.SetTexture("_MainTex", Canvas.Texture);
         renderer.material.EnableKeyword("_NORMALMAP");

@@ -3,6 +3,9 @@
 
 public class RakelLineRenderer : MonoBehaviour
 {   
+    [SerializeField] DistanceToCanvas _distanceToCanvas;
+    
+    
     private float canvaspositionZ;
     
     private float _rakelpositionZ;
@@ -75,7 +78,8 @@ public class RakelLineRenderer : MonoBehaviour
         _box.transform.rotation = rakelRotation;
         
         //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
-        _box.size = new Vector3(_rakelWidth, 4, 0.01f); 
+        //_box.size = new Vector3(_rakelWidth, 4, 0.01f); 
+        _box.size = new Vector3(_rakelWidth, 4, _distanceToCanvas.canvasOffset);
         
         //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;

@@ -117,11 +117,11 @@ public class ArduinoReader : MonoBehaviour
                 {
                     if (csbInt == 0)
                     {
-                        _oilpaintengine.UpdateDeletePickedUpFromCSB(false);
+                        _interaction.DeleteBuffer(false);
                     }
                     else
                     {
-                        _oilpaintengine.UpdateDeletePickedUpFromCSB(true);
+                        _interaction.DeleteBuffer(true);
                     }
                 }
             }
@@ -262,8 +262,13 @@ public class ArduinoReader : MonoBehaviour
     //Gets called if for every other string other than "Canvas" or after "Canvas" 2 times in a row
     void AbortClearCanvas()
     {
-        _clearCanvasPressed = false;
-        _sizeText.SetActive(false);
+        // Clear Canvas Text is also used at the beginning for adjusting the Canvas size
+        // After adjusting the Size we can turn off the Text
+        if (_sizeSet == 1)
+        {
+            _clearCanvasPressed = false;
+            _sizeText.SetActive(false);
+        }
     }
 
     void Colorpicker(int colorNum)

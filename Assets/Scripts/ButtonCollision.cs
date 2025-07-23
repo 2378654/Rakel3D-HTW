@@ -87,10 +87,11 @@ public class ButtonCollision : MonoBehaviour
                 _slideCoroutine = StartCoroutine(KeepSliding(_slider.GetComponent<BoxCollider>()));
             }
         }
-        else if (other.CompareTag("Canvas"))
+        else if (other.CompareTag("Canvas") && other.GetComponent<MeshCollider>())
         {
             _touchingCanvas = true;
         }
+        
     }
 
     public bool TouchingCanvas()
@@ -124,6 +125,10 @@ public class ButtonCollision : MonoBehaviour
             _sliderHolding = false;
             StopCoroutine(_slideCoroutine);
             _slideCoroutine = null;
+        }
+        else if (other.CompareTag("Canvas") && other.GetComponent<MeshCollider>())
+        {
+            _touchingCanvas = false;
         }
     }
     

@@ -1,5 +1,7 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using TMPro;
@@ -46,9 +48,14 @@ public class ButtonInteraction : MonoBehaviour
     private int _canvasWidth = 30;
     private int _canvasHeight = 20;
     
-    
     //ColorObject Position
     private float _posXForColorObject, _posYForColorObject;
+    
+    //Counter for used Settings
+    private int _personNumber = 1;
+    private Dictionary<string, int> _methodCallCounters = new Dictionary<string, int>();
+
+    
     
     private void Start()
     {
@@ -90,6 +97,13 @@ public class ButtonInteraction : MonoBehaviour
 
     }
     
+    private void CountCall([System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+    {
+        if (_methodCallCounters.ContainsKey(methodName))
+            _methodCallCounters[methodName]++;
+        else
+            _methodCallCounters[methodName] = 1;
+    }
     
     void DisableAtStart()
     {
@@ -112,6 +126,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ClearRakelOnWall()
     {
+        CountCall();
         _oilPaintEngine.ClearRakel();
         StartCoroutine(ClearingOnWall());
     }
@@ -119,7 +134,7 @@ public class ButtonInteraction : MonoBehaviour
     //Coroutine to show Rakel was cleared as an Indicator
     private IEnumerator ClearingOnWall()
     {
-        _clearTextOnWall.SetText("Rakel Cleared");
+        _clearTextOnWall.SetText("Squeegee Cleared");
         _line.startColor = UnityEngine.Color.white;
         _line.endColor = UnityEngine.Color.white;
         yield return new WaitForSeconds(1);
@@ -129,6 +144,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ClearRakel()
     {
+        CountCall();
         _oilPaintEngine.ClearRakel();
         StartCoroutine(Clearing());
     }
@@ -136,7 +152,7 @@ public class ButtonInteraction : MonoBehaviour
     //Coroutine to show Rakel was cleared as an Indicator
     private IEnumerator Clearing()
     {
-        _clearText.SetText("Rakel Cleared");
+        _clearText.SetText("Squeegee Cleared");
         _line.startColor = UnityEngine.Color.white;
         _line.endColor = UnityEngine.Color.white;
         yield return new WaitForSeconds(1);
@@ -152,24 +168,28 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ClearCanvas()
     {
+        CountCall();
         Debug.Log("Cleared Canvas");
         _oilPaintEngine.ClearCanvas();
     }
     
     public void ClearCanvasOnWall()
     {
+        CountCall();
         _oilPaintEngine.ClearCanvas();
         StartCoroutine(ClearingCanvasOnWall());
     }
     
     public void UndoLastStroke()
     {
+        CountCall();
         Debug.Log("UNDO TRIGGERED");
         _oilPaintEngine.UndoLastStroke();
     }
 
     public void SaveImg(int imgNum)
     {
+        CountCall();
         StartCoroutine(SaveImgRoutine(imgNum));
     }
     
@@ -187,8 +207,9 @@ public class ButtonInteraction : MonoBehaviour
         currentTime = currentTime.Replace(".", "");
         currentTime = currentTime.Replace(":", "");
         string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
+        
         _canvasObj = GameObject.Find("Canvas");
-
+        
         Debug.Log("Width x Height: " + _oilPaintEngine.Config.CanvasConfig.Width + " x " + _oilPaintEngine.Config.CanvasConfig.Height);
         
         int rectWidth = (int)_oilPaintEngine.Config.CanvasConfig.Width * _oilPaintEngine.Config.TextureResolution;
@@ -237,6 +258,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ChangeWidthOnController(int widthMult)
     {
+        CountCall();
         _canvasWidth = BaseFormatA * widthMult;
      
         int result = GetRatio(_canvasWidth, _canvasHeight);
@@ -244,27 +266,33 @@ public class ButtonInteraction : MonoBehaviour
         int newformatB = _canvasHeight / result;
 
         _oilPaintEngine.UpdateWidth(_canvasWidth);
+        //Debug.Log("Current Height: " + _canvasWidth);
+        
         _oilPaintEngine.UpdateCanvasFormatA(newformatA);
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
  
     public void ChangeHeightOnController(int heightMult)
     {
+        CountCall();
         _canvasHeight = BaseFormatB * heightMult;
         float orthographicSize = screenshotCamera.orthographicSize;
-        orthographicSize = heightMult - 2;
+        orthographicSize = heightMult;
         int result = GetRatio(_canvasWidth, _canvasHeight);
         int newformatA = _canvasWidth / result;
         int newformatB = _canvasHeight / result;
 
         screenshotCamera.orthographicSize = orthographicSize;
         _oilPaintEngine.UpdateHeight(_canvasHeight);
+        //Debug.Log("Current Height: " + _canvasHeight);
+        
         _oilPaintEngine.UpdateCanvasFormatA(newformatA);
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
     
     public void ChangeWidthOnWall(string direction)
     {
+        CountCall();
         int width = (int)_oilPaintEngine.Config.CanvasConfig.Width;
         int height = (int)_oilPaintEngine.Config.CanvasConfig.Height;
 
@@ -288,6 +316,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ChangeHeightOnWall(string direction)
     {
+        CountCall();
         int width = (int)_oilPaintEngine.Config.CanvasConfig.Width;
         int height = (int)_oilPaintEngine.Config.CanvasConfig.Height;
         float orthographicSize = screenshotCamera.orthographicSize;
@@ -328,6 +357,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void LoadImg(int imgNum)
     {
+        CountCall();
         Debug.Log("Load - Button Pressed");
     
         _oilPaintEngine.ClearCanvas();
@@ -337,6 +367,7 @@ public class ButtonInteraction : MonoBehaviour
   
     public void Color(int color)
     {
+        CountCall();
         _color = color;
         _currentColor = _oilPaintEngine.GetCurrentColor();
         ApplyRakelSettings();
@@ -345,6 +376,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ColorOnWall(int color)
     {
+        CountCall();
         _color = color;
         _currentColor = (Color_)_color;
         
@@ -366,27 +398,32 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ChangeRakelLengthOnWall(float length)
     {
+        CountCall();
         _oilPaintEngine.UpdateRakelLength(length);
     }
     
     public void ChangeRakelVolumeOnWall(float volume)
     {
+        CountCall();
         _oilPaintEngine.UpdateFillVolume((int)volume);
     }
 
     public void RakelLength(float length)
     {
+        CountCall();
         _rakellength = length;
         ApplyRakelSettings();
     }
     
     public void DeleteBuffer(bool state)
     {
+        CountCall();
         _oilPaintEngine.UpdateDeletePickedUpFromCSB(state);
     }
     
     public void DeleteBufferOnWall()
     {
+        CountCall();
         if (_deleteFromBuffer == false)
         {
             _deleteFromBuffer = true;
@@ -404,6 +441,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void PaintVolume(int volume)
     {
+        CountCall();
         _paintvolume = volume;
         ApplyRakelSettings();
     }
@@ -454,7 +492,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void Scroll(string direction)
     {
-
+        CountCall();
         if (direction == "Up")
         {
             _posY  = _posYForColorObject - Step;
@@ -477,6 +515,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void TabSelection()
     {
+        CountCall();
         if (_tab == false)
         {
             _tab = true;
@@ -504,6 +543,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void ShowUI()
     {
+        CountCall();
         _canvasObj = GameObject.Find("Canvas");
         if (_uiState == false)
         {
@@ -552,6 +592,7 @@ public class ButtonInteraction : MonoBehaviour
     
     public void Pressure(float pressure)
     {
+        CountCall();
         pressure = Mathf.Clamp01(pressure/500);
         _currentPressure = pressure;
     }
@@ -578,6 +619,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void IncreasePressure()
     {
+        CountCall();
         if (_currentPressure < 1)
         {
             _currentPressure += 0.1f;
@@ -593,6 +635,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void DecreasePressure()
     {
+        CountCall();
         if (_currentPressure > 0)
         {
             _currentPressure -= 0.1f;
@@ -604,6 +647,30 @@ public class ButtonInteraction : MonoBehaviour
         }
         _oilPaintEngine.UpdateRakelPressure(_currentPressure);
         _pressureText.GetComponent<TextMeshProUGUI>().SetText(_currentPressure.ToString()); 
+    }
+
+    private void OnApplicationQuit()
+    {
+        string protocolPath = $"Assets/Protocol/";
+        
+        var info = new DirectoryInfo(protocolPath);
+        var fileInfo = info.GetFiles();
+        foreach (var file in fileInfo)
+        {
+            if (file.Name.Contains($"{_personNumber}"))
+            {
+                _personNumber++;
+            }
+        }
+        
+        string protocolFilePath = $"Assets/Protocol/Person{_personNumber}.txt";
+        StreamWriter textfile = File.AppendText(protocolFilePath);
+
+        foreach (var method in _methodCallCounters)
+        {
+            textfile.WriteLine($"{method.Key} got called {method.Value} times");
+        }
+        textfile.Close();
     }
 }
 

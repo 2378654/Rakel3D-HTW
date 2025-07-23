@@ -19,12 +19,18 @@ public class TrackerStrokeState : StrokeStateSource
     private float _counter = 0;
     public override void Update()
     {
-
-        float currentOffset = _distanceToCanvas.canvasOffset;
-        float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
-        float pressure = _interaction.GetPressure();
-        //if (!_interaction.uiActive)
-        //{
+        if (!_interaction.uiActive)
+        {
+            _buttonCollisionIndikator = GameObject.Find("LineRenderer").GetComponent<ButtonCollision>();
+            float currentOffset = _distanceToCanvas.canvasOffset;
+            float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
+            float pressure = _interaction.GetPressure();
+        
+        
+            //using the FSR when using the squeegee controller so we only start painting when there is pressure
+            //using the WallController we adjust the pressure via two buttons so we dont need to check if squeegee is applying pressure to wall
+            //because the pressure is only managed with the buttons
+            
             if (_interaction.wallController)
             {
                 _isTouchingCanvas = rakelpositionZ > canvaspositionZ;
@@ -41,18 +47,17 @@ public class TrackerStrokeState : StrokeStateSource
             {
                 if (rakelpositionZ > canvaspositionZ)
                 {
-                    StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
-                    if (StrokeBegin )//&& _buttonCollisionIndikator.TouchingCanvas())
+                    StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke && _buttonCollisionIndikator.TouchingCanvas();
+                    if (StrokeBegin)
                     {
+                        Debug.Log("Stroke Begin");
                         InStroke = true;
-                        _counter++;
+                        _counter++; 
                         _strokeCounter.SetText(_counter.ToString());
                         _oilPaintEngine.BackupStroke();
-
                     }
                 }
-                
-                if (rakelpositionZ < canvaspositionZ)// || !_buttonCollisionIndikator.TouchingCanvas())
+                if (rakelpositionZ < canvaspositionZ || !_buttonCollisionIndikator.TouchingCanvas())
                 {
                     InStroke = false;
                 }
@@ -78,6 +83,6 @@ public class TrackerStrokeState : StrokeStateSource
                 }
                 _wasPreviouslyInStroke = isCurrentlyInStroke;
             }
-        //}
+        }
     }
 }

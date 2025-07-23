@@ -48,7 +48,8 @@ public class Canvas_
 
         NormalScale = normalScale;
         ColorSpace = colorSpace;
-
+        
+        
         Reservoir = new CanvasReservoir(textureResolution, TextureSize.x, TextureSize.y, layers, cellVolume);
 
         Texture = new RenderTexture(TextureSize.x, TextureSize.y, 1);
