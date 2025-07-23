@@ -36,7 +36,6 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject _sizeObj;
     private GameObject _sizeText;
     private bool _deleteFromBuffer;
-    public bool uiActive;
 
     private GameObject _wallButtons;
     //Fill Rakel
@@ -56,6 +55,8 @@ public class ButtonInteraction : MonoBehaviour
     private Dictionary<string, int> _methodCallCounters = new Dictionary<string, int>();
 
     
+    [HideInInspector]
+    public bool uiActive;
     
     private void Start()
     {

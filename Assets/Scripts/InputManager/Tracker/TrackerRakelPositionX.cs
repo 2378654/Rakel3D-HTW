@@ -14,7 +14,7 @@ public class TrackerRakelPositionX : FloatValueSource
         Vector3 _botPosition = _bot.position;
 
         Vector3 center = (_topPosition + _botPosition) / 2f;
-        
+        /*
         //Because of the camera angle we probably need to check the x position and calculate the x mult of that
         //otherwise the position of the stroke will be different
         
@@ -27,8 +27,8 @@ public class TrackerRakelPositionX : FloatValueSource
         {
             _newOffsetX = 0.05f;
         }
+        */
         
-        
-        Value = (center.x + _newOffsetX) * _lineRenderer.multX;
+        Value = (center.x + _lineRenderer.offsetX) * _lineRenderer.multX;
     }
 }
