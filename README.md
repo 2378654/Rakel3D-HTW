@@ -129,4 +129,5 @@
     + ApplySize nicht mehr auf Canvas Clear sondern zu Refill
     + Nach drücken auf Canvas Clear nochmal nachfragen ob Die Nutzende Person sich sicher ist
 
-        
+    + SaveImg nicht die richtigen Maße
+    + Undo immernoch nicht funktionsfähig beim Wandcontroller
