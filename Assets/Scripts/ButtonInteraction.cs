@@ -89,13 +89,6 @@ public class ButtonInteraction : MonoBehaviour
         _posYForColorObject = _colorButtons.transform.localPosition.y;
 
     }
-    private void Update()
-    {
-        //_oilPaintEngine.Rakel.Reservoir.PaintGrid.ReadbackContent();
-        //_currentVolume = _oilPaintEngine.Rakel.Reservoir.PaintGrid.ContentData[0].Volume;
-        //_line.startColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
-        //_line.endColor = UnityEngine.Color.Lerp(UnityEngine.Color.white, _paintColor, _currentVolume);
-    }
     
     
     void DisableAtStart()
@@ -196,8 +189,10 @@ public class ButtonInteraction : MonoBehaviour
         string path = $"Assets/SavedArtworks/{currentTime}Slot{imgNum}.png";
         _canvasObj = GameObject.Find("Canvas");
 
-        int rectWidth = (int)_oilPaintEngine.Config.CanvasConfig.Width * 40;//_oilPaintEngine.Config.TextureResolution;
-        int rectHeight = (int)_oilPaintEngine.Config.CanvasConfig.Height * 40;//_oilPaintEngine.Config.TextureResolution;
+        Debug.Log("Width x Height: " + _oilPaintEngine.Config.CanvasConfig.Width + " x " + _oilPaintEngine.Config.CanvasConfig.Height);
+        
+        int rectWidth = (int)_oilPaintEngine.Config.CanvasConfig.Width * _oilPaintEngine.Config.TextureResolution;
+        int rectHeight = (int)_oilPaintEngine.Config.CanvasConfig.Height * _oilPaintEngine.Config.TextureResolution;
 
         RenderTexture rt = new(rectWidth, rectHeight, GraphicsFormat.R8G8B8A8_SRGB, GraphicsFormat.None);
         rt.Create();
@@ -205,7 +200,7 @@ public class ButtonInteraction : MonoBehaviour
         RenderTexture.active = rt;
         
         screenshotCamera.targetTexture = rt;
-        screenshotCamera.backgroundColor = UnityEngine.Color.white;
+        screenshotCamera.backgroundColor = UnityEngine.Color.clear;
         
         //Changing the shader of the plane for the screenshot to avoid reflections of the directional light
         //_canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
@@ -222,7 +217,7 @@ public class ButtonInteraction : MonoBehaviour
         Debug.Log("Screenshot saved");
         
         RenderTexture.active = currentRT;
-        //Destroy(image);
+        Destroy(image);
         //Destroy(rt);
         AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate); 
         
@@ -256,11 +251,13 @@ public class ButtonInteraction : MonoBehaviour
     public void ChangeHeightOnController(int heightMult)
     {
         _canvasHeight = BaseFormatB * heightMult;
-     
+        float orthographicSize = screenshotCamera.orthographicSize;
+        orthographicSize = heightMult - 2;
         int result = GetRatio(_canvasWidth, _canvasHeight);
         int newformatA = _canvasWidth / result;
         int newformatB = _canvasHeight / result;
 
+        screenshotCamera.orthographicSize = orthographicSize;
         _oilPaintEngine.UpdateHeight(_canvasHeight);
         _oilPaintEngine.UpdateCanvasFormatA(newformatA);
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);

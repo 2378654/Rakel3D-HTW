@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Diagnostics.Eventing.Reader;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonCollision : MonoBehaviour
 {
-    private ButtonInteraction _interaction;
+    [SerializeField] ButtonInteraction _interaction;
+    [SerializeField] OilPaintEngine _oilPaintEngine;
+    private bool _touchingCanvas = false;
+    
     private Button _button;
     private Slider _slider;
     private bool _holding,_sliderHolding = false;
@@ -16,10 +20,12 @@ public class ButtonCollision : MonoBehaviour
     private GameObject _line;
     private GameObject _rakelLengthStart, _rakelLengthEnd;
     private GameObject _paintVolumeStart, _paintVolumeEnd;
-
+    
+    
+    private int _counter;
+    
     private void Start()
     {
-        _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         if (_interaction == null)
         {
             Debug.Log("Still NULL");
@@ -81,6 +87,16 @@ public class ButtonCollision : MonoBehaviour
                 _slideCoroutine = StartCoroutine(KeepSliding(_slider.GetComponent<BoxCollider>()));
             }
         }
+        else if (other.CompareTag("Canvas"))
+        {
+            _touchingCanvas = true;
+        }
+    }
+
+    public bool TouchingCanvas()
+    {
+        Debug.Log("TouchingCanvas: "  + _touchingCanvas);
+        return _touchingCanvas;
     }
 
     private void OnTriggerExit(Collider other)

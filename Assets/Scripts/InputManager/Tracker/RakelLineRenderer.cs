@@ -74,7 +74,8 @@ public class RakelLineRenderer : MonoBehaviour
         Quaternion rakelRotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
         _box.transform.rotation = rakelRotation;
         
-        _box.size = new Vector3(_rakelWidth, 4, 0.01f); //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
+        //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
+        _box.size = new Vector3(_rakelWidth, 4, 0.01f); 
         
         //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;
