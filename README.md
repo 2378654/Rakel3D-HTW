@@ -126,8 +126,8 @@
         - durch Gameobjects am Start und Ende der Slider
     + 0 oder 1 zu false oder true - Done
 
-    + ApplySize nicht mehr auf Canvas Clear sondern zu Refill
-    + Nach drücken auf Canvas Clear nochmal nachfragen ob Die Nutzende Person sich sicher ist
+    + ApplySize nicht mehr auf Canvas Clear sondern zu Refill - Done
+    + Nach drücken auf Canvas Clear nochmal nachfragen ob Die Nutzende Person sich sicher ist - Done
 
     + SaveImg nicht die richtigen Maße - Done
     + Undo immernoch nicht funktionsfähig beim Wandcontroller - Done
