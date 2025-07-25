@@ -132,8 +132,8 @@
     + SaveImg nicht die richtigen Maße - Done
     + Undo immernoch nicht funktionsfähig beim Wandcontroller - Done
 
-    + Collider für Wall-Controller fertig stellen
-    + Abstand zur Wand anpassen
-    + Screenshot "Reflektion?" entfernen
+    + Collider für Wall-Controller fertig stellen - Done
+    + Abstand zur Wand anpassen - Done
+    + Screenshot "Reflektion?" entfernen - Licht Intensität konnte das Problem zu Teilen lösen
         - mögl. RenderTexture --> GraphicsFormat R8G8B8A8_UNORM, Graphicsformat.D32_SFloat oder andere durchprobieren
         
