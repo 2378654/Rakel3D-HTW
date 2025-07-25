@@ -40,7 +40,8 @@ unsigned long lastSendFormatA = 0;
 unsigned long lastSendFormatB = 0;
 const unsigned long interval = 200;
 
-bool sizeDone = false; //used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
+//used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
+int sizeDone =0; 
 
 void setup() {
   Serial.begin(115200);
@@ -74,19 +75,25 @@ void setup() {
 }
 
 void loop() {
-  SaveAndLoad();
-  Pressure();
-  Color();
-  CSB();
-  ReapplyColor();
-  ClearRakel();
-  Length();
-  Volume();
-  Undo();
-  ClearCanvas();
-  //Size();
-  //FormatA();
-  //FormatB();
+
+  //As long as the size isn't set we won't allow any other settings
+  if(sizeDone == 0){
+    Length();
+    Volume(); 
+    ReapplyColor(); 
+  }
+  else{
+    SaveAndLoad();
+    Pressure();
+    Color();
+    CSB();
+    ReapplyColor();
+    ClearRakel();
+    Length();
+    Volume();
+    Undo();
+    ClearCanvas();
+  }
 }
 
 void SendToReceiver(const char* message){
@@ -129,12 +136,11 @@ void Color() {
   unsigned long now = millis();
   if (now - lastSendColor >= interval) {
     int value = analogRead(colorpin);
-    //int color = map(value, 0, 4095, 0, 22);
-    int currentZone = value / zoneSize;
-    if (currentZone != oldZone && abs(value - (oldZone * zoneSize)) > BOUND) {
-      snprintf(msg, sizeof(msg), "Color%d", currentZone);
+    int color = map(value, 0, 4095, 22, 0);
+    if (color != oldColor) {
+      snprintf(msg, sizeof(msg), "Color%d", color);
       SendToReceiver(msg);
-      oldZone = currentZone;
+      oldColor = color;
     }
     lastSendColor = now;
   }
@@ -200,7 +206,7 @@ void Length() {
   unsigned long now = millis();
   if (now - lastSendLength >= interval) {
     int val = analogRead(lengthPin);
-    if(sizeDone == false){
+    if(sizeDone == 0){
       int canvasWidth = map(val, 0, 4095, 1, 10);
       if (canvasWidth != oldCanvasWidth) {
         snprintf(msg, sizeof(msg), "Width%d", canvasWidth);
@@ -216,7 +222,7 @@ void Length() {
         SendToReceiver(msg);
         oldLength = length;
       }
-      
+      lastSendLength = now;
     }
   }
 }
@@ -225,7 +231,7 @@ void Volume() {
   unsigned long now = millis();
   if (now - lastSendVolume >= interval) {
     int val = analogRead(volumePin);
-    if(sizeDone == false){
+    if(sizeDone == 0){
       int canvasHeight = map(val, 0, 4095, 1, 10);
       if (canvasHeight != oldCanvasHeight) {
         snprintf(msg, sizeof(msg), "Height%d", canvasHeight);
@@ -256,7 +262,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.println(data.a);
   //Check if reset is send
   if (strcmp(data.a, "Reset") == 0){
-    sizeDone = false;
+    sizeDone = 0;
   }
 }
 
