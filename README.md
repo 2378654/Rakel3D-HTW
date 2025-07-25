@@ -134,6 +134,6 @@
 
     + Collider für Wall-Controller fertig stellen - Done
     + Abstand zur Wand anpassen - Done
-    + Screenshot "Reflektion?" entfernen - Licht Intensität konnte das Problem zu Teilen lösen
+    + Screenshot "Reflektion?" entfernen - Done Kamera hat reflektiert musste weiter weg von der Leinwand
         - mögl. RenderTexture --> GraphicsFormat R8G8B8A8_UNORM, Graphicsformat.D32_SFloat oder andere durchprobieren
         
