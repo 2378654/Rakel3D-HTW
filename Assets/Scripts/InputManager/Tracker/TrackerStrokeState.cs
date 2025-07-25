@@ -37,7 +37,7 @@ public class TrackerStrokeState : StrokeStateSource
             }
             else
             {
-                _isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0.1f;
+                _isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0f;
             }
 
             //bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
@@ -65,7 +65,7 @@ public class TrackerStrokeState : StrokeStateSource
             }
             else
             {
-                if (rakelpositionZ > canvaspositionZ && pressure > 0.1f)
+                if (rakelpositionZ > canvaspositionZ && pressure > 0f)
                 {
                     StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
                     if (StrokeBegin)
@@ -77,7 +77,7 @@ public class TrackerStrokeState : StrokeStateSource
                     }
                 }
 
-                if (rakelpositionZ < canvaspositionZ || pressure < 0.1f)
+                if (rakelpositionZ < canvaspositionZ || pressure < 0f)
                 {
                     InStroke = false;
                 }

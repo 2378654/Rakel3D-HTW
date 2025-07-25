@@ -3,26 +3,15 @@
 
 public class RakelLineRenderer : MonoBehaviour
 {   
-    [SerializeField] DistanceToCanvas _distanceToCanvas;
-    
-    
-    private float canvaspositionZ;
-    
-    private float _rakelpositionZ;
-    private OilPaintEngine OilPaintEngine;
-    
-    private float _rakelLength;
-    private float _rakelWidth;
-    private Color_ _current_color;
-    private Color _paint_color, _no_paint_color;
-    private BoxCollider _box;
-    private GameObject _rakel;
-    
-    private LineRenderer _line;
-
+    [SerializeField] DistanceToCanvas distanceToCanvas;
     public float multX, multY;
     public float offsetX, offsetY,offsetZ;
-    
+    private OilPaintEngine _oilPaintEngine;
+    private float _rakelLength;
+    private float _rakelWidth;
+    private BoxCollider _box;
+    private GameObject _rakel;
+    private LineRenderer _line;
     private float _rakelRotationX;
     private float _rakelRotationY;
     private float _rakelRotationZ;
@@ -42,14 +31,14 @@ public class RakelLineRenderer : MonoBehaviour
 
         _box = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
         _rakel = GameObject.Find("RenderedRakel");
-        OilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
+        _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         
         _top = GameObject.Find("Top").transform;
         _bot = GameObject.Find("Bottom").transform;
     }
     void Update()
     {
-        _rakelLength = OilPaintEngine.Config.RakelConfig.Length;
+        _rakelLength = _oilPaintEngine.Config.RakelConfig.Length;
 
         Vector3 offset = new Vector3(offsetX, offsetY, offsetZ);
         float _minZ = -2.6f;
@@ -79,7 +68,7 @@ public class RakelLineRenderer : MonoBehaviour
         
         //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
         //_box.size = new Vector3(_rakelWidth, 4, 0.01f); 
-        _box.size = new Vector3(_rakelWidth, 4, _distanceToCanvas.canvasOffset);
+        _box.size = new Vector3(_rakelWidth, 4, distanceToCanvas.canvasOffset);
         
         //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;

@@ -637,7 +637,8 @@ public class ButtonInteraction : MonoBehaviour
 
         int personNumber = 0;
         string protocolFilePath;
-
+        
+        //as long as the file with the current personnumber exists in /Protocol increment the number
         do
         {
             protocolFilePath = Path.Combine(protocolPath, $"Person{personNumber}.txt");
@@ -645,6 +646,8 @@ public class ButtonInteraction : MonoBehaviour
         }
         while (File.Exists(protocolFilePath));
 
+        
+        //then we can write the used settings to the new file
         using (StreamWriter textfile = File.AppendText(protocolFilePath))
         {
             foreach (var method in _methodCallCounters)
