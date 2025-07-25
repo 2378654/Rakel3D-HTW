@@ -1,4 +1,4 @@
-﻿using PlasticPipe.PlasticProtocol.Messages;
+﻿﻿using PlasticPipe.PlasticProtocol.Messages;
 using TMPro;
 using UnityEngine;
 
@@ -83,6 +83,10 @@ public class TrackerStrokeState : StrokeStateSource
                 }
                 _wasPreviouslyInStroke = isCurrentlyInStroke;
             }
+        }
+        else
+        {
+            InStroke  = false;
         }
     }
 }

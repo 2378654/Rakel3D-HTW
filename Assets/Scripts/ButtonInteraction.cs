@@ -51,7 +51,6 @@ public class ButtonInteraction : MonoBehaviour
     private float _posXForColorObject, _posYForColorObject;
     
     //Counter for used Settings
-    private int _personNumber = 1;
     private Dictionary<string, int> _methodCallCounters = new Dictionary<string, int>();
 
     
@@ -379,34 +378,21 @@ public class ButtonInteraction : MonoBehaviour
     {
         CountCall();
         _color = color;
-        _currentColor = (Color_)_color;
-        
-        Vector3 colorVector = Colors.GetColor(_currentColor);
-        if (_color != _oldColor)
-        {
-            Debug.Log("Current Color: " + _color);
-            _oilPaintEngine.UpdateFillColor(_currentColor);
-            _currentColorObj.GetComponent<MeshRenderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
-            _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
-            _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
-        
-            _oilPaintEngine.FillApply();
-        
-            _oldColor = _color;
-        }
-        
+        ApplyRakelSettings();
     }
 
     public void ChangeRakelLengthOnWall(float length)
     {
         CountCall();
-        _oilPaintEngine.UpdateRakelLength(length);
+        _rakellength = length;
+        ApplyRakelSettings();
     }
     
-    public void ChangeRakelVolumeOnWall(float volume)
+    public void ChangeRakelVolumeOnWall(int volume)
     {
         CountCall();
-        _oilPaintEngine.UpdateFillVolume((int)volume);
+        _paintvolume = volume;
+        ApplyRakelSettings();
     }
 
     public void RakelLength(float length)
@@ -470,13 +456,8 @@ public class ButtonInteraction : MonoBehaviour
 
         if (_color != _oldColor)
         {
-            //_oilPaintEngine.UpdateFillColor(_currentColor);
-            //_oldColor = _color;
-            //_currentColorObj.GetComponent<Renderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
             _oilPaintEngine.UpdateFillColor(_currentColor);
             _currentColorObj.GetComponent<MeshRenderer>().material.color = new Color(colorVector.x, colorVector.y, colorVector.z);
-            _line.startColor = new Color(colorVector.x, colorVector.y, colorVector.z);
-            _line.endColor = new Color(colorVector.x, colorVector.y, colorVector.z);
         
             _oldColor = _color;
         }
@@ -653,25 +634,24 @@ public class ButtonInteraction : MonoBehaviour
     private void OnApplicationQuit()
     {
         string protocolPath = $"Assets/Protocol/";
-        
-        var info = new DirectoryInfo(protocolPath);
-        var fileInfo = info.GetFiles();
-        foreach (var file in fileInfo)
+
+        int personNumber = 0;
+        string protocolFilePath;
+
+        do
         {
-            if (file.Name.Contains($"{_personNumber}"))
+            protocolFilePath = Path.Combine(protocolPath, $"Person{personNumber}.txt");
+            personNumber++;
+        }
+        while (File.Exists(protocolFilePath));
+
+        using (StreamWriter textfile = File.AppendText(protocolFilePath))
+        {
+            foreach (var method in _methodCallCounters)
             {
-                _personNumber++;
+                textfile.WriteLine($"{method.Key} got called {method.Value} times");
             }
         }
-        
-        string protocolFilePath = $"Assets/Protocol/Person{_personNumber}.txt";
-        StreamWriter textfile = File.AppendText(protocolFilePath);
-
-        foreach (var method in _methodCallCounters)
-        {
-            textfile.WriteLine($"{method.Key} got called {method.Value} times");
-        }
-        textfile.Close();
     }
 }
 
