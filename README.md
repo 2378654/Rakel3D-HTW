@@ -139,4 +139,5 @@
         
     + Smoothing Versuch damit die Farben nicht hin und her springen
     + Klebestreifen zur Sicherheit für den Deckel
+    + FSR Maximalgewicht mit Waage testen
     
