@@ -134,6 +134,11 @@
 
     + Collider für Wall-Controller fertig stellen - Done
     + Abstand zur Wand anpassen - Done
-    + Screenshot "Reflektion?" entfernen - Licht Intensität konnte das Problem zu Teilen lösen
+    + Screenshot "Reflektion?" entfernen - Done Kamera hat reflektiert musste weiter weg von der Leinwand
         - mögl. RenderTexture --> GraphicsFormat R8G8B8A8_UNORM, Graphicsformat.D32_SFloat oder andere durchprobieren
         
+    + Smoothing Versuch damit die Farben nicht hin und her springen
+    + Klebestreifen zur Sicherheit für den Deckel
+    + FSR Maximalgewicht mit Waage testen
+    + Arbeitsspeicherauslastung nachschauen
+    
