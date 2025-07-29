@@ -36,8 +36,10 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject _sizeObj;
     private GameObject _sizeText;
     private bool _deleteFromBuffer;
-
     private GameObject _wallButtons;
+
+    private int _saveCounter;
+    
     //Fill Rakel
     private int _paintvolume, _oldPaintVolume;
     private float _rakellength, _oldRakelLength;
@@ -191,6 +193,14 @@ public class ButtonInteraction : MonoBehaviour
     {
         CountCall();
         StartCoroutine(SaveImgRoutine(imgNum));
+        
+        //HACK: We need to reload the first saved image right away otherwise the loading doesn't work properly 
+        _saveCounter++;
+        if (_saveCounter == 1)
+        {
+            LoadImg(imgNum);
+        }
+
     }
     
     private IEnumerator SaveImgRoutine(int imgNum)
@@ -358,10 +368,16 @@ public class ButtonInteraction : MonoBehaviour
     public void LoadImg(int imgNum)
     {
         CountCall();
+        
         Debug.Log("Load - Button Pressed");
-    
-        _oilPaintEngine.ClearCanvas();
-        _oilPaintEngine.LoadImg(imgNum);
+        string textObject = "Text" + imgNum;
+        TextMeshProUGUI currentImage = GameObject.Find(textObject).GetComponent<TextMeshProUGUI>();
+        
+        if (currentImage.text != "Empty")
+        {
+            _oilPaintEngine.ClearCanvas();
+            _oilPaintEngine.LoadImg(imgNum);
+        }
     }
 
   
@@ -633,7 +649,7 @@ public class ButtonInteraction : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        string protocolPath = $"Assets/Protocol/";
+        string protocolPath = "Assets/Protocol/";
 
         int personNumber = 0;
         string protocolFilePath;

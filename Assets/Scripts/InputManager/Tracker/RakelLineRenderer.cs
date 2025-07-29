@@ -56,12 +56,18 @@ public class RakelLineRenderer : MonoBehaviour
 
         Vector3 center = (topPos + botPos) / 2f;
         Vector3 pos = new Vector3((center.x + offset.x) * multX, (center.y + offset.y) * multY, center.z + offset.z);
+
+        float savePosZ = pos.z;
+
+        pos.z = -0.2f;
         
         Vector3 startPoint = pos + (rakelDir * (_rakelLength / 2));
         Vector3 endPoint = pos - (rakelDir * (_rakelLength / 2));
 
         _line.SetPosition(0, startPoint);
         _line.SetPosition(1, endPoint);
+
+        pos.z = savePosZ;
         
         Quaternion rakelRotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
         _box.transform.rotation = rakelRotation;

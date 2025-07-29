@@ -19764,10 +19764,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToCanvas: {fileID: 984861443}
-  multX: 8.85
-  multY: 10.2
+  multX: 9.4
+  multY: 11
   offsetX: -0.1
-  offsetY: -1.6
+  offsetY: -1.5
   offsetZ: -0.1
 --- !u!114 &770273875
 MonoBehaviour:
@@ -20781,7 +20781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0d203a6ee7cea41865c4e93a547a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallController: 1
+  wallController: 0
   screenshotCamera: {fileID: 2092542432}
   uiActive: 0
 --- !u!4 &831324582
@@ -29765,7 +29765,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 46.248882, w: 0}
+  m_margin: {x: 29.621666, y: 0, z: 73.36116, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -32322,7 +32322,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 97.78, y: 14.76468, z: 1}
-  m_Center: {x: 1.451443, y: -0.4279129, z: 0.58}
+  m_Center: {x: 1.451443, y: -0.4279129, z: 0.55}
 --- !u!114 &1243933058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40702,7 +40702,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -114.87769, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -44558,7 +44558,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 97.78, y: 14.76468, z: 1}
-  m_Center: {x: 1.451443, y: -0.4279129, z: 0.58}
+  m_Center: {x: 1.451443, y: -0.4279129, z: 0.55}
 --- !u!114 &1821461213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44605,8 +44605,8 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 2
   m_MaxValue: 15
-  m_WholeNumbers: 0
-  m_Value: 15
+  m_WholeNumbers: 1
+  m_Value: 4
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -47756,7 +47756,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 146.9221, y: 19.86974, z: 1}
-  m_Center: {x: 0, y: 18.16, z: 0.45}
+  m_Center: {x: 0, y: 18.16, z: 0.4}
 --- !u!114 &1976082968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50463,7 +50463,7 @@ Transform:
   m_GameObject: {fileID: 2092542430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.8417368}
+  m_LocalPosition: {x: 0, y: 0, z: -16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

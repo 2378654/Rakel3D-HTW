@@ -96,7 +96,7 @@ public class ButtonCollision : MonoBehaviour
 
     public bool TouchingCanvas()
     {
-        Debug.Log("TouchingCanvas: "  + _touchingCanvas);
+        //Debug.Log("TouchingCanvas: "  + _touchingCanvas);
         return _touchingCanvas;
     }
 
