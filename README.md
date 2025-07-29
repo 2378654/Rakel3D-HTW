@@ -137,8 +137,10 @@
     + Screenshot "Reflektion?" entfernen - Done Kamera hat reflektiert musste weiter weg von der Leinwand
         - mögl. RenderTexture --> GraphicsFormat R8G8B8A8_UNORM, Graphicsformat.D32_SFloat oder andere durchprobieren
         
-    + Smoothing Versuch damit die Farben nicht hin und her springen
-    + Klebestreifen zur Sicherheit für den Deckel
-    + FSR Maximalgewicht mit Waage testen
+    + Smoothing Versuch damit die Farben nicht hin und her springen - Keine Sinnvolle Idee
+    + Klebestreifen zur Sicherheit für den Deckel -Done 
+    + FSR Maximalgewicht mit Waage testen - Done
+
+
     + Arbeitsspeicherauslastung nachschauen
-    
+    + LE in tatsächlicher Lenge messen   
