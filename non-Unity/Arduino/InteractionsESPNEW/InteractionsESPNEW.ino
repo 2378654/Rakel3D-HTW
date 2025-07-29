@@ -38,13 +38,13 @@ unsigned long lastSendLength = 0;
 unsigned long lastSendSize = 0;
 unsigned long lastSendFormatA = 0;
 unsigned long lastSendFormatB = 0;
-const unsigned long interval = 200;
+const unsigned long interval = 200; //basically a delay 
 
-//used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
-int sizeDone =0; 
+int sizeDone =0; //used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
 
 void setup() {
   Serial.begin(115200);
+
   WiFi.mode(WIFI_STA);
 
   pinMode(reapplyPin, INPUT_PULLUP);
@@ -76,7 +76,6 @@ void setup() {
 
 void loop() {
 
-  //As long as the size isn't set we won't allow any other settings
   if(sizeDone == 0){
     Length();
     Volume(); 
@@ -129,9 +128,6 @@ void Pressure() {
   }
 }
 
-const int BOUND = 80;
-int zoneSize = 4095 / 22;
-
 void Color() {
   unsigned long now = millis();
   if (now - lastSendColor >= interval) {
@@ -144,6 +140,7 @@ void Color() {
     }
     lastSendColor = now;
   }
+  delay(100);
 }
 
 void CSB() {
