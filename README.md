@@ -143,4 +143,9 @@
 
 
     + Arbeitsspeicherauslastung nachschauen
-    + LE in tatsächlicher Lenge messen   
+    + LE in tatsächlicher Lenge messen  
+
+    + Eigenständigkeitserklärung siehe https://www.htw-berlin.de/lehre/lehre-gestalten/ki-in-lehre-und-pruefungen/eigenstaendigkeit-erklaeren-ki-verzeichnis/
+    + Gewicht Rakel:
+        - ohne Controller: 651g -> 504g Rakel + 73g pro Tracker
+        - mit Controller:  956g -> 504g Rakel + 73g pro Tracker + 112g Power Bank + 184g Controller  ---> 10g Ungenauigkeiten und FSR in etwa 5g pro FSR
