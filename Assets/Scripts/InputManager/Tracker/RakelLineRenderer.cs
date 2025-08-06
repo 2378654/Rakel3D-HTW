@@ -15,11 +15,12 @@ public class RakelLineRenderer : MonoBehaviour
     private float _rakelRotationX;
     private float _rakelRotationY;
     private float _rakelRotationZ;
-    
+    private ButtonInteraction _interaction;
     private Transform _top, _bot;
     
     void Start()
     {
+        _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         _rakelWidth = new RakelConfiguration().Width * 0.2f;
         
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
@@ -45,6 +46,7 @@ public class RakelLineRenderer : MonoBehaviour
         float _maxZ = -2.56f;
 
         float rakelTilt = Mathf.Abs(_rakel.transform.eulerAngles.y - 180);
+
         if (rakelTilt > 79) rakelTilt = 79;
         if (rakelTilt > 90) rakelTilt = 180 - rakelTilt;
 
@@ -56,10 +58,17 @@ public class RakelLineRenderer : MonoBehaviour
 
         Vector3 center = (topPos + botPos) / 2f;
         Vector3 pos = new Vector3((center.x + offset.x) * multX, (center.y + offset.y) * multY, center.z + offset.z);
-
+        
         float savePosZ = pos.z;
-
-        pos.z = -0.2f;
+        if (_interaction.uiActive)
+        {
+            pos.z = -0.45f;
+        }
+        else
+        {
+            pos.z = -0.25f;    
+        }
+        
         
         Vector3 startPoint = pos + (rakelDir * (_rakelLength / 2));
         Vector3 endPoint = pos - (rakelDir * (_rakelLength / 2));
@@ -73,10 +82,8 @@ public class RakelLineRenderer : MonoBehaviour
         _box.transform.rotation = rakelRotation;
         
         //Collider Length is static at 4, so multiple buttons can't be clicked if the Rakel is longer
-        //_box.size = new Vector3(_rakelWidth, 4, 0.01f); 
         _box.size = new Vector3(_rakelWidth, 4, distanceToCanvas.canvasOffset);
         
-        //_box.transform.position = pos + rakelDir;
         _box.transform.position = pos;
         _line.transform.rotation = Quaternion.LookRotation(Vector3.forward, rakelDir);
     }

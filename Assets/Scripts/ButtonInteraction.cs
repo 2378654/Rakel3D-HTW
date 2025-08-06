@@ -232,11 +232,8 @@ public class ButtonInteraction : MonoBehaviour
         
         screenshotCamera.targetTexture = rt;
         screenshotCamera.backgroundColor = UnityEngine.Color.clear;
-        
-        //Changing the shader of the plane for the screenshot to avoid reflections of the directional light
-        //_canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
         screenshotCamera.Render();
-        //_canvasObj.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
+        
         
         Texture2D image = new Texture2D(rectWidth, rectHeight, TextureFormat.ARGB32, false,false);
         

@@ -24,14 +24,10 @@ public class RotateToColor : MonoBehaviour
         //_currentColor = color;
         if (_currentColor != _lastColor && _currentColor >= 0)
         {
-            //if (_currentColor > 3) { _offset = 1;}
-            //if (_currentColor > 7) { _offset = 2;}
-            /*if (_currentColor > 10) { _offset = 4;}
-            if (_currentColor > 11) { _offset = 9;}
-            if (_currentColor > 14) { _offset = 13;}
-            if (_currentColor > 18) { _offset = 7;}
-            if (_currentColor > 20) { _offset = 4;}*/
-            //if (_currentColor > 17) { _offset = 4;}
+            if (_currentColor > 3) { _offset = -5;}
+            if (_currentColor > 12) { _offset = 0;}
+            if (_currentColor > 17) { _offset = -5;}
+            if (_currentColor > 20) { _offset = -10;}
             
             float startRotation = -35f;
             float rotationPerColor = 270f / 23f;

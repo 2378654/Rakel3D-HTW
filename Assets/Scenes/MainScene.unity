@@ -654,7 +654,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 155.52155, y: 20.924438, z: 1}
-  m_Center: {x: 1.149696, y: -1.435588, z: 0.58}
+  m_Center: {x: 1.149696, y: -1.435588, z: 0.56}
 --- !u!1 &10876314
 GameObject:
   m_ObjectHideFlags: 0
@@ -8646,7 +8646,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 155.52155, y: 20.924438, z: 1}
-  m_Center: {x: 1.149696, y: -1.435588, z: 0.58}
+  m_Center: {x: 1.149696, y: -1.435588, z: 0.56}
 --- !u!1 &328968191
 GameObject:
   m_ObjectHideFlags: 0
@@ -11802,7 +11802,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 146.9221, y: 19.86974, z: 1}
-  m_Center: {x: 0, y: -25.58, z: 0.45}
+  m_Center: {x: 0, y: 0, z: 0.45}
 --- !u!1 &492377210
 GameObject:
   m_ObjectHideFlags: 0
@@ -12360,7 +12360,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 145.07, y: 23.56, z: 1}
-  m_Center: {x: 0, y: 0, z: 0.56}
+  m_Center: {x: 0, y: 0, z: 0.54}
 --- !u!1 &529645882
 GameObject:
   m_ObjectHideFlags: 0
@@ -18135,7 +18135,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 155.52155, y: 20.924438, z: 1}
-  m_Center: {x: 1.149696, y: -1.435588, z: 0.58}
+  m_Center: {x: 1.149696, y: -1.435588, z: 0.56}
 --- !u!1 &733879247
 GameObject:
   m_ObjectHideFlags: 0
@@ -19765,8 +19765,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceToCanvas: {fileID: 984861443}
   multX: 9.4
-  multY: 11
-  offsetX: -0.1
+  multY: 10.7
+  offsetX: -0.08
   offsetY: -1.5
   offsetZ: -0.1
 --- !u!114 &770273875
@@ -22461,7 +22461,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 145.07, y: 23.56, z: 1}
-  m_Center: {x: 0, y: 0, z: 0.56}
+  m_Center: {x: 0, y: 0, z: 0.54}
 --- !u!1 &925857206
 GameObject:
   m_ObjectHideFlags: 0
@@ -24360,7 +24360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Paint Volume
+  m_text: Amount of Paint
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24423,7 +24423,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -158.76292, w: 0}
+  m_margin: {x: 0, y: 0, z: -217.25786, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -24482,7 +24482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1157581161}
-  canvasOffset: 1.25
+  canvasOffset: 1.27
 --- !u!1 &988315615
 GameObject:
   m_ObjectHideFlags: 0
@@ -28520,7 +28520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rakel Length
+  m_text: Squeegee Length
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28583,7 +28583,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -168.65735, w: 0}
+  m_margin: {x: 0, y: 0, z: -214.48134, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -46631,7 +46631,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 155.52155, y: 20.924438, z: 1}
-  m_Center: {x: 1.149696, y: -1.435588, z: 0.58}
+  m_Center: {x: 1.149696, y: -1.435588, z: 0.56}
 --- !u!1 &1923876121
 GameObject:
   m_ObjectHideFlags: 0
@@ -47756,7 +47756,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 146.9221, y: 19.86974, z: 1}
-  m_Center: {x: 0, y: 18.16, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0.4}
 --- !u!114 &1976082968
 MonoBehaviour:
   m_ObjectHideFlags: 0
