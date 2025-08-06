@@ -137,8 +137,18 @@
     + Screenshot "Reflektion?" entfernen - Done Kamera hat reflektiert musste weiter weg von der Leinwand
         - mögl. RenderTexture --> GraphicsFormat R8G8B8A8_UNORM, Graphicsformat.D32_SFloat oder andere durchprobieren
         
-    + Smoothing Versuch damit die Farben nicht hin und her springen
-    + Klebestreifen zur Sicherheit für den Deckel
-    + FSR Maximalgewicht mit Waage testen
+    + Smoothing Versuch damit die Farben nicht hin und her springen - Keine Sinnvolle Idee
+    + Klebestreifen zur Sicherheit für den Deckel -Done 
+    + FSR Maximalgewicht mit Waage testen - Done
+
+
     + Arbeitsspeicherauslastung nachschauen
-    
+    + LE in tatsächlicher Lenge messen  
+
+    + Eigenständigkeitserklärung siehe https://www.htw-berlin.de/lehre/lehre-gestalten/ki-in-lehre-und-pruefungen/eigenstaendigkeit-erklaeren-ki-verzeichnis/
+    + Gewicht Rakel:
+        - ohne Controller: 651g -> 504g Rakel + 73g pro Tracker
+        - mit Controller:  956g -> 504g Rakel + 73g pro Tracker + 112g Power Bank + 184g Controller  ---> 10g Ungenauigkeiten und FSR in etwa 5g pro FSR
+
+    + AttrakDiff --> Standardabweichung für Konfidenzrechteck über Excel berechnen
+    + NasaTLX --> Mittelwert, Varianz, Standardabweichung
