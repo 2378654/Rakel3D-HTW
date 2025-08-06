@@ -151,3 +151,4 @@
         - mit Controller:  956g -> 504g Rakel + 73g pro Tracker + 112g Power Bank + 184g Controller  ---> 10g Ungenauigkeiten und FSR in etwa 5g pro FSR
 
     + AttrakDiff --> Standardabweichung für Konfidenzrechteck über Excel berechnen
+    + NasaTLX --> Mittelwert, Varianz, Standardabweichung
