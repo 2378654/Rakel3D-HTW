@@ -28,3 +28,4 @@ Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem
 + Anpassen der Entfernung zur Wand:
     - GameObject "DistanceController" Canvas Offset anpassen (momentan bei 1.27)
 
+     ![Abstand zur Leinwand bei Bedarf anpassen](images/DistanceController.png).
