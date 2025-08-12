@@ -22,10 +22,9 @@ Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem
 ## Innerhalb des Projekts
 + Anpassen der virtuellen Rakelkante:
     - GameObject "LineRenderer" in der Szene Offset X und Y sowie Mult X und Y bei Bedarf anpassen
-    
+
      ![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png).
-    - Die angepassten Werte müssen nochmal in TrackerPositionX.cs und TrackerPositionY.cs angepasst werden.
+
 + Anpassen der Entfernung zur Wand:
-    - In TrackerStrokeState.cs bei Bedarf den Offset anpassen (Momentan 1.11f)
-    - Offset muss bei Änderung ebenfalls bei DistanceToCanvas.cs angepasst werden
+    - GameObject "DistanceController" Canvas Offset anpassen (momentan bei 1.27)
 
