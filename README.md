@@ -152,3 +152,5 @@
 
     + AttrakDiff --> Standardabweichung für Konfidenzrechteck über Excel berechnen
     + NasaTLX --> Mittelwert, Varianz, Standardabweichung
+
+    + TrackerStrokeState fix bild vorher nachher
