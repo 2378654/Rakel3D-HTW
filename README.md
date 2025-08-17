@@ -154,3 +154,5 @@
     + NasaTLX --> Mittelwert, Varianz, Standardabweichung
 
     + TrackerStrokeState fix bild vorher nachher
+    + Video vom Start aufnehmen --> Breite und höhe sonst nicht mit drauf
+    + Breite höhe Buttons Bild
