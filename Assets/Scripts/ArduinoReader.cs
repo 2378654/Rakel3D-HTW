@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using System.IO.Ports;
 using System.Linq;
@@ -18,7 +19,7 @@ public class ArduinoReader : MonoBehaviour
     private string line;
     private CanvasReservoir _canvasReservoir;
     private int _lastSave, _lastLoad;
-    
+    private TextMeshProUGUI _clearTextOnWall;
     private int _sizeSet;
     
     //Confirm CanvasClear
@@ -29,6 +30,7 @@ public class ArduinoReader : MonoBehaviour
         _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
         _oilpaintengine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
         
+        _clearTextOnWall =  GameObject.Find("ClearText").GetComponent<TextMeshProUGUI>();
         _sizeText  = GameObject.Find("AdjustSizeText");
         
         const string portName = "COM4";
@@ -241,6 +243,7 @@ public class ArduinoReader : MonoBehaviour
             else if (line.Contains("Reapply"))
             {
                 AbortClearCanvas();
+                StartCoroutine(ShowRefill());
                 _sizeSet++;
                 
                 //we only need to call ApplySize once so we pass on it if its pressed more than once
@@ -257,6 +260,13 @@ public class ArduinoReader : MonoBehaviour
             //Debug.Log("String Empty");
         }
         line = "";
+    }
+
+    IEnumerator ShowRefill()
+    {
+        _clearTextOnWall.SetText("Squeegee refilled");
+        yield return new WaitForSeconds(1);
+        _clearTextOnWall.SetText("");
     }
 
     //Gets called if for every other string other than "Canvas" or after "Canvas" 2 times in a row

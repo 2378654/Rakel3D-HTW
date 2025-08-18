@@ -28,7 +28,7 @@ public class TrackerStrokeState : StrokeStateSource
         
         
             //using the FSR when using the squeegee controller so we only start painting when there is pressure
-            //using the WallController we adjust the pressure via two buttons so we dont need to check if squeegee is applying pressure to wall
+            //using the WallController we adjust the pressure via two buttons so we don't need to check if squeegee is applying pressure to the wall
             //because the pressure is only managed with the buttons
             
             if (_interaction.wallController)
@@ -50,7 +50,6 @@ public class TrackerStrokeState : StrokeStateSource
                     StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke && _buttonCollisionIndikator.TouchingCanvas();
                     if (StrokeBegin)
                     {
-                        Debug.Log("Stroke Begin");
                         InStroke = true;
                         _counter++; 
                         _strokeCounter.SetText(_counter.ToString());
