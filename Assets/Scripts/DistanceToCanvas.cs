@@ -28,7 +28,8 @@ public class DistanceToCanvas : MonoBehaviour
         float canvas_Z = _meshColliderCanvas.transform.position.z;
         float distance = canvas_Z - rakel_Z;
        
-        //Debug.Log("Rakel Z:" + rakel_Z);
+
+        //Show squeegee indicator if distance is smaller than 1
         if (distance <= 0)
         {
             _line.enabled = true;

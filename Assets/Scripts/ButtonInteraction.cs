@@ -99,6 +99,7 @@ public class ButtonInteraction : MonoBehaviour
 
     }
     
+    //Counnting the used Functions for evaluation
     private void CountCall([System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
     {
         if (_methodCallCounters.ContainsKey(methodName))
@@ -222,6 +223,7 @@ public class ButtonInteraction : MonoBehaviour
         
         Debug.Log("Width x Height: " + _oilPaintEngine.Config.CanvasConfig.Width + " x " + _oilPaintEngine.Config.CanvasConfig.Height);
         
+        //Get Pixelsize of the current Canvas
         int rectWidth = (int)_oilPaintEngine.Config.CanvasConfig.Width * _oilPaintEngine.Config.TextureResolution;
         int rectHeight = (int)_oilPaintEngine.Config.CanvasConfig.Height * _oilPaintEngine.Config.TextureResolution;
 
@@ -349,6 +351,7 @@ public class ButtonInteraction : MonoBehaviour
         _oilPaintEngine.UpdateCanvasFormatB(newformatB);
     }
 
+    //Calculate new format of the canvas when changing heigth or width of the canvas
     private static int GetRatio(int width, int height)
     {
         while (width != 0 && height != 0)
@@ -507,7 +510,9 @@ public class ButtonInteraction : MonoBehaviour
         }
 
     }
-    
+
+
+    //On Wall: Switching between Color and Save/Load Buttons
     public void TabSelection()
     {
         CountCall();
@@ -567,6 +572,7 @@ public class ButtonInteraction : MonoBehaviour
         }
     }
 
+    //Get all Colorbuttons
     public void GetChildren()
     {
         foreach (Transform child in _colorButtons.transform)

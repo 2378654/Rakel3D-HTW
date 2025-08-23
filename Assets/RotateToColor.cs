@@ -24,6 +24,7 @@ public class RotateToColor : MonoBehaviour
         //_currentColor = color;
         if (_currentColor != _lastColor && _currentColor >= 0)
         {
+            //Offsets to position the pointer on the color wheel
             if (_currentColor > 3) { _offset = -5;}
             if (_currentColor > 12) { _offset = 0;}
             if (_currentColor > 17) { _offset = -5;}

@@ -157,7 +157,6 @@ public class ButtonCollision : MonoBehaviour
                 if (maxX + 0.1f > _line.transform.position.x && _line.transform.position.x > minX - 0.1f)
                 {
                     _slider.handleRect.transform.position = new Vector3(_line.transform.position.x, _slider.handleRect.transform.position.y, _slider.handleRect.transform.position.z);
-                    //_slider.fillRect.right = new Vector3(_hand.transform.position.x, _slider.fillRect.transform.position.y, _slider.fillRect.transform.position.z);
                     float currentX = _slider.handleRect.transform.position.x;
                     float normalizedValue = Mathf.InverseLerp(minX, maxX, currentX);
                     float sliderValue = Mathf.Lerp(minSlider, maxSlider, normalizedValue);

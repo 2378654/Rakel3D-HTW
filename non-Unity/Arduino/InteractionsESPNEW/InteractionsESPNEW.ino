@@ -3,6 +3,7 @@
 
 #define BUTTON_NUM 6
 
+// mac address of the dongle esp32
 uint8_t broadcastAddress[] = {0x00, 0x4B, 0x12, 0x53, 0x1B, 0x54}; //dev. {0x00, 0x4B, 0x12, 0x53, 0x1B, 0x54} //prod. {0x00, 0x4B, 0x12, 0x3D, 0x70, 0xf4}
 
 typedef struct struct_message {
@@ -76,6 +77,7 @@ void setup() {
 
 void loop() {
 
+  //As long as the width and height of the canvas isnt set, all the other functions are deactivated
   if(sizeDone == 0){
     Length();
     Volume(); 
@@ -257,7 +259,8 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   memcpy(&data, incomingData, sizeof(data));
   Serial.println(data.a);
-  //Check if reset is send
+  
+  //Reseting Canvas size, so its adjustable at every start of the programm
   if (strcmp(data.a, "Reset") == 0){
     sizeDone = 0;
   }

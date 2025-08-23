@@ -21,9 +21,9 @@ public class StrokeCommand : ICommand
         this.paintGrid = grid;
     }
 
+    //Backing of the current state of the canvas
     public void Execute()
     {
-        // Backup vor dem Strich
         paintGrid.ReadbackContent();
         paintGrid.ReadbackInfo();
 
@@ -31,7 +31,8 @@ public class StrokeCommand : ICommand
         backupContent = (Paint[])paintGrid.ContentData.Clone();
         backupInfo = (ColumnInfo[])paintGrid.InfoData.Clone();
     }
-
+    
+    //reverting to the saved state
     public void Undo()
     {
         paintGrid.Size = backupSize;

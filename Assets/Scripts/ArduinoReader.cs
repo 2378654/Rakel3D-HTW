@@ -127,6 +127,7 @@ public class ArduinoReader : MonoBehaviour
                     }
                 }
             }
+            //ClearCanvas
             else if (line.Contains("Canvas"))
             {
                 if (!_clearCanvasPressed)
@@ -142,6 +143,7 @@ public class ArduinoReader : MonoBehaviour
                     AbortClearCanvas();
                 }
             }
+            //Undo
             else if (line.Contains("Undo"))
             {
                 AbortClearCanvas();
@@ -186,6 +188,7 @@ public class ArduinoReader : MonoBehaviour
                 Debug.Log("Cleared Rakel");
                  _interaction.ClearRakel();
             }
+            //ChangeLength
             else if (line.Contains("Length"))
             {
                 AbortClearCanvas();
@@ -200,6 +203,7 @@ public class ArduinoReader : MonoBehaviour
                     Debug.Log("Length couldn't parse correctly");
                 }
             }
+            //Change Amount of Paint
             else if (line.Contains("Volume"))
             {
                 AbortClearCanvas();
@@ -214,6 +218,7 @@ public class ArduinoReader : MonoBehaviour
                     Debug.Log("Volume couldn't parse correctly");
                 }
             }
+            //Change Canvas Width
             else if (line.Contains("Width"))
             {
                 string widthStr = line.Replace("Width", "");
@@ -227,6 +232,7 @@ public class ArduinoReader : MonoBehaviour
                     Debug.Log("Width couldn't parse correctly");
                 }
             }
+            //Change Canvas Height
             else if (line.Contains("Height"))
             {
                 string heightStr = line.Replace("Height", "");
@@ -240,6 +246,7 @@ public class ArduinoReader : MonoBehaviour
                     Debug.Log("Height couldn't parse correctly");
                 }
             }
+            //Refill the squeegee
             else if (line.Contains("Reapply"))
             {
                 AbortClearCanvas();
