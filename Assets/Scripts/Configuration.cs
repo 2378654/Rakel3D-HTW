@@ -185,7 +185,7 @@ public class RakelConfiguration
     public RakelConfiguration()
     {
         Length = 4f; //Default 2f; At School = 3.65f;   Testing = 9.5f
-        Width = 0.8f;
+        Width = 0.4f; //Default 0.8f
         CellVolume = 2;
 
         TiltNoiseEnabled = true;

@@ -25,7 +25,7 @@ public class RakelLineRenderer : MonoBehaviour
     void Start()
     {
         _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
-        _rakelWidth = new RakelConfiguration().Width * 0.2f;
+        _rakelWidth = new RakelConfiguration().Width * 0.5f;
 
         _line = GameObject.Find("LineRenderer").GetComponent<LineRenderer>();
         _line.material = new Material(Shader.Find("Sprites/Default"));
