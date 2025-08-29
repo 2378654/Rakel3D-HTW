@@ -20,6 +20,9 @@ Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem
 + Dongle, um die Daten des Controllers an Unity weiterzuleiten: ESP32 per USB an Computer angeschlossen
 
 ## Innerhalb des Projekts
++ Umschalten zwischen den beiden Controllern
+    - GameObject "Interaction" auswählen --> Checkbox anklicken zum Aktivieren / Deaktivieren des Wand-Controllers
+
 + Anpassen der virtuellen Rakelkante:
     - GameObject "LineRenderer" in der Szene Offset X und Y sowie Mult X und Y bei Bedarf anpassen
 
