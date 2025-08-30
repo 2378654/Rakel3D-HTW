@@ -36,10 +36,11 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
 - **Dongle**  
   - ESP32 per USB am Computer angeschlossen, um die Daten an Unity weiterzuleiten  
 
----
+
 - **Systemübersicht**
 (Diagramm einfügen)
 
+---
 ## Projektsteuerung
 
 ### Umschalten zwischen den Controllern
@@ -60,10 +61,11 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
 
 - **Fehlerbehebung**
   - Wenn die virtuelle Repräsentation ruckartige Bewegungen macht, könnte das an reflektierenden Oberflächen liegen. Es sollte darauf geachtet werden, alle reflektierenden Oberflächen abzudecken.
----
-
 
 - **Bedienung**
   - Erklärung der verfügbaren Funktionen
+
+---
+
 
 
