@@ -1,34 +1,69 @@
 # Rakel3D
-Das Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zeicheninstrument) an einer realen Wand. Das Gemalte wird durch einen Projektor auf eine Wand projiziert.
 
-Das Projekt verwendet ein Mehrschicht Farbmodell. Dieses Modell stammt aus einem vorherigen Projekt: 
+Dieses Projekt simuliert die Rakel-Technik unter Verwendung einer realen Rakel (Zeicheninstrument) an einer realen Wand.  
+Das Gemalte wird durch einen Projektor auf eine Wand projiziert.  
+
+Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt von Brzoska (2023) übernommen wurde.  
+
+---
 
 ## Anforderungen
-+ Unity3D (Verwendete Version: 2022.3.8f1)
-+ SteamVR
-    - ANMERKUNG: Beim Starten von SteamVR warten bis alle vier Basisstationen verbunden sind, dann den oberen Tracker (über der Powerbank) anschalten und anschließend den unteren. Falls die Geräte in anderer Reihenfolge gekoppelt werden, müssen bei den GameObjects "Top" und "Bottom" die Device Nummern gegebenfalls angepasst werden
-+ Lighthouse Tracking
-    - Vier [Lighthouses (Basestations)](https://www.vive.com/de/accessory/base-station2/)
-    - Eine [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/) bzw. eine Vive Cosmos Elite verwendet --> Wird nicht beim Nutzen des Projekts getragen. Muss lediglich verbunden sein, um das Lighthouse Tracking zu ermöglichen.
 
-+ Der Rakel Controller beinhaltet:
-    - Zwei [Vive Tracker 3.0](https://www.vive.com/de/accessory/tracker3/)
-    - PowerBank zur Stromversorgung des eigentlichen Controllers
-    - Controller (ESP32 Mikrocontroller mit Eingabeelementen)
-    - Rakel als Malwerkzeug modifiziert mit einer weichen Kante, um die Wand nicht zu schädigen
+- **Unity3D**  
+  - Verwendete Version: `2022.3.8f1`
+  - Verwendete Pakete einfügen
 
-+ Dongle, um die Daten des Controllers an Unity weiterzuleiten: ESP32 per USB an Computer angeschlossen
+- **SteamVR Startanleitung**  
+  - Beim Starten von SteamVR warten, bis **alle vier Basisstationen** verbunden sind.  
+  - Danach:  
+    1. Oberen Tracker (über der Powerbank) einschalten  
+    2. Unteren Tracker einschalten  
+  - Falls die Geräte in anderer Reihenfolge gekoppelt werden, müssen bei den GameObjects **"Top"** und **"Bottom"** die Device-Nummern ggf. angepasst werden.
 
-## Innerhalb des Projekts
-+ Umschalten zwischen den beiden Controllern
-    - GameObject "Interaction" auswählen --> Checkbox anklicken zum Aktivieren / Deaktivieren des Wand-Controllers
+- **Lighthouse Tracking**  
+  - Vier [Lighthouses (Basestations)](https://www.vive.com/de/accessory/base-station2/)  
+  - Eine [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/) oder eine **Vive Cosmos Elite**  
+    - **Hinweis:** Die Brille wird nicht getragen, sondern nur zur Verbindung benötigt, damit das Lighthouse Tracking funktioniert.
 
-+ Anpassen der virtuellen Rakelkante:
-    - GameObject "LineRenderer" in der Szene Offset X und Y sowie Mult X und Y bei Bedarf anpassen
+- **Kalibrierung**: Zur Kalibrierung des Setups wird die Raumvermessung von SteamVR verwendet.
 
-     ![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png).
+- **Rakel-Controller** (Eigenbau)  
+  - Zwei [Vive Tracker 3.0](https://www.vive.com/de/accessory/tracker3/)  
+  - PowerBank zur Stromversorgung  
+  - ESP32 Mikrocontroller mit Eingabeelementen  
+  - Rakel (Malwerkzeug), modifiziert mit einer weichen Kante zum Schutz der Wand  
 
-+ Anpassen der Entfernung zur Wand:
-    - GameObject "DistanceController" Canvas Offset anpassen (momentan bei 1.27)
+- **Dongle**  
+  - ESP32 per USB am Computer angeschlossen, um die Daten an Unity weiterzuleiten  
 
-     ![Abstand zur Leinwand bei Bedarf anpassen](images/DistanceController.png).
+---
+- **Systemübersicht**
+(Diagramm einfügen)
+
+## Projektsteuerung
+
+### Umschalten zwischen den Controllern
+- GameObject **"Interaction"** auswählen  
+- Checkbox anklicken zum Aktivieren/Deaktivieren des Wand-Controllers  
+
+### Anpassen der virtuellen Rakelkante
+- GameObject **"LineRenderer"** in der Szene auswählen  
+- Parameter **Offset X/Y** sowie **Mult X/Y** nach Bedarf anpassen  
+
+![Offset X und Y sowie Mult X und Y bei Bedarf anpassen](images/LineRendererMultAndOffset.png)
+
+### Anpassen der Entfernung zur Wand
+- GameObject **"DistanceController"** auswählen  
+- **Canvas Offset** anpassen (Standardwert: `1.27`)  
+
+![Abstand zur Leinwand bei Bedarf anpassen](images/DistanceController.png)
+
+- **Fehlerbehebung**
+  - Wenn die virtuelle Repräsentation ruckartige Bewegungen macht, könnte das an reflektierenden Oberflächen liegen. Es sollte darauf geachtet werden, alle reflektierenden Oberflächen abzudecken.
+---
+
+
+- **Bedienung**
+  - Erklärung der verfügbaren Funktionen
+
+
