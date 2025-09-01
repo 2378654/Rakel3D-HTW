@@ -63,10 +63,11 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
   - Wenn die virtuelle Repräsentation ruckartige Bewegungen macht, könnte das an reflektierenden Oberflächen liegen. Es sollte darauf geachtet werden, alle reflektierenden Oberflächen abzudecken.
 
 - **Bedienung**
-  - Rakel-Controller
-    - alle verfügbaren Funktionen sind auf dem erstellten Rakel-Controller
+Die Bedienung unterscheidet sich bei der Verwendung des jeweiligen Controllers:
+  - Rakel-Controller (Einstellungen erfolgen auf der Rakel durch den erstellen Rakel-Controller)
     - Leinwandhöhe und Breite bzw. Rakellänge und Farbmenge auf der Rakel über die Slider Potentiometer `Squeegee Length (Width)` und `Amount of Paint (Height)`
     - Bestätigen der eingestellen Leinwandgröße und wiederbefüllen der Rakel über `Refill (Done)`
+    - Farbauswahl über Drehpotentiometer `Color`
     - Rückgängig machen des letzten "Striches" über `Undo`
     - Rakel leeren mit `Clear Squeegee`
     - Leinwand leeren mit `Clear Canvas`
@@ -74,9 +75,14 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
     - Laden eines Bildes mit `Load 1,2,3`
     - Umschalten zwischen leichter und starker Verwischung über `Light Mixing`
     - Druck wird durch zwei Drucksensoren erfasst
-  - Wand-Controller
+  - Wand-Controller (Einstellungen erfolgen alle an der Wand)
     - `Height + / -` und `Width + / -` zum Einstellen der Leinwandgröße
     - Aufklappen aller verfügbaren Funktion über den Button `UI`
+    - Farbauswahl durch 23 verschiedene Buttons (ein Button pro Farbe)
+    - Rückgängig machen des letzten "Striches" über `Undo`
+    - Umschalten zwischen leichter und starker Verwischung über `Light Mixing`
+    - Rakel leeren mit `Clear Squeegee`
+    - Leinwand leeren mit `Clear Canvas`
     - `Squeegee Length` und `Amount of Paint` Slider zum Einstellen der Rakellänge und Farbmenge
     - `Pressure + / -` zum Einstellen des Drucks
     - Wechseln zwischen Farbauswahl und Speicherverwaltung mit `Save and Load / Colors`
