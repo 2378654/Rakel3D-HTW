@@ -55,7 +55,7 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
 
 ### Anpassen der Entfernung zur Wand
 - GameObject **"DistanceController"** auswählen  
-- **Canvas Offset** anpassen (Standardwert: `1.27`)  
+- **Canvas Offset** anpassen 
 
 ![Abstand zur Leinwand bei Bedarf anpassen](images/DistanceController.png)
 
