@@ -63,8 +63,6 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
   - Wenn die virtuelle Repräsentation ruckartige Bewegungen macht, könnte das an reflektierenden Oberflächen liegen. Es sollte darauf geachtet werden, alle reflektierenden Oberflächen abzudecken.
 
 - **Bedienung**
-  - Wand-Controller
-    - Aufklappen aller verfügbaren Funktion über den Button `UI`
   - Rakel-Controller
     - alle verfügbaren Funktionen sind auf dem erstellten Rakel-Controller
     - Leinwandhöhe und Breite bzw. Rakellänge und Farbmenge auf der Rakel über die Slider Potentiometer `Squeegee Length (Width)` und `Amount of Paint (Height)`
@@ -75,7 +73,11 @@ Das Projekt nutzt ein **Mehrschicht-Farbmodell**, das aus dem vorherigen Projekt
     - Speichern eines Bildes mit `Save 1,2,3`
     - Laden eines Bildes mit `Load 1,2,3`
     - Umschalten zwischen leichter und starker Verwischung über `Light Mixing`
----
-
-
-
+    - Druck wird durch zwei Drucksensoren erfasst
+  - Wand-Controller
+    - `Height + / -` und `Width + / -` zum Einstellen der Leinwandgröße
+    - Aufklappen aller verfügbaren Funktion über den Button `UI`
+    - `Squeegee Length` und `Amount of Paint` Slider zum Einstellen der Rakellänge und Farbmenge
+    - `Pressure + / -` zum Einstellen des Drucks
+    - Wechseln zwischen Farbauswahl und Speicherverwaltung mit `Save and Load / Colors`
+    - Scrollen durch die Farben mit `^` und `v`
