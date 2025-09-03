@@ -3,7 +3,8 @@
 
 #define BUTTON_NUM 6
 
-uint8_t broadcastAddress[] = {0x00, 0x4B, 0x12, 0x3D, 0x70, 0xf4}; //dev. {0x00, 0x4B, 0x12, 0x53, 0x1B, 0x54} //prod. {0x00, 0x4B, 0x12, 0x3D, 0x70, 0xf4}
+// mac address of the dongle esp32
+uint8_t broadcastAddress[] = {0x00, 0x4B, 0x12, 0x53, 0x1B, 0x54}; //dev. {0x00, 0x4B, 0x12, 0x53, 0x1B, 0x54} //prod. {0x00, 0x4B, 0x12, 0x3D, 0x70, 0xf4}
 
 typedef struct struct_message {
   char a[64];  
@@ -27,7 +28,6 @@ const int reapplyPin = 13, clearPin = 4;
 const int lengthPin = 34, volumePin = 35;
 const int undoPin =5;
 const int clearCanvasPin = 27;
-//const int sizePin = 39;
 const int fsrPin2 = 32;
 int oldPressure, oldPressure2, oldColor, oldLength, oldVolume, oldSize, oldZone, oldCanvasWidth, oldCanvasHeight = -1;
 int on = 1;
@@ -39,12 +39,13 @@ unsigned long lastSendLength = 0;
 unsigned long lastSendSize = 0;
 unsigned long lastSendFormatA = 0;
 unsigned long lastSendFormatB = 0;
-const unsigned long interval = 200;
+const unsigned long interval = 200; //basically a delay 
 
 int sizeDone =0; //used to check if Size of canvas can be adjusted. Only possible at the Start of the programm
 
 void setup() {
   Serial.begin(115200);
+
   WiFi.mode(WIFI_STA);
 
   pinMode(reapplyPin, INPUT_PULLUP);
@@ -70,22 +71,30 @@ void setup() {
     Serial.println("Failed to add peer");
     return;
   }
+
+  esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
 }
 
 void loop() {
-  SaveAndLoad();
-  //Pressure();
-  Color();
-  CSB();
-  ReapplyColor();
-  ClearRakel();
-  Length();
-  Volume();
-  Undo();
-  ClearCanvas();
-  //Size();
-  //FormatA();
-  //FormatB();
+
+  //As long as the width and height of the canvas isnt set, all the other functions are deactivated
+  if(sizeDone == 0){
+    Length();
+    Volume(); 
+    ReapplyColor(); 
+  }
+  else{
+    SaveAndLoad();
+    Pressure();
+    Color();
+    CSB();
+    ReapplyColor();
+    ClearRakel();
+    Length();
+    Volume();
+    Undo();
+    ClearCanvas();
+  }
 }
 
 void SendToReceiver(const char* message){
@@ -98,7 +107,7 @@ void SaveAndLoad() {
   for (byte i = 0; i < BUTTON_NUM; i++) {
     bool currentState = digitalRead(saveNloadPins[i]);
     if (lastButtonStates[i] == HIGH && currentState == LOW) {
-      snprintf(msg, sizeof(msg), (i % 2 == 0 ? "Save%d" : "Load%d"), i/2 + 1);
+      snprintf(msg, sizeof(msg), (i % 2 == 0 ? "Save%d" : "Load%d"), i/2 + 1);  // 1,3,5 --> Load | 2,4,6 --> Save
       SendToReceiver(msg);
     }
     lastButtonStates[i] = currentState;
@@ -121,22 +130,19 @@ void Pressure() {
   }
 }
 
-const int BOUND = 80;
-int zoneSize = 4095 / 22;
-
 void Color() {
   unsigned long now = millis();
   if (now - lastSendColor >= interval) {
     int value = analogRead(colorpin);
-    //int color = map(value, 0, 4095, 0, 22);
-    int currentZone = value / zoneSize;
-    if (currentZone != oldZone && abs(value - (oldZone * zoneSize)) > BOUND) {
-      snprintf(msg, sizeof(msg), "Color%d", currentZone);
+    int color = map(value, 0, 4095, 22, 0);
+    if (color != oldColor) {
+      snprintf(msg, sizeof(msg), "Color%d", color);
       SendToReceiver(msg);
-      oldZone = currentZone;
+      oldColor = color;
     }
     lastSendColor = now;
   }
+  delay(100);
 }
 
 void CSB() {
@@ -156,6 +162,9 @@ void ReapplyColor() {
   static bool lastState = HIGH;
   bool state = digitalRead(reapplyPin);
   if (state == HIGH && lastState == LOW) {
+    if (sizeDone == 0){
+        sizeDone = 1;
+    }
     SendToReceiver("Reapply");
     delay(250);
   }
@@ -186,13 +195,8 @@ void ClearCanvas(){
   static bool lastState = HIGH;
   bool state = digitalRead(clearCanvasPin);
   if (state == LOW && lastState == HIGH) {
-    if (sizeDone == 0){
-        sizeDone = 1;
-    }
-    else{
     SendToReceiver("Canvas");
     delay(250);
-    }
   }
   lastState = state;
 }
@@ -202,12 +206,13 @@ void Length() {
   if (now - lastSendLength >= interval) {
     int val = analogRead(lengthPin);
     if(sizeDone == 0){
-      int canvasWidth = map(val, 0, 4095, 1, 8);
+      int canvasWidth = map(val, 0, 4095, 1, 10);
       if (canvasWidth != oldCanvasWidth) {
         snprintf(msg, sizeof(msg), "Width%d", canvasWidth);
         SendToReceiver(msg);
         oldCanvasWidth = canvasWidth;
       }
+      lastSendLength = now;
     }
     else{
       int length = map(val, 0, 4095, 2, 15);
@@ -226,15 +231,16 @@ void Volume() {
   if (now - lastSendVolume >= interval) {
     int val = analogRead(volumePin);
     if(sizeDone == 0){
-      int canvasHeight = map(val, 0, 4095, 1, 8);
+      int canvasHeight = map(val, 0, 4095, 1, 10);
       if (canvasHeight != oldCanvasHeight) {
         snprintf(msg, sizeof(msg), "Height%d", canvasHeight);
         SendToReceiver(msg);
         oldCanvasHeight = canvasHeight;
       }
+      lastSendVolume = now;
     }
     else{
-      int volume = map(val, 0, 4095, 60, 600);
+      int volume = map(val, 0, 4095, 60, 256);
       if (abs(volume - oldVolume) > 5) {
         snprintf(msg, sizeof(msg), "Volume%d", volume);
         SendToReceiver(msg);
@@ -250,47 +256,14 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
-/*void Size(){
-  unsigned long now = millis();
-  if (now - lastSendSize >= interval) {
-    int val = analogRead(sizePin);
-    int size = map(val, 0, 4095, 2, 8);
-    if (size != oldSize) {
-      snprintf(msg, sizeof(msg), "Size%d", size);
-      SendToReceiver(msg);
-      oldSize = size;
-    }
-    lastSendSize = now;
-  }
-}
-*/
-/*
-void FormatA(){
-  unsigned long now = millis();
-  if (now - lastSendFormatA >= interval) {
-    int val = analogRead(FormatAPin);
-    int formatA = map(val, 0, 4095, 2, 8);
-    if (formatA != oldFormatA) {
-      snprintf(msg, sizeof(msg), "FormatA%d", formatA);
-      SendToReceiver(msg);
-      oldFormatA = formatA;
-    }
-    lastSendFormatA = now;
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  memcpy(&data, incomingData, sizeof(data));
+  Serial.println(data.a);
+  
+  //Reseting Canvas size, so its adjustable at every start of the programm
+  if (strcmp(data.a, "Reset") == 0){
+    sizeDone = 0;
   }
 }
 
-void FormatB(){
-  unsigned long now = millis();
-  if (now - lastSendFormatB >= interval) {
-    int val = analogRead(FormatBPin);
-    int formatB = map(val, 0, 4095, 2, 8);
-    if (formatB != oldFormatB) {
-      snprintf(msg, sizeof(msg), "FormatB%d", formatB);
-      SendToReceiver(msg);
-      oldFormatB = formatB;
-    }
-    lastSendFormatB = now;
-  }
-}
-*/
 
