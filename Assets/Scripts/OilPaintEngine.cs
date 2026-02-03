@@ -16,7 +16,7 @@ public class OilPaintEngine : MonoBehaviour
 
     private bool UsePen;
     private bool PenConfigLoaded;
-
+    
     private bool InputLocked = false;
 
     private  LineRenderer _line;
@@ -95,6 +95,18 @@ public class OilPaintEngine : MonoBehaviour
         }
     }
 
+    public void BackupStroke()
+    {
+        Canvas.Reservoir.BackupLastStroke();
+    }
+
+    public void UndoLastStroke()
+    {
+        Canvas.Reservoir.UndoLastStroke();
+        ShaderRegion sr = Canvas.GetFullShaderRegion();
+        Canvas.Render(sr);
+    }
+    
     public void SaveImg(int imgNum)
     {
         Canvas.Reservoir.SaveImg(imgNum);
@@ -139,6 +151,7 @@ public class OilPaintEngine : MonoBehaviour
             1,
             Config.CanvasConfig.Height / 10); // convert world space to local scale
         GameObject canvas_ = GameObject.Find("Canvas");
+        
         Transform canvasTransform = canvas_.GetComponent<Transform>();
         canvasTransform.localScale = localScale;
 
@@ -149,9 +162,14 @@ public class OilPaintEngine : MonoBehaviour
         canvas.transform.position = canvasTransform.position;
         canvas.transform.localScale = canvasTransform.localScale;
         canvas.transform.rotation = canvasTransform.rotation;
+        
+        
         Destroy(canvas_);
         canvas.name = "Canvas";
         canvas.tag = "Canvas";
+        
+        //Turning the canvas convex so we can check if the squeegee is touching the canvas and not just something on the same height as the canvas
+        canvas.GetComponent<MeshCollider>().convex = true;
 
         Vector3 position = canvas.transform.position;
         Canvas = new Canvas_(
@@ -161,11 +179,15 @@ public class OilPaintEngine : MonoBehaviour
             Config.TextureResolution,
             Config.CanvasConfig.NormalScale,
             Config.ColorSpace);
-
+        
         Renderer renderer = canvas.GetComponent<Renderer>();
         renderer.material.SetTexture("_MainTex", Canvas.Texture);
         renderer.material.EnableKeyword("_NORMALMAP");
         renderer.material.SetTexture("_BumpMap", Canvas.NormalMap);
+        
+        //using an unlit texture removes the reflection of the directional light for a screenshot
+        //renderer.material.shader = Shader.Find("Unlit/Texture");
+        
         renderer.material.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
 
         // Trigger lighting update
@@ -198,7 +220,7 @@ public class OilPaintEngine : MonoBehaviour
     void Update()
     {
         //Fix for Error : ArgumentNullException: Value cannot be null. Parameter name: control
-        if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker)
+        if (Config.InputConfig.StrokeStateSource != InputSourceType.Tracker && Config.InputConfig.StrokeStateSource != InputSourceType.Mouse)
         {
             if (Pen.current.IsActuated() && !PenConfigLoaded)
             {
@@ -451,7 +473,6 @@ public class OilPaintEngine : MonoBehaviour
     public void UpdateCanvasFormatA(int formatA)
     {
         Config.CanvasConfig.FormatA = formatA;
-        CreateCanvas();
     }
 
     public void UpdateCanvasFormatB(int formatB)
@@ -466,7 +487,15 @@ public class OilPaintEngine : MonoBehaviour
         CreateCanvas();
         CreateRakel();
     }
-
+    
+    public void UpdateHeight(int height)
+    {
+        Config.CanvasConfig.Height = height;
+    }
+    public void UpdateWidth( int width)
+    {
+        Config.CanvasConfig.Width = width;
+    }
     // ****************************************************************************************
     // ***                                     TOP RIGHT                                    ***
     // ****************************************************************************************

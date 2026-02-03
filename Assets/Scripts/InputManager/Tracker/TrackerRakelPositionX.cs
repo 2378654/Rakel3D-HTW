@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+
 public class TrackerRakelPositionX : FloatValueSource
 {
-    private float _rakelRotationZ;
-    private float _rakelPositionX;
+    private RakelLineRenderer _lineRenderer = GameObject.Find("LineRenderer").GetComponent<RakelLineRenderer>();
+
     public override void Update()
     {
-        // float offset = _rakelRotationZ * -0.1f;
-        Value = (GameObject.Find("RenderedRakel").transform.localPosition.x -0.1f) * 6.1f; //vor Ort - 0.1f
+        Value = _lineRenderer.RakelEdgePos.x;
     }
 }

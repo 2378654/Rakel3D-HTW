@@ -88,6 +88,7 @@ public class TransferEngine
             while (n-- >= 0 && SimulationSteps.Count > 0)
             {
                 SimulationStep s = SimulationSteps.Dequeue();
+                
                 SimulateStep(s.RakelPosition, s.AutoZEnabled, s.RakelPressure, s.RakelRotation, s.RakelTilt, s.TransferConfig);
             }
         }

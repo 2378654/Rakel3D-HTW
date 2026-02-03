@@ -201,7 +201,10 @@ public class Rakel
         Vector3 urRotated = rotationQuaternion * (Info.URTilted - Info.Anchor) + Info.Anchor; // rotate around anchor
         Vector3 llRotated = rotationQuaternion * (Info.LLTilted - Info.Anchor) + Info.Anchor; // rotate around anchor
         Vector3 lrRotated = rotationQuaternion * (Info.LRTilted - Info.Anchor) + Info.Anchor; // rotate around anchor
-
+        //vielleicht für Vive Tracker verwendbar?
+        //wenn nicht vielleicht mal gucken ob der Tilt durch Keyboard Inputs beeinflusst werden und ob die den Tilt richtig umsetzen
+        
+        
         Vector3 positionTranslation = Info.Position - Info.Anchor;
         Info.UpperLeft = ulRotated + positionTranslation;
         Info.UpperRight = urRotated + positionTranslation;

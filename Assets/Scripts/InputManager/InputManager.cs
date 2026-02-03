@@ -8,7 +8,7 @@ public abstract class FloatValueSource
 
 
 public abstract class StrokeStateSource
-{
+{ 
     public abstract void Update();
     public bool StrokeBegin { get; protected set; }
     public bool InStroke { get; protected set; }
@@ -111,6 +111,9 @@ public class InputManager
                 break;
             case InputSourceType.Pen:
                 RakelPressureSource = new PenRakelPressure();
+                break;
+            case InputSourceType.Tracker:
+                RakelPressureSource = new TrackerRakelPressure();
                 break;
             default:
                 Debug.LogError(string.Format("Unsupported InputSourceType '{0}' for RakelPressureSource", inputConfig.RakelPressure.Source.ToString()));

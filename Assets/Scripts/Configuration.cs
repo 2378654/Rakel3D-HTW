@@ -13,7 +13,7 @@ public class Configuration
 
     public Configuration()
     {
-        TextureResolution = 40;
+        TextureResolution = 40;//40; //20 or 25
         ColorSpace = ColorSpace.RGB;
 
         InputConfig = new InputConfiguration();
@@ -59,7 +59,12 @@ public class InputConfiguration
 
         RakelPositionZ = new InputValue() { Source = InputSourceType.Auto, Value = -4 * Paint.VOLUME_THICKNESS };
         
+        //RakelPositionZ = new InputValue() { Source = InputSourceType.Tracker, Value = -4 * Paint.VOLUME_THICKNESS };
+        
         RakelPressure = new InputValue() { Source = InputSourceType.Keyboard, Value = 0 };
+        
+        //Pressure VIA Pressuresensor through the Rakelcontroller
+        RakelPressure = new InputValue() { Source = InputSourceType.Tracker, Value = 0 };
         
         RakelRotation = new InputValue() { Source = InputSourceType.Text, Value = 0 };
         
@@ -78,8 +83,8 @@ public class InputConfiguration
 
 public class CanvasConfiguration
 {
-    private const float MAX_WIDTH = 15;
-    private const float MAX_HEIGHT = 30;
+    private float MAX_WIDTH = 30; //Def: 15  Prod: 30
+    private float MAX_HEIGHT = 20; // Def: 10 Prod: 20
 
     public int FormatA;
     public int FormatB;
@@ -100,6 +105,10 @@ public class CanvasConfiguration
                 return MAX_WIDTH;
             }
         }
+        set
+        {
+            MAX_WIDTH = value;
+        }
     }
 
     public float Height
@@ -117,6 +126,10 @@ public class CanvasConfiguration
                 float height = width / ratio;
                 return height;
             }
+        }
+        set
+        {
+            MAX_HEIGHT = value;
         }
     }
 
@@ -172,8 +185,8 @@ public class RakelConfiguration
     public RakelConfiguration()
     {
         Length = 4f; //Default 2f; At School = 3.65f;   Testing = 9.5f
-        Width = 0.8f;
-        CellVolume = 2; //Default = 2
+        Width = 0.4f; //Default 0.8f
+        CellVolume = 2;
 
         TiltNoiseEnabled = true;
         TiltNoiseFrequency = 45;

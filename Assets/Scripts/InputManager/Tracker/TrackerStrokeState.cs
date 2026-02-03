@@ -1,52 +1,91 @@
-﻿using NUnit.Framework.Constraints;
+﻿﻿using PlasticPipe.PlasticProtocol.Messages;
+using TMPro;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class TrackerStrokeState : StrokeStateSource
 {
-    private GraphicsRaycaster GraphicsRaycaster;
     
-    public TrackerStrokeState()
-    {
-        GraphicsRaycaster = GameObject.Find("UI").GetComponent<GraphicsRaycaster>(); ;
-        
-    }
-    private float rakelpositionX;
-    private float rakelpositionY;
-    private float rakelpositionZ;
-    private float canvaspositionX;
-    private float canvaspositionY;
-    private float canvaspositionZ;
-    
-    private BoxCollider _boxColliderIndikator;
+    private BoxCollider _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
+    private ButtonCollision _buttonCollisionIndikator = GameObject.Find("LineRenderer").GetComponent<ButtonCollision>();
     private MeshCollider _meshColliderCanvas;
-
-    private float _rakelpositionZ;
-    private float _canvaspositionZ;
+    private GraphicsRaycaster GraphicsRaycaster;
+    private ButtonInteraction _interaction = GameObject.Find("Interaction").GetComponent<ButtonInteraction>();
+    private DistanceToCanvas _distanceToCanvas = GameObject.Find("DistanceController").GetComponent<DistanceToCanvas>();
+    private TextMeshProUGUI _strokeCounter = GameObject.Find("StrokeCounter").GetComponent<TextMeshProUGUI>();
+    private OilPaintEngine _oilPaintEngine = GameObject.Find("OilPaintEngine").GetComponent<OilPaintEngine>();
+    float canvaspositionZ = GameObject.Find("Canvas").GetComponent<MeshCollider>().transform.position.z;
+    private bool _wasPreviouslyInStroke;
+    private bool _isTouchingCanvas;
+    private float _counter = 0;
     public override void Update()
     {
-        _boxColliderIndikator = GameObject.Find("LineRenderer").GetComponent<BoxCollider>();
-        _meshColliderCanvas = GameObject.Find("Canvas").GetComponent<MeshCollider>();
-        _rakelpositionZ = (_boxColliderIndikator.transform.position.z+1.38f);
-        _canvaspositionZ = _meshColliderCanvas.transform.position.z;
-        if (_rakelpositionZ > _canvaspositionZ)
+        if (!_interaction.uiActive)
         {
-            StrokeBegin = true;
-            if (StrokeBegin)
+            _buttonCollisionIndikator = GameObject.Find("LineRenderer").GetComponent<ButtonCollision>();
+            float currentOffset = _distanceToCanvas.canvasOffset;
+            float rakelpositionZ = _boxColliderIndikator.transform.position.z + currentOffset;
+            float pressure = _interaction.GetPressure();
+        
+        
+            //using the FSR when using the squeegee controller so we only start painting when there is pressure
+            //using the WallController we adjust the pressure via two buttons so we don't need to check if squeegee is applying pressure to the wall
+            //because the pressure is only managed with the buttons
+            
+            if (_interaction.wallController)
             {
-                InStroke = true;
+                _isTouchingCanvas = rakelpositionZ > canvaspositionZ;
             }
             else
             {
-                InStroke = false;
+                _isTouchingCanvas = rakelpositionZ > canvaspositionZ && pressure > 0f;
+            }
+
+            //bool isBlockedByUI = GraphicsRaycaster.UIBlocking(_renderedRakel.transform.position);
+            bool isCurrentlyInStroke = _isTouchingCanvas; // && !isBlockedByUI;
+            
+            if (_interaction.wallController)
+            {
+                if (rakelpositionZ > canvaspositionZ)
+                {
+                    StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke && _buttonCollisionIndikator.TouchingCanvas();
+                    if (StrokeBegin)
+                    {
+                        InStroke = true;
+                        _counter++; 
+                        _strokeCounter.SetText(_counter.ToString());
+                        _oilPaintEngine.BackupStroke();
+                    }
+                }
+                if (rakelpositionZ < canvaspositionZ || !_buttonCollisionIndikator.TouchingCanvas())
+                {
+                    InStroke = false;
+                }
+                _wasPreviouslyInStroke = isCurrentlyInStroke;
+            }
+            else
+            {
+                if (rakelpositionZ > canvaspositionZ && pressure > 0f)
+                {
+                    StrokeBegin = !_wasPreviouslyInStroke && isCurrentlyInStroke;
+                    if (StrokeBegin)
+                    {
+                        InStroke = true;
+                        _counter++;
+                        _strokeCounter.SetText(_counter.ToString());
+                        _oilPaintEngine.BackupStroke();
+                    }
+                }
+
+                if (rakelpositionZ < canvaspositionZ || pressure < 0f)
+                {
+                    InStroke = false;
+                }
+                _wasPreviouslyInStroke = isCurrentlyInStroke;
             }
         }
-
-        if (_rakelpositionZ < _canvaspositionZ)
+        else
         {
-            InStroke = false;
+            InStroke  = false;
         }
     }
 }
-    
-

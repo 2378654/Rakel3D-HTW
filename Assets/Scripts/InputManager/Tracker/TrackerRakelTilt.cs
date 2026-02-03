@@ -2,23 +2,18 @@ using UnityEngine;
 using TMPro;
 public class TrackerRakelTilt : FloatValueSource
 {
-    private float tilt;
-    private TextMeshProUGUI _text;
-    private float _rotationY;
+    private TextMeshProUGUI _text = GameObject.Find("TiltText").GetComponent<TextMeshProUGUI>();
+    private GameObject _top = GameObject.Find("Top");
+    private GameObject _bot = GameObject.Find("Bottom");
     public override void Update()
     {
         //only get positive Values
-        _rotationY = Mathf.Abs(GameObject.Find("RenderedRakel").transform.eulerAngles.y- 180);
+        Value = (_top.transform.eulerAngles.y - 180 + (_bot.transform.eulerAngles.y - 180))/2;
         
-        if (_rotationY > 79)
-        {
-            _rotationY = 79;
-        }
+        //Using a small Offset so the squeegee doesn't need to be exactly parallel to have a low tilt.
+        Value -= 15;
         
-        if (_rotationY > 90)
-        {
-            _rotationY = 180-_rotationY;
-        }
-        Value = _rotationY; 
+        Value = Rakel.ClampTilt(Value);
+        _text.SetText(Value.ToString());
     }
 }
