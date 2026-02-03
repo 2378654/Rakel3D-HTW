@@ -4,7 +4,7 @@ This project simulates the **squeegee technique** using a real squeegee (drawing
 
 The painting is projected onto the wall using a **projector**.
 
-The project is based on a **multi-layer color model** taken from a previous project by **Brzoska (2023)**.
+The project is based on a **multi-layer color model** taken from a previous project by [Brzoska(2023)](https://github.com/donatbrzoska/Layers).
 
 ---
 
