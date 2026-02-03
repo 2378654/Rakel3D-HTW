@@ -1,175 +1,144 @@
 # Rakel3D
 
+This project simulates the **squeegee technique** using a real squeegee (drawing instrument) on a real wall.
 
+The painting is projected onto the wall using a **projector**.
 
-This project simulates the squeegee technique using a real squeegee (drawing instrument) on a real wall.  
-
-The painting is projected onto a wall by a projector.  
-
-
-
-The project uses a **multi-layer color model** taken from the previous project by Brzoska (2023).  
-
-
+The project is based on a **multi-layer color model** taken from a previous project by **Brzoska (2023)**.
 
 ---
-
-
 
 ## Requirements
 
-
-
-- **Unity3D**  
-
+### Software
+- **Unity3D**
   - Version used: `2022.3.8f1`
 
+### SteamVR Startup Instructions
+1. Start SteamVR and wait until **all four base stations** are connected.
+2. Turn on the trackers in the following order:
+   1. Upper tracker (above the power bank)
+   2. Lower tracker
 
+> ⚠️ If devices are paired in a different order, the device numbers of the **“Top”** and **“Bottom”** GameObjects may need to be adjusted.
 
-- **SteamVR startup instructions**  
+### Lighthouse Tracking
+- Four [Lighthouses (Base Stations 2.0)](https://www.vive.com/de/accessory/base-station2/)
+- One of the following headsets:
+  - [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/)
+  - **Vive Cosmos Elite**
 
-  - When starting SteamVR, wait until **all four base stations** are connected.  
+> **Note:**  
+> The headset is **not worn**, but required to establish the Lighthouse Tracking connection.
 
-  - Then:  
+### Calibration
+- SteamVR room setup is used for system calibration.
 
-    1. Turn on the upper tracker (above the power bank)  
-
-    2. Turn on the lower tracker  
-
-  - If the devices are paired in a different order, the device numbers for the **“Top”** and **“Bottom”** GameObjects may need to be adjusted.
-
-
-
-- **Lighthouse Tracking**  
-
-  - Four [Lighthouses (base stations)](https://www.vive.com/de/accessory/base-station2/)  
-
-  - One [Vive Pro](https://www.vive.com/de/product/vive-pro2/overview/) or one **Vive Cosmos Elite**  
-
-    - **Note:** The glasses are not worn, but are only needed for connection so that Lighthouse Tracking works.
-
-
-
-- **Calibration**: SteamVR's room measurement is used to calibrate the setup.
-
-
-
-- **Rakel controller** (homemade)  
-
+### Rakel (Squeegee) Controller
+- Homemade controller consisting of:
   - Two [Vive Trackers 3.0](https://www.vive.com/de/accessory/tracker3/)
+  - Power bank for power supply
+  - ESP32 microcontroller with input elements
+  - Modified squeegee with a soft edge to protect the wall
 
-- PowerBank for power supply
-
-- ESP32 microcontroller with input elements
-
-- Squeegee (painting tool), modified with a soft edge to protect the wall
-
-
-
+### Connectivity
 - **Dongle**
+- ESP32 connected via **USB** to forward data to Unity
 
-- ESP32 connected to the computer via USB to forward the data to Unity
-
-
-
-
-
-- **System overview**
-
-(Insert diagram)
-
-
+### System Overview
+*(Insert diagram here)*
 
 ---
 
-## Project control
+## Project Control
 
+### Switching Between Controllers
+- Select the **“Interaction”** GameObject
+- Toggle the checkbox to activate or deactivate the wall controller
 
+---
 
-### Switching between controllers
-
-- Select GameObject **“Interaction”**  
-
-- Click the checkbox to activate/deactivate the wall controller  
-
-
-
-### Adjusting the virtual squeegee edge
-
-- Select the **“LineRenderer”** GameObject in the scene  
-
-- Adjust the **Offset X/Y** and **Mult X/Y** parameters as needed  
-
-
+### Adjusting the Virtual Squeegee Edge
+- Select the **“LineRenderer”** GameObject
+- Adjust the following parameters:
+  - `Offset X / Y`
+  - `Mult X / Y`
 
 ![Adjust Offset X and Y as well as Mult X and Y as needed](images/LineRendererMultAndOffset.png)
 
+---
 
-
-### Adjusting the distance to the wall
-
-- Select the **“DistanceController”** GameObject.
-
-- Adjust the **Canvas Offset**.
-
-
+### Adjusting the Distance to the Wall
+- Select the **“DistanceController”** GameObject
+- Adjust the **Canvas Offset**
 
 ![Adjust the distance to the canvas as needed](images/DistanceController.png)
 
+---
 
+## Operation
 
-- **Troubleshooting**
+The operation differs depending on the controller being used.
 
-  - If the virtual representation makes jerky movements, this could be due to reflective surfaces. Care should be taken to cover all reflective surfaces.
+---
 
+### Squeegee Controller
+(All settings are made directly on the squeegee controller)
 
+- Adjust canvas size or squeegee parameters using sliders:
+  - **Squeegee Length (Width)**
+  - **Amount of Paint (Height)**
+- Confirm canvas size and refill squeegee using:
+  - `Refill (Done)`
+- Color selection via rotary potentiometer:
+  - `Color`
+- Undo last stroke:
+  - `Undo`
+- Empty squeegee:
+  - `Clear Squeegee`
+- Clear canvas:
+  - `Clear Canvas`
+- Save images:
+  - `Save 1`, `Save 2`, `Save 3`
+- Load images:
+  - `Load 1`, `Load 2`, `Load 3`
+- Toggle blur mode:
+  - `Light Mixing` (light / heavy)
+- Pressure is detected via **two pressure sensors**
 
-- **Operation**
+---
 
-The operation differs depending on the controller used:
+### Wall Controller
+(All settings are made on the wall UI)
 
-- Squeegee controller (settings are made on the squeegee using the squeegee controller created)
+- Adjust canvas size:
+  - `Height + / -`
+  - `Width + / -`
+- Open full UI:
+  - `UI`
+- Color selection:
+  - 23 individual color buttons
+- Undo last stroke:
+  - `Undo`
+- Toggle blur mode:
+  - `Light Mixing`
+- Empty squeegee:
+  - `Clear Squeegee`
+- Clear canvas:
+  - `Clear Canvas`
+- Adjust squeegee parameters:
+  - `Squeegee Length`
+  - `Amount of Paint`
+- Adjust pressure:
+  - `Pressure + / -`
+- Switch modes:
+  - `Save and Load / Colors`
+- Scroll through colors:
+  - `^` and `v`
 
-    - Canvas height and width or squeegee length and amount of paint on the squeegee using the slider potentiometers “Squeegee Length (Width)” and “Amount of Paint (Height)”
+---
 
-- Confirm the set canvas size and refill the squeegee using “Refill (Done)”
-- 
-    - Color selection via rotary potentiometer `Color`
+## Troubleshooting
 
-- Undo the last “stroke” via `Undo`
-
-- Empty squeegee with `Clear Squeegee`
-
-- Empty canvas with `Clear Canvas`
-
-- Save an image with `Save 1,2,3`
-
-    - Load an image using `Load 1,2,3`
-
-- Switch between light and heavy blurring using `Light Mixing`
-
-- Pressure is detected by two pressure sensors
-
-- Wall controller (all settings are made on the wall)
-
-    - `Height + / -` and `Width + / -` to adjust the canvas size
-
-- Open all available functions using the `UI` button
-
-- Color selection using 23 different buttons (one button per color)
-
-- Undo the last “stroke” using `Undo`
-
-- Switch between light and heavy blurring using `Light Mixing`
-
-- Empty the squeegee using `Clear Squeegee`
-
-- Empty the canvas using `Clear Canvas`
-
-    - `Squeegee Length` and `Amount of Paint` sliders to adjust the squeegee length and amount of paint
-
-- `Pressure + / -` to adjust the pressure
-
-- Switch between color selection and memory management with `Save and Load / Colors`
-
-- Scroll through the colors with `^` and `v`
+- If the virtual representation shows **jerky movements**, reflective surfaces may interfere with tracking.
+- Make sure **all reflective surfaces are covered**.
