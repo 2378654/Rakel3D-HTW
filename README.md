@@ -44,10 +44,6 @@ The project is based on a **multi-layer color model** taken from a previous proj
 ### Connectivity
 - **Dongle**
 - ESP32 connected via **USB** to forward data to Unity
-
-### System Overview
-*(Insert diagram here)*
-
 ---
 
 ## Project Control
